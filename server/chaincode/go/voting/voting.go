@@ -22,9 +22,10 @@ type Voting struct {
 var VotingSlice []Voting // 투표 목록
 
 // CreateVote creates Voting structure
-func CreateVote() { // Voting 구조체 생성
+func CreateVote(name string, startTime int64, endTime int64) { // Voting 구조체 생성
 	v := Voting{}
 	VotingSlice = append(VotingSlice, v)
+	VotingInit(name, startTime, endTime)
 }
 
 // VotingInit is ...
@@ -66,8 +67,9 @@ func (v *Voting) DeleteCandidate(num int) {
 // ViewPoll views Poll in Voting structure
 func (v *Voting) ViewPoll() { // 득표 확인
 	for i := 0; i < len(VotingSlice[v.VotingNumber-1].Poll); i++{
-		fmt.Println(VotingSlice[v.VotingNumber-1].Poll[i])
+		fmt.Print(VotingSlice[v.VotingNumber-1].Poll[i], " ")
 	}
+	fmt.Println()
 }
 
 // Vote increases Poll belong to selected candidate
@@ -78,17 +80,16 @@ func (v *Voting) Vote(num int) { // 투표
 
 // ChangeState change Voting structure's CurrentState
 func (v *Voting) ChangeState() { // Voting 상태 변화
-
+	
 }
 
 // ViewCompleteVoting views completed Voting
 func ViewCompleteVoting() { // 완료된 투표 목록 조회
-
+	
 }
 
 func main() {
-	CreateVote()
-	VotingInit("First", time.Now().Unix(), time.Now().Unix() + 86400)
+	CreateVote("First", time.Now().Unix(), time.Now().Unix() + 86400)
 	VotingSlice[0].RegisterCandidate("이상현")
 	VotingSlice[0].RegisterCandidate("김도정")
 	VotingSlice[0].RegisterCandidate("김현우")
