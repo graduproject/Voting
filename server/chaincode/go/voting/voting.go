@@ -80,7 +80,10 @@ func (v *Voting) Vote(num int) { // 투표
 
 // ChangeState change Voting structure's CurrentState
 func (v *Voting) ChangeState() { // Voting 상태 변화
-	// TODO : 어떻게 할지 생각해봐야함	
+	// TODO : 어떻게 할지 생각해봐야함
+	if VotingSlice[v.VotingNumber-1].EndTime < time.Now().Unix() {
+		VotingSlice[v.VotingNumber-1].CurrentState = 2
+	}
 }
 
 // ViewCompleteVoting views completed Voting
@@ -109,4 +112,6 @@ func main() {
 		fmt.Println(time.Now().Unix())
 		fmt.Println(time.Now())
 		fmt.Println(VotingSlice[0])
+		VotingSlice[0].CurrentState = 2
+		ViewCompleteVoting()
 }
