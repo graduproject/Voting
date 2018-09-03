@@ -80,31 +80,33 @@ func (v *Voting) Vote(num int) { // 투표
 
 // ChangeState change Voting structure's CurrentState
 func (v *Voting) ChangeState() { // Voting 상태 변화
-	
+	// TODO : 어떻게 할지 생각해봐야함	
 }
 
 // ViewCompleteVoting views completed Voting
 func ViewCompleteVoting() { // 완료된 투표 목록 조회
-	
+	for i := 0; i < len(VotingSlice); i++ {
+		if VotingSlice[i].CurrentState == 2 {
+			fmt.Println(VotingSlice[i])
+		}
+	}
 }
 
 func main() {
-	CreateVote("First", time.Now().Unix(), time.Now().Unix() + 86400)
-	VotingSlice[0].RegisterCandidate("이상현")
-	VotingSlice[0].RegisterCandidate("김도정")
-	VotingSlice[0].RegisterCandidate("김현우")
-	fmt.Println(len(VotingSlice[0].Candidate))
-	VotingSlice[0].GetCandidate()
-	VotingSlice[0].DeleteCandidate(2)
-	fmt.Println(len(VotingSlice[0].Candidate))
-	VotingSlice[0].GetCandidate()
-	VotingSlice[0].Vote(1)
-	VotingSlice[0].Vote(1)
-	VotingSlice[0].Vote(1)
-	VotingSlice[0].ViewPoll()
-
-	fmt.Println(time.Now().Unix())
-	fmt.Println(time.Now())
-
-	fmt.Println(VotingSlice[0])
+		CreateVote("First", time.Now().Unix(), time.Now().Unix() + 86400)
+		VotingSlice[0].RegisterCandidate("이상현")
+		VotingSlice[0].RegisterCandidate("김도정")
+		VotingSlice[0].RegisterCandidate("김현우")
+		fmt.Println(len(VotingSlice[0].Candidate))
+		VotingSlice[0].GetCandidate()
+		VotingSlice[0].DeleteCandidate(2)
+		fmt.Println(len(VotingSlice[0].Candidate))
+		VotingSlice[0].GetCandidate()
+		VotingSlice[0].Vote(1)
+		VotingSlice[0].Vote(1)
+		VotingSlice[0].Vote(1)
+		VotingSlice[0].ViewPoll()
+		fmt.Println(time.Now().Unix())
+		fmt.Println(time.Now())
+		fmt.Println(VotingSlice[0])
 }
