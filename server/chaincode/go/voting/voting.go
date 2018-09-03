@@ -25,18 +25,17 @@ var VotingSlice []Voting // 투표 목록
 func CreateVote() { // Voting 구조체 생성
 	v := Voting{}
 	VotingSlice = append(VotingSlice, v)
-	VotingInit()
 }
 
 // VotingInit is ...
-func VotingInit() {
+func VotingInit(name string, startTime int64, endTime int64) {
 	// 값 받아오는거 구현해야됨
 	// ======================
 	num := len(VotingSlice) - 1
-	VotingSlice[num].VotingName = ""
+	VotingSlice[num].VotingName = name
 	VotingSlice[num].VotingNumber = num + 1
-	VotingSlice[num].StartTime = 0
-	VotingSlice[num].EndTime = 0
+	VotingSlice[num].StartTime = startTime
+	VotingSlice[num].EndTime = endTime
 	VotingSlice[num].CurrentState = 0
 }
 
@@ -85,6 +84,7 @@ func ViewCompleteVoting() { // 완료된 투표 목록 조회
 
 func main() {
 	CreateVote()
+	VotingInit("First", time.Now().Unix(), time.Now().Unix() + 86400)
 	VotingSlice[0].RegisterCandidate("이상현")
 	VotingSlice[0].RegisterCandidate("김도정")
 	VotingSlice[0].RegisterCandidate("김현우")
