@@ -8,7 +8,7 @@ import (
 
 // Voting is ...
 type Voting struct {
-	VotingName      string      `json="votingName"`
+	VotingName      string      `json="votingname"`
 	UserID          []string    `json="userid"`
 	Candidate       []string    `json="candidate"`
 	Poll            []int       `json="poll"`
@@ -16,6 +16,7 @@ type Voting struct {
 	StartTime       int64       `json="starttime"`
 	EndTime         int64       `json="endtime"`
 	CurrentState    int         `json="currentstate"`  // state 0 : 투표 시작 전,   1 : 투표 가능,   2 : 투표 종료
+	Winner          string      `josn="winner"` // 가장 표를 많이 받은 후보
 }
 
 // votingSlice is ...
@@ -23,6 +24,7 @@ var votingSlice []Voting // 투표 목록
 
 // createVote creates Voting structure
 func createVote(name string, startTime int64, endTime int64) { // Voting 구조체 생성
+	// TODO : 시작 시간와 끝나는 시간 Unix시간으로 바꿔서 받아야함
 	v := Voting{}
 	votingSlice = append(votingSlice, v)
 	votingInit(name, startTime, endTime)
@@ -63,6 +65,7 @@ func (v *Voting) deleteCandidate(num int) {
 	copy(v.Candidate[num:], v.Candidate[num+1:]) // 후보 이름 삭제
 	v.Candidate[len(v.Candidate)-1] = ""
 	v.Candidate = v.Candidate[:len(v.Candidate)-1]
+	
 	copy(v.Poll[num:], v.Poll[num+1:]) // 후보 표 칸 삭제
 	v.Poll[len(v.Poll)-1] = 0
 	v.Poll = v.Poll[:len(v.Poll)-1]
@@ -91,13 +94,14 @@ func (v *Voting) changeState() { // Voting 상태 변화
 
 	if v.EndTime < time.Now().Unix() { // 투표가 끝난 상태
 		v.CurrentState = 2
+		// TODO : 표가 가장 많은 후보를 Winner로
 	}
 }
 
 // ViewCompleteVoting views completed Voting
 func viewCompleteVoting() { // 전체 투표 목록 중 완료된 투표 조회
 	for i := 0; i < len(votingSlice); i++ {
-		if votingSlice[i].CurrentState == 2 {
+		if votingSlice[i].CurrentState == 2 { // 상태가 2인 투표들은 투표가 완료된 것들
 			fmt.Println(votingSlice[i])
 		}
 	}
@@ -138,13 +142,7 @@ func main() {
 		votingSlice[1].deleteCandidate(2)
 		fmt.Println(len(votingSlice[1].Candidate))
 		votingSlice[1].getCandidate()
-		votingSlice[1].vote(1)
 		votingSlice[1].vote(2)
-		votingSlice[1].vote(1)
-		votingSlice[1].vote(1)
-		votingSlice[1].vote(1)
-		votingSlice[1].vote(1)
-		votingSlice[1].vote(1)
 		votingSlice[1].vote(1)
 		votingSlice[1].viewPoll()
 		fmt.Println(time.Now().Unix())
