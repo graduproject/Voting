@@ -11,7 +11,7 @@ type Voting struct {
 	VotingName      string      `json="votingName"`
 	UserID          []string    `json="userid"`
 	Candidate       []string    `json="candidate"`
-	poll            []int       `json="poll"`
+	Poll            []int       `json="poll"`
 	VotingNumber    int         `json="VotingNumber"`	
 	StartTime       int64       `json="starttime"`
 	EndTime         int64       `json="endtime"`
@@ -42,6 +42,7 @@ func VotingInit(name string, startTime int64, endTime int64) {
 // RegisterCandidate register candidate in Voting structure
 func (v *Voting) RegisterCandidate(cd string) { // 후보 등록
 	VotingSlice[v.VotingNumber-1].Candidate = append(VotingSlice[v.VotingNumber-1].Candidate, cd)
+	VotingSlice[v.VotingNumber-1].Poll = append(VotingSlice[v.VotingNumber-1].Poll, 0)
 }
 
 // GetCandidate gets candidate in Voting structure
@@ -64,12 +65,15 @@ func (v *Voting) DeleteCandidate(num int) {
 
 // ViewPoll views Poll in Voting structure
 func (v *Voting) ViewPoll() { // 득표 확인
-
+	for i := 0; i < len(VotingSlice[v.VotingNumber-1].Poll); i++{
+		fmt.Println(VotingSlice[v.VotingNumber-1].Poll[i])
+	}
 }
 
 // Vote increases Poll belong to selected candidate
 func (v *Voting) Vote(num int) { // 투표
-	
+	num--
+	VotingSlice[v.VotingNumber-1].Poll[num]++
 }
 
 // ChangeState change Voting structure's CurrentState
@@ -93,7 +97,10 @@ func main() {
 	VotingSlice[0].DeleteCandidate(2)
 	fmt.Println(len(VotingSlice[0].Candidate))
 	VotingSlice[0].GetCandidate()
-
+	VotingSlice[0].Vote(1)
+	VotingSlice[0].Vote(1)
+	VotingSlice[0].Vote(1)
+	VotingSlice[0].ViewPoll()
 
 	fmt.Println(time.Now().Unix())
 	fmt.Println(time.Now())
