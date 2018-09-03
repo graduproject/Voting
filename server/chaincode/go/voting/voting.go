@@ -16,7 +16,7 @@ type Voting struct {
 	StartTime       int64       `json="starttime"`
 	EndTime         int64       `json="endtime"`
 	CurrentState    int         `json="currentstate"`  // state 0 : 투표 시작 전,   1 : 투표 가능,   2 : 투표 종료
-	Winner          string      `josn="winner"` // 가장 표를 많이 받은 후보
+	Winner          string      `josn="winner"`        // 가장 표를 많이 받은 후보
 }
 
 // votingSlice is ...
@@ -65,7 +65,7 @@ func (v *Voting) deleteCandidate(num int) {
 	copy(v.Candidate[num:], v.Candidate[num+1:]) // 후보 이름 삭제
 	v.Candidate[len(v.Candidate)-1] = ""
 	v.Candidate = v.Candidate[:len(v.Candidate)-1]
-	
+
 	copy(v.Poll[num:], v.Poll[num+1:]) // 후보 표 칸 삭제
 	v.Poll[len(v.Poll)-1] = 0
 	v.Poll = v.Poll[:len(v.Poll)-1]
@@ -112,7 +112,19 @@ func (v *Voting) SaveCompleteID() {
 	// TODO : 투표 완료한 아이디 추가
 }
 
-func main() {
+func (v *Voting) selectWinner() {
+	var temp int
+	var tempIndex int
+	for i := 0; i < len(v.Poll); i++ {
+		if temp < v.Poll[i] {
+			temp = v.Poll[i]
+			tempIndex = i
+		}
+	}
+	v.Winner = v.Candidate[tempIndex]
+}
+
+func main() { // Test
 		createVote("First", time.Now().Unix(), time.Now().Unix() + 86400)
 		votingSlice[0].registerCandidate("이상현")
 		votingSlice[0].registerCandidate("김도정")
@@ -126,11 +138,10 @@ func main() {
 		votingSlice[0].vote(1)
 		votingSlice[0].vote(1)
 		votingSlice[0].viewPoll()
-		fmt.Println(time.Now().Unix())
-		fmt.Println(time.Now())
+		votingSlice[0].selectWinner()
+		fmt.Println("Winner : ", votingSlice[0].Winner)
 		fmt.Println(votingSlice[0])
 		votingSlice[0].CurrentState = 2
-		viewCompleteVoting()
 
 		fmt.Println("=====================================================")
 		createVote("Second", time.Now().Unix(), time.Now().Unix() + 86400)
