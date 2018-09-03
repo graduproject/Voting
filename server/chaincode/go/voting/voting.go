@@ -29,7 +29,7 @@ func CreateVote() { // Voting 구조체 생성
 
 // VotingInit is ...
 func VotingInit(name string, startTime int64, endTime int64) {
-	// 값 받아오는거 구현해야됨
+	// TODO : 값 받아오기
 	// ======================
 	num := len(VotingSlice) - 1
 	VotingSlice[num].VotingName = name
