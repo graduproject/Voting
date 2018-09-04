@@ -1,6 +1,7 @@
 package main
 
 import (
+	"sort"
 	"fmt"
 	//"encoding/json"
 	"time"
@@ -92,6 +93,34 @@ func viewCompleteVoting() { // 전체 투표 목록 중 완료된 투표 조회
 	}
 }
 
+
+// TODO : value로 sorting이 되긴 하는데 sorting을 해서 정리할 필요가 있을지 생각해보기
+//        투표 결과를 보여줄때 번호 순으로 보여 준다 생각하면 정리할 필요가 없을 것 같음
+/* sort by value 긁어온 코드
+// TODO : 코드 쓰게되면 정리하기
+func rankByWordCount(wordFrequencies map[string]int) PairList{
+	pl := make(PairList, len(wordFrequencies))
+	i := 0
+	for k, v := range wordFrequencies {
+	  pl[i] = Pair{k, v}
+	  i++
+	}
+	sort.Sort(sort.Reverse(pl))
+	return pl
+  }
+  
+  type Pair struct {
+	Key string
+	Value int
+  }
+  
+  type PairList []Pair
+  
+  func (p PairList) Len() int { return len(p) }
+  func (p PairList) Less(i, j int) bool { return p[i].Value < p[j].Value }
+  func (p PairList) Swap(i, j int){ p[i], p[j] = p[j], p[i] }
+*/
+
 // saveCompleteID saves ID
 func (v *Voting) saveCompleteID() {
 	// TODO : 투표 완료한 아이디 추가
@@ -111,5 +140,6 @@ func main() { // Test
 		votingSlice[0].vote("김현우")
 		votingSlice[0].vote("김도정")
 		votingSlice[0].getCandidate()
+		// fmt.Println(rankByWordCount(votingSlice[0].Candidate))
 		votingSlice[0].CurrentState = 2
 }
