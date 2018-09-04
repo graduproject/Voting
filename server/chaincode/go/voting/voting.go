@@ -70,7 +70,17 @@ func (v *Voting) deleteCandidate(cd string) { // cd는 후보
 
 // vote increases Poll belong to selected candidate
 func (v *Voting) vote(cd string) { // 투표, cd는 후보
-	v.Candidate[cd]++
+	// TODO : 아이디 받아오기
+	// id := ~~~~
+	// TODO : 중복 체크를 어떻게 할지 생각해보기
+	//        1) 매번 투표한 아이디 전체를 본다
+	//        2) 다른 방법 찾기
+	// if 투표를 하지 않았다면 {
+	//	v.Candidate[cd]++
+	// v.saveCompleteID(id)
+	// } else if 투표를 했다면 {
+	// 	 투표할 수 없습니다
+	// }
 }
 
 // changeState change Voting structure's CurrentState
@@ -122,8 +132,9 @@ func rankByWordCount(wordFrequencies map[string]int) PairList{
 */
 
 // saveCompleteID saves ID
-func (v *Voting) saveCompleteID() {
+func (v *Voting) saveCompleteID(id string) {
 	// TODO : 투표 완료한 아이디 추가
+	v.UserID = append(v.UserID, id)
 }
 
 func main() { // Test
