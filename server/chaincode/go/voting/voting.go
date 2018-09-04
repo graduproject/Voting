@@ -11,10 +11,15 @@ type Voting struct {
 	VotingName      string      `json="votingname"`
 	UserID          []string    `json="userid"`
 	Candidate       map[string]int
-	VotingNumber    int         `json="VotingNumber"`	
+	VotingNumber    int         `json="VotingNumber"`
 	StartTime       int64       `json="starttime"`
 	EndTime         int64       `json="endtime"`
 	CurrentState    int         `json="currentstate"`  // state 0 : 투표 시작 전,   1 : 투표 가능,   2 : 투표 종료
+}
+
+type pair struct {
+	key   string
+	value int
 }
 
 // votingSlice is ...
@@ -48,8 +53,9 @@ func (v *Voting) registerCandidate(cd string) { // 후보 등록, cd는 후보 �
 // getCandidate gets candidate in Voting structure
 func (v *Voting) getCandidate() { // 후보 및 표 확인
 	for key, val := range v.Candidate {
-		fmt.Println(key, val)
+		fmt.Print(key, val, " ")
 	}
+	fmt.Println()
 }
 
 // deleteCandidate deletes candidate in Voting structure
@@ -101,9 +107,9 @@ func main() { // Test
 		votingSlice[0].vote("이상현")
 		votingSlice[0].vote("이상현")
 		votingSlice[0].vote("이상현")
-		votingSlice[0].vote("이상현")
-		votingSlice[0].deleteCandidate("유상욱")
+		votingSlice[0].vote("김현우")
+		votingSlice[0].vote("김현우")
+		votingSlice[0].vote("김도정")
 		votingSlice[0].getCandidate()
-		fmt.Println(votingSlice[0])
 		votingSlice[0].CurrentState = 2
 }
