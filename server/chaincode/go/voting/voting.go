@@ -105,6 +105,11 @@ func (v *Voting) vote(cd string, userID string) { // 투표, cd는 후보
 	}
 }
 
+// saveCompleteID saves ID
+func (v *Voting) saveCompleteID(id string) { // 투표 완료한 아이디 저장
+	v.UserID = append(v.UserID, id)
+}
+
 // changeState change Voting structure's CurrentState
 func changeState() { // Voting 상태 변화 실시간으로 체크해서 투표의 상태를 변경한다(모든 투표를 대상으로 확인)
 	for i := range votingSlice {
@@ -132,11 +137,6 @@ func viewCompleteVoting() { // 전체 투표 목록 중 완료된 투표 조회
 	}
 }
 
-// saveCompleteID saves ID
-func (v *Voting) saveCompleteID(id string) { // 투표 완료한 아이디 저장
-	v.UserID = append(v.UserID, id)
-}
-
 func main() { // Test
 	createVote("First", "09/05/2018 6:40:00 PM", "09/05/2018 6:41:00 PM")
 	for {
@@ -161,6 +161,5 @@ func main() { // Test
 		fmt.Println("==========================================")
 		fmt.Println(votingSlice)
 		time.Sleep(10 * time.Second)
-		
 	}
 }
