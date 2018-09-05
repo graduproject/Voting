@@ -45,7 +45,11 @@ func votingInit(name string, startTime int64, endTime int64) {
 
 // registerCandidate register candidate in Voting structure
 func (v *Voting) registerCandidate(cd string) { // 후보 등록, cd는 후보 이름
-	v.Candidate[cd] = 0
+	if v.CurrentState == 0 { // 투표 시작 전에만 후보 등록 가능
+		v.Candidate[cd] = 0
+	} else {
+		fmt.Println("후보를 등록할 수 없습니다")
+	}
 }
 
 // getCandidate gets candidate in Voting structure
@@ -58,15 +62,14 @@ func (v *Voting) getCandidate() { // 후보 및 표 확인
 
 // deleteCandidate deletes candidate in Voting structure
 func (v *Voting) deleteCandidate(cd string) { // cd는 후보
-	if v.StartTime < time.Now().Unix() { // 시작전에만 삭제 가능
+	if v.CurrentState == 0 { // 시작전에만 삭제 가능
 		fmt.Println("후보를 삭제할 수 없습니다")
 		return
 	}
 	delete(v.Candidate, cd)
 }
 
-
-func (v *Voting) check(id string) bool { // 투표를 이미 한 id인지 체크
+func (v *Voting) checkID(id string) bool { // 투표를 이미 한 id인지 체크
 	b := true
 	for _, i := range v.UserID {
 		if i == id {
@@ -77,19 +80,24 @@ func (v *Voting) check(id string) bool { // 투표를 이미 한 id인지 체크
 	return b
 }
 
+func (v *Voting) checkCandidate(cd string) bool {
+	_, exist := v.Candidate[cd]
+	return exist
+}
 
 // vote increases Poll belong to selected candidate
 func (v *Voting) vote(cd string, userID string) { // 투표, cd는 후보
 	id := userID
-	if v.CurrentState == 1 {
-		if v.check(id) {
-			v.Candidate[cd]++
+	if v.CurrentState == 0 { // 투표 시작 전
+		fmt.Println("아직 투표할 수 없습니다")
+	} else if v.CurrentState == 1 && v.checkCandidate(cd) { // 투표를 할수 있는 상태 && 후보가 존재하면 -> 투표
+		if v.checkID(id) {
+			fmt.Println("확인")
+			v.Candidate[cd] = v.Candidate[cd] + 1
 			v.saveCompleteID(id)
-		} else {
+		} else { // 투표가 끝난 후
 			fmt.Println("중복")
-		} 
-	} else if v.CurrentState == 0 {
-		fmt.Println("아직 투표할 수 없습니다")		
+		}
 	} else {
 		fmt.Println("투표가 끝났습니다")
 	}
@@ -97,9 +105,6 @@ func (v *Voting) vote(cd string, userID string) { // 투표, cd는 후보
 
 // changeState change Voting structure's CurrentState
 func (v *Voting) changeState() { // Voting 상태 변화
-	// TODO : 어떻게 할지 생각해봐야함
-	//        시간이 되면 자동으로 Currentstate가 변해야 하는데 이걸 어떻게 구현 할지 생각
-	//        무한 루프 go changeState()
 	if v.StartTime < time.Now().Unix() && v.EndTime > time.Now().Unix() { // 투표 시작
 		v.CurrentState = 1
 	} else if v.EndTime < time.Now().Unix() { // 투표가 끝난 상태
@@ -122,12 +127,15 @@ func (v *Voting) saveCompleteID(id string) {
 }
 
 func main() { // Test
-		createVote("First", "09/05/2018 2:06:05 PM", "09/05/2018 2:22:05 PM")
+	createVote("First", "09/05/2018 6:40:00 PM", "09/05/2018 6:41:00 PM")
+	for {
+		votingSlice[0].changeState()
 		votingSlice[0].registerCandidate("이상현")
 		votingSlice[0].registerCandidate("김도정")
 		votingSlice[0].registerCandidate("김현우")
 		votingSlice[0].registerCandidate("유상욱")
 		votingSlice[0].registerCandidate("최현빈")
+		fmt.Println(votingSlice[0])
 		votingSlice[0].vote("이상현", "a")
 		votingSlice[0].vote("이상현", "b")
 		votingSlice[0].changeState()
@@ -137,7 +145,11 @@ func main() { // Test
 		votingSlice[0].vote("김도정", "b")
 		votingSlice[0].getCandidate()
 		fmt.Println(votingSlice[0])
-		fmt.Println(votingSlice[0])
 		votingSlice[0].vote("이상현", "e")
 		fmt.Println(votingSlice[0])
+		fmt.Println("==========================================")
+		fmt.Println()
+		fmt.Println(votingSlice)
+		time.Sleep(10 * time.Second)
+	}
 }
