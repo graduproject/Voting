@@ -1,0 +1,12 @@
+button {
+    background-color: dodgerblue;
+    margin: 0.5%;
+    text-align: center;
+    width: 10%;
+    height: 30%;
+    font-size: 150%;
+    color: white;
+    font-family: 'Nanum Gothic';
+    border: hidden;
+    border-radius: 10px;
+}
