@@ -71,7 +71,7 @@ func (v *Voting) deleteCandidate(cd string) { // cd는 후보
 	delete(v.Candidate, cd)
 }
 
-func (v *Voting) checkID(id string) bool { // 투표를 이미 한 id인지 체크
+func (v *Voting) checkID(id string) bool { // 투표를 이미 한 ID인지 체크
 	b := true
 	for _, i := range v.UserID {
 		if i == id {
@@ -108,6 +108,9 @@ func (v *Voting) vote(cd string, userID string) { // 투표, cd는 후보
 // changeState change Voting structure's CurrentState
 func changeState() { // Voting 상태 변화 실시간으로 체크해서 투표의 상태를 변경한다(모든 투표를 대상으로 확인)
 	for i := range votingSlice {
+		if votingSlice[i].CurrentState == 2 { // 투표가 끝난 상태면 더 이상 상태를 바꾸지 않음
+			continue
+		}
 		if votingSlice[i].StartTime < time.Now().Unix() && votingSlice[i].EndTime > time.Now().Unix() { // 투표 시작
 			votingSlice[i].CurrentState = 1
 		} else if votingSlice[i].EndTime < time.Now().Unix() { // 투표가 끝난 상태
@@ -156,8 +159,8 @@ func main() { // Test
 		votingSlice[0].vote("이상현", "e")
 		fmt.Println(votingSlice[0])
 		fmt.Println("==========================================")
-		fmt.Println()
 		fmt.Println(votingSlice)
 		time.Sleep(10 * time.Second)
+		
 	}
 }
