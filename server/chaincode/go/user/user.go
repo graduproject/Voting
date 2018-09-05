@@ -8,6 +8,7 @@ import (
 type User struct {
 	ID				string `json="id"`
 	PW  			string `json="pw"`
+	IDNumber        string `json="idnumber"`
 	PhoneNumber 	string `json="phonenumber"`
 	Email			string `json="email"`
 	IsAdmin     	bool   `json="isadmin"`
@@ -15,10 +16,11 @@ type User struct {
 }
 
 var UserSlice []User // 유저 목록
+var withdrawalSlice []string // 탈퇴한 회원의 주민등록번호 모음
 
 // CreateUser creates User structure
-func CreateUser(id string, pw string, phone string, mail string) { // 유저 구조체 생성(회원가입)
-	u := User{ID: id, PW: pw, PhoneNumber: phone, Email: mail, IsAdmin: false, IsLogIn: false}
+func CreateUser(id string, pw string, idNumber string, phone string, mail string) { // 유저 구조체 생성(회원가입)
+	u := User{ID: id, PW: pw, PhoneNumber: phone, IDNumber: idNumber, Email: mail, IsAdmin: false, IsLogIn: false}
 	UserSlice = append(UserSlice, u)
 }
 

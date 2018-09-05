@@ -100,7 +100,7 @@ func (v *Voting) vote(cd string, userID string) { // 투표, cd는 후보
 		} else { // 투표가 끝난 후
 			fmt.Println("중복")
 		}
-	} else {
+	} else if v.CurrentState == 2{
 		fmt.Println("투표가 끝났습니다")
 	}
 }
