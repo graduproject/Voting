@@ -24,7 +24,7 @@ var votingSlice []Voting // 투표 목록
 func changeToUnixTime(str string) int64 { // string으로 받은 시간을 Unix 시간으로 바꿔준다
 	layout := "01/02/2006 3:04:05 PM" 
 	t, _ := time.Parse(layout, str)
-	tUTC := t.Unix() - 32400  // 받은 시간은 KST, Unix() 시간은 UTC
+	tUTC := t.Unix() - 32400  // 받은 시간은 KST, Unix() 시간은 UTC기준이므로 비교를 위해 UTC시간으로 변경
 	return tUTC
 }
 
