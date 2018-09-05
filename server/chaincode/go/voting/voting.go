@@ -21,16 +21,18 @@ type Voting struct {
 // votingSlice is ...
 var votingSlice []Voting // 투표 목록
 
+func changeToUnixTime(str string) int64 {
+	layout := "01/02/2006 3:04:05 PM" // string으로 받은 시간을 Unix 시간으로 바꿔준다
+	t, _ := time.Parse(layout, str) // ...
+	tUTC := t.Unix() - 32400  // 받은 시간은 KST, Unix() 시간은 UTC
+	return tUTC
+}
+
 // createVote creates Voting structure
 func createVote(name string, startTime string, endTime string) { // Voting 구조체 생성
-	layout := "01/02/2006 3:04:05 PM" // string으로 받은 시간을 Unix 시간으로 바꿔준다
-	tStart, _ := time.Parse(layout, startTime) // ...
-	tEnd, _ := time.Parse(layout, endTime) // ...
-	tStartUTC := tStart.Unix() - 32400  // 받은 시간은 KST, Unix() 시간은 UTC
-	tEndUTC := tEnd.Unix() - 32400
 	v := Voting{Candidate: make(map[string]int)}
 	votingSlice = append(votingSlice, v)
-	votingInit(name, tStartUTC, tEndUTC)
+	votingInit(name, changeToUnixTime(startTime), changeToUnixTime(endTime))
 }
 
 // votingInit is ...
