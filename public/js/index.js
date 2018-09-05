@@ -2,15 +2,21 @@
 
 var express = require('express');
 var app = express();
-var fs = require('fs');
 var path = require("path")
+var fs = require('fs');
 
 app.get('/', function(req, res){
-    res.sendFile(path.join(__dirname + '/../index.html'));
-    
+    fs.readFile(path.join(__dirname + '/../index.html'), function(error, data){
+        res.writeHead(200, {'Content-Type' : 'text/html; charset = utf-8'});
+        res.end(data);
+    });
 });
+
 app.get('/images', function(req, res){
-    res.readFile('main.png');
+    fs.readFile(path.join(__dirname + '/../images/main.png'), function(error, data){
+        res.writeHead(200, {'Content-Type' : 'text/html; charset = utf-8'});
+        res.end(data);
+    });
 });
 
 
