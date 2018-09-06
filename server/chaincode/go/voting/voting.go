@@ -1,7 +1,7 @@
 package main
 
 import (
-	"sort"
+	//"sort"
 	"fmt"
 	//"encoding/json"
 	"time"
@@ -63,8 +63,7 @@ func (v *Voting) getCandidateWithPoll() { // 후보 및 표 확인 post
 }
 
 func (v *Voting) getCandidate() { // post
-	keys := v.sortCandidate()
-	for _, key := range keys {
+	for key := range v.Candidate {
 		fmt.Print(key, " ")
 	}
 	fmt.Println()
@@ -116,15 +115,6 @@ func (v *Voting) vote(cd string, userID string) { // 투표, cd는 후보
 // saveCompleteID saves ID
 func (v *Voting) saveCompleteID(id string) { // 투표 완료한 아이디 저장
 	v.UserID = append(v.UserID, id)
-}
-
-func (v *Voting) sortCandidate() []string { // 가나다 순으로 정렬
-	var keys []string
-	for k := range v.Candidate {
-		keys = append(keys, k)
-	}
-	sort.Strings(keys)
-	return keys
 }
 
 func getAllVoting() { // 모든 투표 목록(관리자) post
