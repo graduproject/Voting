@@ -1,7 +1,7 @@
 package main
 
 import (
-	//"sort"
+	"sort"
 	"fmt"
 	//"encoding/json"
 	"time"
@@ -22,7 +22,7 @@ type Voting struct {
 var votingSlice []Voting // 투표 목록
 
 func changeToUnixTime(str string) int64 { // string으로 받은 시간을 Unix 시간으로 바꿔준다
-	layout := "01/02/2006 3:04:05 PM" 
+	layout := "01/02/2006 3:04:05 PM"
 	t, _ := time.Parse(layout, str)
 	tUTC := t.Unix() - 32400  // 받은 시간은 KST, Unix() 시간은 UTC기준이므로 비교를 위해 UTC시간으로 변경
 	return tUTC
@@ -55,9 +55,17 @@ func (v *Voting) registerCandidate(cd string) { // 후보 등록, cd는 후보 �
 }
 
 // getCandidate gets candidate in Voting structure
-func (v *Voting) getCandidate() { // 후보 및 표 확인
+func (v *Voting) getCandidateWithPoll() { // 후보 및 표 확인 post
 	for key, val := range v.Candidate {
 		fmt.Print(key, " ", val, " ")
+	}
+	fmt.Println()
+}
+
+func (v *Voting) getCandidate() { // post
+	keys := v.sortCandidate()
+	for _, key := range keys {
+		fmt.Print(key, " ")
 	}
 	fmt.Println()
 }
@@ -100,7 +108,7 @@ func (v *Voting) vote(cd string, userID string) { // 투표, cd는 후보
 		} else { // 투표가 끝난 후
 			fmt.Println("중복")
 		}
-	} else if v.CurrentState == 2{
+	} else if v.CurrentState == 2 {
 		fmt.Println("투표가 끝났습니다")
 	}
 }
@@ -108,6 +116,29 @@ func (v *Voting) vote(cd string, userID string) { // 투표, cd는 후보
 // saveCompleteID saves ID
 func (v *Voting) saveCompleteID(id string) { // 투표 완료한 아이디 저장
 	v.UserID = append(v.UserID, id)
+}
+
+func (v *Voting) sortCandidate() []string { // 가나다 순으로 정렬
+	var keys []string
+	for k := range v.Candidate {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+	return keys
+}
+
+func getAllVoting() { // 모든 투표 목록(관리자) post
+	for i := range votingSlice {
+		// post 투표이름
+	}
+}
+
+func notCompleteVote() { // 끝나지 않은 투표들 보내주기 post
+	for i := range votingSlice {
+		if votingSlice[i].CurrentState == 1 {
+			// Post
+		}
+	}
 }
 
 // changeState change Voting structure's CurrentState
@@ -129,7 +160,7 @@ func earlyComplete(num int) { // 투표 번호를 받아서 투표 조기 종료
 }
 
 // viewCompleteVoting views completed Voting
-func viewCompleteVoting() { // 전체 투표 목록 중 완료된 투표 조회
+func viewCompleteVoting() { // 전체 투표 목록 중 완료된 투표 조회 post
 	for i := 0; i < len(votingSlice); i++ {
 		if votingSlice[i].CurrentState == 2 { // 상태가 2인 투표들은 투표가 완료된 것들
 			fmt.Println(votingSlice[i])
@@ -138,7 +169,7 @@ func viewCompleteVoting() { // 전체 투표 목록 중 완료된 투표 조회
 }
 
 func main() { // Test
-	createVote("First", "09/05/2018 6:40:00 PM", "09/05/2018 6:41:00 PM")
+	createVote("First", "09/06/2018 4:07:00 PM", "09/07/2018 6:41:00 PM")
 	for {
 		changeState()
 		votingSlice[0].registerCandidate("이상현")
@@ -146,6 +177,7 @@ func main() { // Test
 		votingSlice[0].registerCandidate("김현우")
 		votingSlice[0].registerCandidate("유상욱")
 		votingSlice[0].registerCandidate("최현빈")
+		votingSlice[0].getCandidate()
 		fmt.Println(votingSlice[0])
 		votingSlice[0].vote("이상현", "a")
 		votingSlice[0].vote("이상현", "b")
