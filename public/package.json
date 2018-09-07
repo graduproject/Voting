@@ -1,9 +1,9 @@
 {
   "name": "voting",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "sever.js",
   "scripts": {
-    "serve": "nodemon js/index.js"
+    "serve": "nodemon js/server.js"
   },
   "repository": {
     "type": "git",

@@ -1,11 +1,25 @@
 'use strict';
 
 var express = require('express');
+var http = require('http');
 var app = express();
 var path = require("path")
 var fs = require('fs');
 
+//SHOULD BE CHANGED//
+var mysql = require('mysql');
+//SHOULD BE CHANGED//
+
+var client = mysql.createConnection({
+    user : 'root',
+    password : 'apmsetup',
+    database : 'Company'
+});
+
 app.use(express.static(path.join(__dirname + '/../../public')));
+app.use(express.json());
+app.use(express.urlencoded());
+app.use(app.router);
 
 app.get('/', function (req, res) {
     fs.readFile(path.join(__dirname + '/../index.html'), function (error, data) {
