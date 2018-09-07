@@ -7,19 +7,19 @@ var path = require("path")
 var fs = require('fs');
 
 //SHOULD BE CHANGED//
-var mysql = require('mysql');
+// var mysql = require('mysql');
 //SHOULD BE CHANGED//
 
-var client = mysql.createConnection({
-    user : 'root',
-    password : 'apmsetup',
-    database : 'Company'
-});
+// var client = mysql.createConnection({
+//     user : 'root',
+//     password : 'apmsetup',
+//     database : 'Company'
+// });
 
 app.use(express.static(path.join(__dirname + '/../../public')));
 app.use(express.json());
 app.use(express.urlencoded());
-app.use(app.router);
+// app.use(app.router);
 
 app.get('/', function (req, res) {
     fs.readFile(path.join(__dirname + '/../index.html'), function (error, data) {
@@ -37,6 +37,27 @@ app.get('/vote', function (req, res) {
 
 app.get('/images', function (req, res) {
     fs.readFile(path.join(__dirname + '/../images/main.png'), function (error, data) {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end(data);
+    });
+});
+
+app.get('/choose_menu', function (req, res) {
+    fs.readFile(path.join(__dirname + '/../app/Administrator/choose_menu.html'), function (error, data) {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end(data);
+    });
+});
+
+app.get('/admin', function (req, res) {
+    fs.readFile(path.join(__dirname + '/../login.html'), function (error, data) {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end(data);
+    });
+});
+
+app.get('/enroll_vote', function (req, res) {
+    fs.readFile(path.join(__dirname + '/../app/Administrator/vote_enroll.html'), function (error, data) {
         res.writeHead(200, { 'Content-Type': 'text/html' });
         res.end(data);
     });
