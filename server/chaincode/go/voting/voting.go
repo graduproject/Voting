@@ -50,6 +50,7 @@ func (v *VotingChaincode) Init(stub shim.ChaincodeStubInterface) pb.Response {
 	return shim.Success(nil)
 }
 
+// 투표 생성 (관리자 페이지)
 func (v *VotingChaincode) createVote() pb.Response { 
 	args := v.args // 투표 번호, 이름, 시작 시간, 끝 시간
 	
@@ -67,6 +68,7 @@ func (v *VotingChaincode) createVote() pb.Response {
 }
 
 // TODO: 어떻게 처리 할 것인지 / 처음부터 끝까지 모든 투표를 다 받아와서 조건 확인 후 상태 변화
+// 투표 startTime, endTime을 체크해 투표 가능 상태를 변화
 func (v *VotingChaincode) changeState() pb.Response {
 	args := v.args // 마지막 투표 번호
 
@@ -79,6 +81,7 @@ func (v *VotingChaincode) changeState() pb.Response {
 	return shim.Success(nil)
 }
 
+// 투표 후보자 등록 (관리자 페이지)
 func (v *VotingChaincode) registerCandidate() pb.Response {
 	args := v.args // 투표 번호, 후보 이름
 
@@ -98,6 +101,7 @@ func (v *VotingChaincode) registerCandidate() pb.Response {
 	return shim.Success(nil)
 }
 
+// 투표 (사용자 페이지)
 func (v *VotingChaincode) vote() pb.Response {
 	args := v.args // 투표 번호, 후보 이름, 유저 아이디
 
@@ -134,7 +138,8 @@ func (v *VotingChaincode) vote() pb.Response {
 
 
 // TODO: 데이터 받아와서 처리하는 부분 구현
-func (v *VotingChaincode) queryAllVote() pb.Response { 
+// 존재하는 모든 투표 불러오기 (관리자페이지)
+func (v *VotingChaincode) queryAllVote() pb.Response {
 	args := v.args // 마지막 투표 번호
 
 	if len(args) != 1 {
@@ -158,8 +163,15 @@ func (v *VotingChaincode) queryAllVote() pb.Response {
 	return shim.Success()
 }
 
+// TODO: 구현
+// 완료된 투표 불러오기 (유저페이지)
+func (v *VotingChaincode) queryCompleteVote() pb.Response {
+
+}
+
+// endTime전에 투표 종료 (관리자페이지)
 func (v *VotingChaincode) earlyComplete() pb.Response {
-	args := v.args
+	args := v.args // 투표 번호
 
 	if len(args) != 1 {
 		return shim.Error("Incorrect number of arguments. Expecting 1")
@@ -170,6 +182,26 @@ func (v *VotingChaincode) earlyComplete() pb.Response {
 
 	json.Unmarshal(votingAsBytes, &voting)
 	voting.CurrentState = 2
+
+	votingAsBytes, _ = json.Marshal(voting)
+	v.stub.PutState(args[0], votingAsBytes)
+
+	return shim.Success(nil)
+}
+
+// 등록된 후보 삭제 (관리자 페이지)
+func (v *VotingChaincode) deleteCandidate() pb.Response {
+	args := v.args // 투표 번호, 후보 이름
+	if len(args) != 2 {
+		return shim.Error("Incorrect number of arguments. Expecting 2")
+	}
+
+	votingAsBytes, _ := v.stub.GetState(args[0])
+	voting := Voting{}
+
+	json.Unmarshal(votingAsBytes, &voting)
+
+	delete(voting.Candidate, args[1])
 
 	votingAsBytes, _ = json.Marshal(voting)
 	v.stub.PutState(args[0], votingAsBytes)
