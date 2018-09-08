@@ -54,7 +54,7 @@ func (v *VotingChaincode) createVote() pb.Response {
 	args := v.args // 투표 번호, 이름, 시작 시간, 끝 시간
 	
 	if len(args) != 4 {
-		return shim.Error("Incorrect number of arguments. Expecting 3")
+		return shim.Error("Incorrect number of arguments. Expecting 4")
 	}
 	startTime := changeToUnixTime(args[2])
 	endTime := changeToUnixTime(args[3])
@@ -71,7 +71,7 @@ func (v *VotingChaincode) changeState() pb.Response {
 	args := v.args // 마지막 투표 번호
 
 	if len(args) != 1 {
-		return shim.Error("Incorrect number of arguments. Expecting 3")
+		return shim.Error("Incorrect number of arguments. Expecting 1")
 	}
 	
 	// voteAsBytes, _ := v.stub.GetState(args)
@@ -102,7 +102,7 @@ func (v *VotingChaincode) vote() pb.Response {
 	args := v.args // 투표 번호, 후보 이름, 유저 아이디
 
 	if len(args) != 3 {
-		return shim.Error("Incorrect number of arguments. Expecting 2")
+		return shim.Error("Incorrect number of arguments. Expecting 3")
 	}
 
 	id := args[2]
