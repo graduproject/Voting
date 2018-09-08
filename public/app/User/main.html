@@ -1,0 +1,43 @@
+<DOCTYPE HTML>
+<meta charset="utf-8">
+
+<html>
+	<head>
+		<title>Voting Web</title>
+		<style>
+			#nav {
+				list-style: none;
+				height:35px;
+				width: 450px;
+				background: white;
+				}
+			#nav ul{
+				list-style:none;
+				position: absolute;
+				display: none;
+			}
+			#nav li:hover ul{
+				display:block;
+			}
+			
+		</style>
+	</head>
+	
+	<body>
+		<ul id="nav">
+			<li><a href="#"> Menu </a>
+				<ul>
+					<li><a href="#"> 내 정보 수정</a></li>
+					<li><a href="#"> 완료된 투표 목록</a></li>
+				</ul>
+			</li>
+		</ul>
+		
+		<fieldset>
+			<legend>투표 리스트</legend>
+			<ul>
+			<!-- DB에 연동하여 리스트 나오게하기 -->
+			</ul>
+		</fieldset>
+	</body>
+</html>
