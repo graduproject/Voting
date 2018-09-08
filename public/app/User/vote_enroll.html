@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Digital Vote</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/earlyaccess/nanumgothic.css">
+    <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+
+<body>
+    <div id="enroll_form" style = "margin-left: 40%; margin-top: 20%">
+        <form action="/my-handling-form-page" method="post" >
+            <div>
+                <label for="name">투표 제목:</label>
+                <input type="text" id="vote_name" style="margin-bottom: 2%" />
+            </div>
+    
+            <div>
+                <label for="vote_msg">투표 내용:</label>
+                <textarea id="vote_msg" style="margin-bottom: 2%"></textarea>
+            </div>
+
+            <div>
+                <form id="frm" action="action.jsp">
+                    <div>날짜 입력: <input type="date" id="votest_date" name="votest_date" value="2018-09-01"> <input type="submit" value="시작" style="margin-bottom: 2%">
+                        <br>날짜 입력: <input type="date" id="votend_date" name="votend_date" value="2018-09-01"> <input type="submit" value="종료" style="margin-bottom: 2%"><br/>
+                    </div>
+                </form>
+            </div>
+            <div class="button">
+                <button type="submit" style = "margin-left: 10%">투표 생성</button>
+            </div>
+
+        </form>
+    </div>
+
+</body>
+
+</html>
