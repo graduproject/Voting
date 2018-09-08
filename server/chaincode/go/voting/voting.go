@@ -13,8 +13,7 @@ import (
 type Voting struct {
 	VotingName      string         `json="votingname"`
 	UserID          []string       `json="userid"`
-	Candidate       map[string]int 
-	VotingNumber    int            `json="VotingNumber"`
+	Candidate       map[string]int `json-"candidate"`
 	StartTime       int64          `json="starttime"`
 	EndTime         int64          `json="endtime"`
 	CurrentState    int            `json="currentstate"`  // state 0 : 투표 시작 전,   1 : 투표 가능,   2 : 투표 종료
@@ -60,15 +59,47 @@ func (v *VotingChaincode) createVote() pb.Response {
 	startTime := changeToUnixTime(args[2])
 	endTime := changeToUnixTime(args[3])
 
-	vote := Voting{VotingName: args[1], StartTime: startTime, EndTime: endTime}
-	voteAsBytes, _ := json.Marshal(vote)
-	
-	v.stub.PutState(args[0], voteAsBytes)
+	voting := Voting{VotingName: args[1], StartTime: startTime, EndTime: endTime, CurrentState: 0}
+	votingAsBytes, _ := json.Marshal(voting)
+	v.stub.PutState(args[0], votingAsBytes)
 
 	return shim.Success(nil)
 }
 
-func (v *VotingChaincode) queryAllVote() pb.Response {
+// TODO: 어떻게 처리 할 것인지 / 처음부터 끝까지 모든 투표를 다 받아와서 조건 확인 후 상태 변화
+func (v *VotingChaincode) changeState() pb.Response {
+	args := v.args // 마지막 투표 번호
+
+	if len(args) != 1 {
+		return shim.Error("Incorrect number of arguments. Expecting 3")
+	}
+	
+	// voteAsBytes, _ := v.stub.GetState(args)
+
+	return shim.Success(nil)
+}
+
+func (v *VotingChaincode) registerCandidate() pb.Response {
+	args := v.args // 투표 번호, 후보 이름
+
+	if len(args) != 2 {
+		return shim.Error("Incorrect number of arguments. Expecting 3")
+	}
+
+	votingAsBytes, _ := v.stub.GetState(args[0])
+	voting := Voting{}
+
+	json.Unmarshal(votingAsBytes, &voting)
+	voting.Candidate[args[1]] = 0
+
+	votingAsBytes, _ = json.Marshal(voting)
+	v.stub.PutState(args[0], votingAsBytes)
+
+	return shim.Success(nil)
+}
+
+// TODO: 데이터 받아와서 처리하는 부분 구현
+func (v *VotingChaincode) queryAllVote() pb.Response { 
 	args := v.args // 마지막 투표 번호
 
 	if len(args) != 1 {
@@ -110,16 +141,6 @@ func (v *VotingChaincode) createVote(name string, startTime string, endTime stri
 	votingInit(name, changeToUnixTime(startTime), changeToUnixTime(endTime))
 } // 관리자가 투표 생성하는 .html에서 사용
 */
-
-// votingInit is ...
-func votingInit(name string, startTime int64, endTime int64) { // 투표 초기값 입력
-	num := len(votingSlice) - 1
-	votingSlice[num].VotingName = name
-	votingSlice[num].VotingNumber = num + 1
-	votingSlice[num].StartTime = startTime
-	votingSlice[num].EndTime = endTime
-	votingSlice[num].CurrentState = 0
-} // createVote에서 투표를 생성시 값 초기화를 위해 사용
 
 // registerCandidate register candidate in Voting structure
 func (v *Voting) registerCandidate(cd string) { // 후보 등록, cd는 후보 이름
