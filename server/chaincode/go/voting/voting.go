@@ -50,7 +50,7 @@ func (v *VotingChaincode) Init(stub shim.ChaincodeStubInterface) pb.Response {
 	return shim.Success(nil)
 }
 
-// 투표 생성 (관리자 페이지)
+// 투표 생성 및 초기화(관리자 페이지)
 func (v *VotingChaincode) createVote() pb.Response { 
 	args := v.args // 투표 번호, 이름, 시작 시간, 끝 시간
 	
@@ -226,6 +226,7 @@ func (v *VotingChaincode) queryCandidateWithPoll() pb.Response {
 func (v *VotingChaincode) queryCandidate() pb.Response {
 	return shim.Success(nil)
 }
+
 
 // =========================================== 밑으로는 그냥 함수
 
