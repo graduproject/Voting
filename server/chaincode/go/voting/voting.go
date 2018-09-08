@@ -160,13 +160,13 @@ func (v *VotingChaincode) queryAllVote() pb.Response {
 	}
 
 
-	return shim.Success()
+	return shim.Success(nil)
 }
 
 // TODO: 구현
 // 완료된 투표 불러오기 (유저페이지)
 func (v *VotingChaincode) queryCompleteVote() pb.Response {
-
+	return shim.Success(nil)
 }
 
 // endTime전에 투표 종료 (관리자페이지)
@@ -234,6 +234,10 @@ func changeToUnixTime(str string) int64 { // string으로 받은 시간을 Unix 
 	return tUTC
 } // createVote에서 startTime과 endTime을 유닉스 시간으로 바꾸어 줄 때 사용
 
+
+
+
+
 // getCandidate gets candidate in Voting structure
 func (v *Voting) getCandidateWithPoll() { // 후보 및 표 확인 post
 	for key, val := range v.Candidate {
@@ -249,14 +253,6 @@ func (v *Voting) getCandidate() { // post
 	fmt.Println()
 } // 투표 하는 페이지 .html에서 후보 이름을 확인하기 위해 사용
 
-// deleteCandidate deletes candidate in Voting structure
-func (v *Voting) deleteCandidate(cd string) { // cd는 후보
-	if v.CurrentState == 0 { // 시작전에만 삭제 가능
-		fmt.Println("후보를 삭제할 수 없습니다")
-		return
-	}
-	delete(v.Candidate, cd)
-} // 관리자 후보입력 .html에서 사용 
 
 
 
