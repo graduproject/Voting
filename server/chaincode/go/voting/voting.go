@@ -209,6 +209,24 @@ func (v *VotingChaincode) deleteCandidate() pb.Response {
 	return shim.Success(nil)
 }
 
+// TODO: 구현
+// 완료되지 않은 투표 목록 불러오기 (사용자 페이지)
+func (v *VotingChaincode) queryNotCompleteVote() pb.Response {
+	return shim.Success(nil)
+}
+
+// TODO: 구현
+// 후보와 표 불러오기 (사용자 페이지, 관리자 페이지)
+func (v *VotingChaincode) queryCandidateWithPoll() pb.Response {
+	return shim.Success(nil)
+}
+
+// TODO: 구현
+// 후보 불러오기 (사용자 페이지)
+func (v *VotingChaincode) queryCandidate() pb.Response {
+	return shim.Success(nil)
+}
+
 // =========================================== 밑으로는 그냥 함수
 
 func (v *Voting) checkCandidateExist(cd string) bool { // 후보가 존재하는지 확인 
@@ -233,66 +251,3 @@ func changeToUnixTime(str string) int64 { // string으로 받은 시간을 Unix 
 	tUTC := t.Unix() - 32400  // 받은 시간은 KST, Unix() 시간은 UTC기준이므로 비교를 위해 UTC시간으로 변경
 	return tUTC
 } // createVote에서 startTime과 endTime을 유닉스 시간으로 바꾸어 줄 때 사용
-
-
-
-
-
-// getCandidate gets candidate in Voting structure
-func (v *Voting) getCandidateWithPoll() { // 후보 및 표 확인 post
-	for key, val := range v.Candidate {
-		fmt.Print(key, " ", val, " ")
-	}
-	fmt.Println()
-} // 유저 투표 결과 확인 .html, 투표 현황 조회 .html에서 사용
-
-func (v *Voting) getCandidate() { // post
-	for key := range v.Candidate {
-		fmt.Print(key, " ")
-	}
-	fmt.Println()
-} // 투표 하는 페이지 .html에서 후보 이름을 확인하기 위해 사용
-
-
-
-
-
-
-func getAllVoting() { // 모든 투표 목록(관리자) post
-	for i := range votingSlice {
-		// post 투표이름
-		fmt.Println(votingSlice[i].VotingName)
-	}
-} // 관리자 투표 관리 .html에서 투표 목록을 불러올 때 사용
-
-func notCompleteVote() { // 끝나지 않은 투표들 보내주기 post
-	for i := range votingSlice {
-		if votingSlice[i].CurrentState == 1 {
-			// Post
-			fmt.Println(votingSlice[i].VotingName)
-		}
-	}
-} // 유저 투표 목록 .html에서 끝나지 않은 투표들을 불러올 때 사용
-
-// changeState change Voting structure's CurrentState
-func changeState() { // Voting 상태 변화 실시간으로 체크해서 투표의 상태를 변경한다(모든 투표를 대상으로 확인)
-	for i := range votingSlice {
-		if votingSlice[i].CurrentState == 2 { // 투표가 끝난 상태면 더 이상 상태를 바꾸지 않음
-			continue
-		}
-		if votingSlice[i].StartTime < time.Now().Unix() && votingSlice[i].EndTime > time.Now().Unix() { // 투표 시작
-			votingSlice[i].CurrentState = 1
-		} else if votingSlice[i].EndTime < time.Now().Unix() { // 투표가 끝난 상태
-			votingSlice[i].CurrentState = 2
-		}
-	}
-} // 일정시간마다 동작해 시작 시간과 끝 시간에 따라 투표들의 상태를 변경
-
-// viewCompleteVoting views completed Voting
-func viewCompleteVoting() { // 전체 투표 목록 중 완료된 투표 조회 post
-	for i := 0; i < len(votingSlice); i++ {
-		if votingSlice[i].CurrentState == 2 { // 상태가 2인 투표들은 투표가 완료된 것들
-			fmt.Println(votingSlice[i].VotingName)
-		}
-	}
-} // 사용자 완료된 투표 목록 .html에서 완료된 투표 목록을 불러오기 위해 사용
