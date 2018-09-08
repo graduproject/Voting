@@ -97,18 +97,34 @@ func (v *VotingChaincode) registerCandidate() pb.Response {
 
 	return shim.Success(nil)
 }
-func (v *VotingChaincode) vote() pb.Response {
-	args := v.args // 투표 번호, 후보 이름
 
-	if len(args) != 2 {
+func (v *VotingChaincode) vote() pb.Response {
+	args := v.args // 투표 번호, 후보 이름, 유저 아이디
+
+	if len(args) != 3 {
 		return shim.Error("Incorrect number of arguments. Expecting 2")
 	}
+
+	id := args[2]
 
 	votingAsBytes, _ := v.stub.GetState(args[0])
 	voting := Voting{}
 
 	json.Unmarshal(votingAsBytes, &voting)
-	voting.Candidate[args[1]]++
+
+	if voting.CurrentState == 0 { // 투표 시작 전
+		fmt.Println("아직 투표할 수 없습니다")
+	} else if voting.CurrentState == 1 && voting.checkCandidateExist(args[1]) { // 투표를 할수 있는 상태 && 후보가 존재하면 -> 투표
+		if voting.checkID(id) { // 이미 투표 했을때
+			fmt.Println("확인")
+			voting.Candidate[args[1]] = voting.Candidate[args[1]] + 1
+			voting.UserID = append(voting.UserID, id)
+		} else { 
+			fmt.Println("중복")
+		}
+	} else if voting.CurrentState == 2 { // 투표가 끝난 후
+		fmt.Println("투표가 끝났습니다")
+	}
 
 	votingAsBytes, _ = json.Marshal(voting)
 	v.stub.PutState(args[0], votingAsBytes)
