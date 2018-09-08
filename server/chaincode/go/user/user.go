@@ -31,6 +31,10 @@ func (u *User) ModifyUser(pw string, phone string, mail string) { // 등록된 �
 	u.Email = mail
 }
 
+func signUp() {
+	
+}
+
 // getUserInfo gets a User data
 func (u *User) getUserInfo() { // 유저 정보 조회
 	

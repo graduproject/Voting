@@ -3,19 +3,93 @@ package main
 import (
 	//"sort"
 	"fmt"
-	//"encoding/json"
+	"encoding/json"
 	"time"
+	"github.com/hyperledger/fabric/core/chaincode/shim"
+	pb "github.com/hyperledger/fabric/protos/peer"
 )
 
 // Voting is ...
 type Voting struct {
-	VotingName      string      `json="votingname"`
-	UserID          []string    `json="userid"`
-	Candidate       map[string]int
-	VotingNumber    int         `json="VotingNumber"`
-	StartTime       int64       `json="starttime"`
-	EndTime         int64       `json="endtime"`
-	CurrentState    int         `json="currentstate"`  // state 0 : 투표 시작 전,   1 : 투표 가능,   2 : 투표 종료
+	VotingName      string         `json="votingname"`
+	UserID          []string       `json="userid"`
+	Candidate       map[string]int 
+	VotingNumber    int            `json="VotingNumber"`
+	StartTime       int64          `json="starttime"`
+	EndTime         int64          `json="endtime"`
+	CurrentState    int            `json="currentstate"`  // state 0 : 투표 시작 전,   1 : 투표 가능,   2 : 투표 종료
+}
+
+type VotingChaincode struct {
+	stub     shim.ChaincodeStubInterface
+	function string
+	args     []string
+}
+
+/*
+func (t *UserChaincode) call() pb.Response {
+	function := t.function
+	
+	callMap := map[string]func() pb.Response {
+		"createVoting":             t.createVoting,
+		""
+	}
+}
+*/
+
+// Init ...
+func (v *VotingChaincode) Init(stub shim.ChaincodeStubInterface) pb.Response {
+	fmt.Println("Voting Init")
+
+	/*
+	_, args := stub.GetFunctionAndParameters()
+
+	if len(args) != 0 {
+		return shim.Error("Incorrect number of arguments. Expecting 0")
+	}*/
+
+	return shim.Success(nil)
+}
+
+func (v *VotingChaincode) createVote() pb.Response { 
+	args := v.args // 투표 번호, 이름, 시작 시간, 끝 시간
+	
+	if len(args) != 4 {
+		return shim.Error("Incorrect number of arguments. Expecting 3")
+	}
+	startTime := changeToUnixTime(args[2])
+	endTime := changeToUnixTime(args[3])
+
+	vote := Voting{VotingName: args[1], StartTime: startTime, EndTime: endTime}
+	voteAsBytes, _ := json.Marshal(vote)
+	
+	v.stub.PutState(args[0], voteAsBytes)
+
+	return shim.Success(nil)
+}
+
+func (v *VotingChaincode) queryAllVote() pb.Response {
+	args := v.args // 마지막 투표 번호
+
+	if len(args) != 1 {
+		return shim.Error("Incorrect number of arguments. Expecting 1")
+	}
+
+	startKey := "1"
+	endKey := args[0]
+
+	results, err := v.stub.GetStateByRange(startKey, endKey)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+	defer results.Close()
+
+	for results.HasNext() {
+		
+	}
+
+
+	return shim.Success()
 }
 
 // votingSlice is ...
@@ -28,12 +102,14 @@ func changeToUnixTime(str string) int64 { // string으로 받은 시간을 Unix 
 	return tUTC
 } // createVote에서 startTime과 endTime을 유닉스 시간으로 바꾸어 줄 때 사용
 
+/*
 // createVote creates Voting structure
-func createVote(name string, startTime string, endTime string) { // Voting 구조체 생성
-	v := Voting{Candidate: make(map[string]int)}
-	votingSlice = append(votingSlice, v)
+func (v *VotingChaincode) createVote(name string, startTime string, endTime string) { // Voting 구조체 생성
+	a := Voting{Candidate: make(map[string]int)}
+	votingSlice = append(votingSlice, a)
 	votingInit(name, changeToUnixTime(startTime), changeToUnixTime(endTime))
 } // 관리자가 투표 생성하는 .html에서 사용
+*/
 
 // votingInit is ...
 func votingInit(name string, startTime int64, endTime int64) { // 투표 초기값 입력
@@ -159,31 +235,3 @@ func viewCompleteVoting() { // 전체 투표 목록 중 완료된 투표 조회 
 		}
 	}
 } // 사용자 완료된 투표 목록 .html에서 완료된 투표 목록을 불러오기 위해 사용
-
-func main() { // Test
-	createVote("First", "09/06/2018 4:07:00 PM", "09/07/2018 6:41:00 PM")
-	for {
-		changeState()
-		votingSlice[0].registerCandidate("이상현")
-		votingSlice[0].registerCandidate("김도정")
-		votingSlice[0].registerCandidate("김현우")
-		votingSlice[0].registerCandidate("유상욱")
-		votingSlice[0].registerCandidate("최현빈")
-		votingSlice[0].getCandidate()
-		fmt.Println(votingSlice[0])
-		votingSlice[0].vote("이상현", "a")
-		votingSlice[0].vote("이상현", "b")
-		changeState()
-		votingSlice[0].vote("이상현", "c")
-		votingSlice[0].vote("김현우", "d")
-		votingSlice[0].vote("김현우", "a")
-		votingSlice[0].vote("김도정", "b")
-		votingSlice[0].getCandidate()
-		fmt.Println(votingSlice[0])
-		votingSlice[0].vote("이상현", "e")
-		fmt.Println(votingSlice[0])
-		fmt.Println("==========================================")
-		fmt.Println(votingSlice)
-		time.Sleep(10 * time.Second)
-	}
-}
