@@ -1,6 +1,6 @@
 var Client = require('mongodb').MongoClient;
 
-Client.connect('mongodb://localhost:27017/school', function(error, db){
+Client.connect('mongodb://localhost:3000/member', function(error, db){
     if(error) {
         console.log(error);
     } else {
@@ -10,7 +10,7 @@ Client.connect('mongodb://localhost:27017/school', function(error, db){
         var three = {ID:'Three', password : '1234'};
 
         // 2. insertMany( ) 함수에 배열 형태로 입력
-        db.collection('student').insertMany([one, two, three]);
+        db.collection('member').insertMany([one, two, three]);
         db.close();
     }
 });
