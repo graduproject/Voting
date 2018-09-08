@@ -2,6 +2,7 @@
 
 var express = require('express');
 var http = require('http');
+var url = require('url');
 var app = express();
 var path = require("path")
 var fs = require('fs');
@@ -36,7 +37,7 @@ app.get('/vote', function (req, res) {
 });
 
 app.get('/images', function (req, res) {
-    fs.readFile(path.join(__dirname + '/../images/main.png'), function (error, data) {
+    fs.readFile(path.join(__dirname + '/images/main.png'), function (error, data) {
         res.writeHead(200, { 'Content-Type': 'text/html' });
         res.end(data);
     });
@@ -64,5 +65,5 @@ app.get('/enroll_vote', function (req, res) {
 });
 
 app.listen(3000, function () {
-    console.log("Go!");
+    console.log(__dirname);
 });
