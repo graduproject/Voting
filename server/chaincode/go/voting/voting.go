@@ -83,7 +83,7 @@ func (v *VotingChaincode) registerCandidate() pb.Response {
 	args := v.args // 투표 번호, 후보 이름
 
 	if len(args) != 2 {
-		return shim.Error("Incorrect number of arguments. Expecting 3")
+		return shim.Error("Incorrect number of arguments. Expecting 2")
 	}
 
 	votingAsBytes, _ := v.stub.GetState(args[0])
@@ -97,6 +97,25 @@ func (v *VotingChaincode) registerCandidate() pb.Response {
 
 	return shim.Success(nil)
 }
+func (v *VotingChaincode) vote() pb.Response {
+	args := v.args // 투표 번호, 후보 이름
+
+	if len(args) != 2 {
+		return shim.Error("Incorrect number of arguments. Expecting 2")
+	}
+
+	votingAsBytes, _ := v.stub.GetState(args[0])
+	voting := Voting{}
+
+	json.Unmarshal(votingAsBytes, &voting)
+	voting.Candidate[args[1]]++
+
+	votingAsBytes, _ = json.Marshal(voting)
+	v.stub.PutState(args[0], votingAsBytes)
+
+	return shim.Success(nil)
+}
+
 
 // TODO: 데이터 받아와서 처리하는 부분 구현
 func (v *VotingChaincode) queryAllVote() pb.Response { 
