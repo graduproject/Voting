@@ -158,8 +158,42 @@ func (v *VotingChaincode) queryAllVote() pb.Response {
 	return shim.Success()
 }
 
-// votingSlice is ...
-var votingSlice []Voting // 투표 목록
+func (v *VotingChaincode) earlyComplete() pb.Response {
+	args := v.args
+
+	if len(args) != 1 {
+		return shim.Error("Incorrect number of arguments. Expecting 1")
+	}
+
+	votingAsBytes, _ := v.stub.GetState(args[0])
+	voting := Voting{}
+
+	json.Unmarshal(votingAsBytes, &voting)
+	voting.CurrentState = 2
+
+	votingAsBytes, _ = json.Marshal(voting)
+	v.stub.PutState(args[0], votingAsBytes)
+
+	return shim.Success(nil)
+}
+
+// =========================================== 밑으로는 그냥 함수
+
+func (v *Voting) checkCandidateExist(cd string) bool { // 후보가 존재하는지 확인 
+	_, exist := v.Candidate[cd]
+	return exist
+} // vote()에서 후보가 존재하는지 확인하기 위해 사용
+
+func (v *Voting) checkID(id string) bool { // 투표를 이미 한 ID인지 체크
+	b := true
+	for _, i := range v.UserID {
+		if i == id {
+			b = false
+			break
+		}
+	}
+	return b
+} // vote()에서 이미 투표한 아이디인지 확인하기 위해 사용
 
 func changeToUnixTime(str string) int64 { // string으로 받은 시간을 Unix 시간으로 바꿔준다
 	layout := "01/02/2006 3:04:05 PM"
@@ -167,24 +201,6 @@ func changeToUnixTime(str string) int64 { // string으로 받은 시간을 Unix 
 	tUTC := t.Unix() - 32400  // 받은 시간은 KST, Unix() 시간은 UTC기준이므로 비교를 위해 UTC시간으로 변경
 	return tUTC
 } // createVote에서 startTime과 endTime을 유닉스 시간으로 바꾸어 줄 때 사용
-
-/*
-// createVote creates Voting structure
-func (v *VotingChaincode) createVote(name string, startTime string, endTime string) { // Voting 구조체 생성
-	a := Voting{Candidate: make(map[string]int)}
-	votingSlice = append(votingSlice, a)
-	votingInit(name, changeToUnixTime(startTime), changeToUnixTime(endTime))
-} // 관리자가 투표 생성하는 .html에서 사용
-*/
-
-// registerCandidate register candidate in Voting structure
-func (v *Voting) registerCandidate(cd string) { // 후보 등록, cd는 후보 이름
-	if v.CurrentState == 0 { // 투표 시작 전에만 후보 등록 가능
-		v.Candidate[cd] = 0
-	} else {
-		fmt.Println("후보를 등록할 수 없습니다")
-	}
-} // 관리자 후보입력 .html에서 사용
 
 // getCandidate gets candidate in Voting structure
 func (v *Voting) getCandidateWithPoll() { // 후보 및 표 확인 post
@@ -210,44 +226,9 @@ func (v *Voting) deleteCandidate(cd string) { // cd는 후보
 	delete(v.Candidate, cd)
 } // 관리자 후보입력 .html에서 사용 
 
-func (v *Voting) checkID(id string) bool { // 투표를 이미 한 ID인지 체크
-	b := true
-	for _, i := range v.UserID {
-		if i == id {
-			b = false
-			break
-		}
-	}
-	return b
-} // vote()에서 이미 투표한 아이디인지 확인하기 위해 사용
 
-func (v *Voting) checkCandidateExist(cd string) bool { // 후보가 존재하는지 확인 
-	_, exist := v.Candidate[cd]
-	return exist
-} // vote()에서 후보가 존재하는지 확인하기 위해 사용
 
-// vote increases Poll belong to selected candidate
-func (v *Voting) vote(cd string, userID string) { // 투표, cd는 후보
-	id := userID
-	if v.CurrentState == 0 { // 투표 시작 전
-		fmt.Println("아직 투표할 수 없습니다")
-	} else if v.CurrentState == 1 && v.checkCandidateExist(cd) { // 투표를 할수 있는 상태 && 후보가 존재하면 -> 투표
-		if v.checkID(id) {
-			fmt.Println("확인")
-			v.Candidate[cd] = v.Candidate[cd] + 1
-			v.saveCompleteID(id)
-		} else { // 투표가 끝난 후
-			fmt.Println("중복")
-		}
-	} else if v.CurrentState == 2 {
-		fmt.Println("투표가 끝났습니다")
-	}
-} // 유저 투표 하는 페이지 .html에서 사용
 
-// saveCompleteID saves ID
-func (v *Voting) saveCompleteID(id string) { // 투표 완료한 아이디 저장
-	v.UserID = append(v.UserID, id)
-} // 유저 투표 하는 페이지 .html에서 유저가 투표를 하면 그 아이디를 추가함
 
 func getAllVoting() { // 모든 투표 목록(관리자) post
 	for i := range votingSlice {
@@ -278,10 +259,6 @@ func changeState() { // Voting 상태 변화 실시간으로 체크해서 투표
 		}
 	}
 } // 일정시간마다 동작해 시작 시간과 끝 시간에 따라 투표들의 상태를 변경
-
-func earlyComplete(num int) { // 투표 번호를 받아서 투표 조기 종료
-	votingSlice[num - 1].CurrentState = 2
-} // 관리자 투표 관리 .html에서 끝 시간 전에 관리자가 투표를 종료할 때 사용
 
 // viewCompleteVoting views completed Voting
 func viewCompleteVoting() { // 전체 투표 목록 중 완료된 투표 조회 post
