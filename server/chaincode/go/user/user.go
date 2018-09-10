@@ -74,10 +74,25 @@ func (u *UserChaincode) createUser() pb.Response { // 유저 구조체 생성(�
 
 
 // ModifyUser modifies User data
-func (u *User) ModifyUser(pw string, phone string, mail string) { // 등록된 유저의 정보 수정
-	u.PW = pw
-	u.PhoneNumber = phone
-	u.Email = mail
+func (u *UserChaincode) ModifyUser() pb.Response { // 등록된 유저의 정보 수정
+	args := u.args // ID, PW, PhoneNumber, Email
+	
+	if len(args) != 4 {
+		return shim.Error("Incorrect number of arguments. Expecting 3")
+	}
+	
+	user := User{}
+	userAsBytes, _ := u.stub.GetState(args[0])
+	json.Unmarshal(userAsBytes, &user)
+
+	user.PW = args[1]
+	user.PhoneNumber = args[2]
+	user.Email = args[3]
+	
+	userAsBytes, _ = json.Marshal(user)
+	u.stub.PutState(args[0], userAsBytes)
+
+	return shim.Success(nil)
 }
 
 func signUp() {
