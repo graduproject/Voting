@@ -26,7 +26,7 @@ type VotingChaincode struct {
 	args     []string
 }
 
-/*
+// TODO: 구현
 func (t *UserChaincode) call() pb.Response {
 	function := t.function
 	
@@ -35,7 +35,6 @@ func (t *UserChaincode) call() pb.Response {
 		""
 	}
 }
-*/
 
 // Init ...
 func (v *VotingChaincode) Init(stub shim.ChaincodeStubInterface) pb.Response {
@@ -49,6 +48,16 @@ func (v *VotingChaincode) Init(stub shim.ChaincodeStubInterface) pb.Response {
 	}*/
 
 	return shim.Success(nil)
+}
+
+func (v *VotingChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
+	function, args := stub.GetFunctionAndParameters()
+
+	t.function = function
+	t.args = args
+	t.stub = stub
+
+	return t.call()
 }
 
 // 투표 생성 및 초기화(관리자 페이지)
