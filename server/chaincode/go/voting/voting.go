@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"encoding/json"
 	"time"
+	"strings"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	pb "github.com/hyperledger/fabric/protos/peer"
 )
@@ -27,13 +28,34 @@ type VotingChaincode struct {
 }
 
 // TODO: 구현
-func (t *UserChaincode) call() pb.Response {
-	function := t.function
+func (v *VotingChaincode) call() pb.Response {
+	function := v.function
 	
 	callMap := map[string]func() pb.Response {
-		"createVoting":             t.createVoting,
-		""
+		"createVoting":             v.createVoting,
+		"changeState":	            v.changeState,
+		"registerCandidate":        v.registerCandidate,
+		"vote":                     v.vote,
+		"queryAllVote":             v.queryAllVote,
+		"queryCompleteVote":        v.queryCompleteVote,
+		"earlyComplete":            v.earlyComplete,
+		"deleteCandidate":          v.deleteCandidate,
+		"queryNotCompleteVote":     v.queryNotCompleteVote,
+		"queryCandidateWithPoll":   v.queryCandidateWithPoll,
+		"queryCandidate":           v.queryCandidate,
 	}
+
+	h := callMap[function]
+	if h != nil {
+		return callMap[function]()
+	}
+
+	res := make([]string, 0)
+	for k := range callMap {
+		res = append(res, `"`+k+`"`)
+	}
+
+	return shim.Error("Invalid invoke function name. Expecting " + strings.Join(res, ", "))
 }
 
 // Init ...
@@ -50,18 +72,19 @@ func (v *VotingChaincode) Init(stub shim.ChaincodeStubInterface) pb.Response {
 	return shim.Success(nil)
 }
 
+// Invoke ...
 func (v *VotingChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 	function, args := stub.GetFunctionAndParameters()
 
-	t.function = function
-	t.args = args
-	t.stub = stub
+	v.function = function
+	v.args = args
+	v.stub = stub
 
-	return t.call()
+	return v.call()
 }
 
 // 투표 생성 및 초기화(관리자 페이지)
-func (v *VotingChaincode) createVote() pb.Response { 
+func (v *VotingChaincode) createVoting() pb.Response { 
 	args := v.args // 투표 번호, 이름, 시작 시간, 끝 시간
 	
 	if len(args) != 4 {
@@ -79,7 +102,7 @@ func (v *VotingChaincode) createVote() pb.Response {
 
 // 투표 startTime, endTime을 체크해 투표 가능 상태를 변화
 func (v *VotingChaincode) changeState() pb.Response {
-	args := v.args // 마지막 투표 번호
+	args := t.args // 마지막 투표 번호
 
 	if len(args) != 1 {
 		return shim.Error("Incorrect number of arguments. Expecting 1")
@@ -334,7 +357,7 @@ func (v *VotingChaincode) queryCandidate() pb.Response {
 
 
 	for i := 0; i < len(votingSlice); i++ {
-		for key, _ := range votingSlice[i].Candidate {
+		for key := range votingSlice[i].Candidate {
 			fmt.Println(key)
 		}
 	}
