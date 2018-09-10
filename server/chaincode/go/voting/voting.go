@@ -27,7 +27,6 @@ type VotingChaincode struct {
 	args     []string
 }
 
-// TODO: 구현
 func (v *VotingChaincode) call() pb.Response {
 	function := v.function
 	

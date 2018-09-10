@@ -2,6 +2,13 @@ package main
 
 import (
 	// "encoding/json"
+	"fmt"
+	"strconv"
+	"encoding/json"
+	"time"
+	"strings"
+	"github.com/hyperledger/fabric/core/chaincode/shim"
+	pb "github.com/hyperledger/fabric/protos/peer"
 )
 
 // User is ...
@@ -12,17 +19,59 @@ type User struct {
 	PhoneNumber 	string `json="phonenumber"`
 	Email			string `json="email"`
 	IsAdmin     	bool   `json="isadmin"`
-	IsLogIn			bool   `json="islogin"`
+}
+
+type UserChaincode struct {
+	stub     shim.ChaincodeStubInterface
+	function string
+	args     []string
 }
 
 var UserSlice []User // 유저 목록
 var withdrawalSlice []string // 탈퇴한 회원의 주민등록번호 모음
 
-// CreateUser creates User structure
-func CreateUser(id string, pw string, idNumber string, phone string, mail string) { // 유저 구조체 생성(회원가입)
-	u := User{ID: id, PW: pw, PhoneNumber: phone, IDNumber: idNumber, Email: mail, IsAdmin: false, IsLogIn: false}
-	UserSlice = append(UserSlice, u)
+func (u *UserChaincode) Init(stub shim.ChaincodeStubInterface) pb.Response {
+	fmt.Println("User Init")
+
+	/*
+	_, args := stub.GetFunctionAndParameters()
+
+	if len(args) != 0 {
+		return shim.Error("Incorrect number of arguments. Expecting 0")
+	}*/
+
+	return shim.Success(nil)
 }
+
+func (u *UserChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
+	function, args := stub.GetFunctionAndParameters()
+
+	u.function = function
+	u.args = args
+	u.stub = stub
+
+	return u.call()
+}
+
+func (u *UserChaincode) call() pb.Response {
+
+	return shim.Error("")
+}
+
+// CreateUser creates User structure
+func (u *UserChaincode) createUser() pb.Response { // 유저 구조체 생성(회원가입)
+	args := u.args // ID, PW, IDNumber(주민번호), PhoneNumber, Email
+	
+	if len(args) != 5 {
+		return shim.Error("Incorrect number of arguments. Expecting 5")
+	}
+	user := User{PW: args[1], IDNumber: args[2], PhoneNumber: args[3], Email: args[4], IsAdmin: false}
+	userAsBytes, _ := json.Marshal(user)
+	u.stub.PutState(args[0], userAsBytes)
+
+	return shim.Success(nil)
+}
+
 
 // ModifyUser modifies User data
 func (u *User) ModifyUser(pw string, phone string, mail string) { // 등록된 유저의 정보 수정
