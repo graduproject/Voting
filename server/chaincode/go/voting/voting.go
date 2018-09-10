@@ -194,8 +194,15 @@ func (v *VotingChaincode) vote() pb.Response {
 
 // TODO: 데이터 처리 부분 구현
 // 존재하는 모든 투표 불러오기 (관리자페이지)
-func (v *VotingChaincode) queryAllVote(num string) ([]Voting, error) { // num은 마지막 번호
+func (v *VotingChaincode) queryAllVote(num string) pb.Response { // num은 마지막 번호
+	args := v.args // 마지막 번호
+
+	if len(args) != 1 {
+		return shim.Error("Incorrect number of arguments. Expecting 1")
+	}
+
 	var votingSlice []Voting
+	var votingName  []string
 	voting := Voting{}
 	endKey, _ := strconv.Atoi(num)
 
@@ -207,16 +214,18 @@ func (v *VotingChaincode) queryAllVote(num string) ([]Voting, error) { // num은
 
 	var temp []string
 	for i := 0; i < len(votingSlice); i++ {
-		fmt.Println(votingSlice[i].VotingName)
+		votingName = append(votingName, votingSlice[i].VotingName)
 	}
 	
-	return votingSlice, nil
+	votingNameAsBytes, _ := json.Marshal(votingName)
+	
+	return shim.Success(votingNameAsBytes)
 }
-
 // TODO: 데이터 처리 부분 구현
 // 완료된 투표 불러오기 (유저페이지)
-func (v *VotingChaincode) queryCompleteVote(num string) ([]Voting, error) {
+func (v *VotingChaincode) queryCompleteVote(num string) pb.Response {
 	var votingSlice []Voting
+	var votingName  []string
 	voting := Voting{}
 	endKey, _ := strconv.Atoi(num)
 
@@ -228,11 +237,12 @@ func (v *VotingChaincode) queryCompleteVote(num string) ([]Voting, error) {
 
 	for i := 0; i < len(votingSlice); i++ {
 		if votingSlice[i].CurrentState == 2 {
-			fmt.Println(votingSlice[i].VotingName)
+			votingName = append(votingName, votingSlice[i].VotingName)
 		}
 	}
-	
-	return votingSlice, nil
+	votingNameAsBytes, _ := json.Marshal(votingName)
+
+	return shim.Success(votingNameAsBytes)
 }
 
 // endTime전에 투표 종료 (관리자페이지)
@@ -284,6 +294,7 @@ func (v *VotingChaincode) queryNotCompleteVote() pb.Response {
 	}
 
 	var votingSlice []Voting
+	var votingName  []string
 	voting := Voting{}
 	endKey, _ := strconv.Atoi(args[0])
 
@@ -295,65 +306,59 @@ func (v *VotingChaincode) queryNotCompleteVote() pb.Response {
 
 	for i := 0; i < len(votingSlice); i++ {
 		if votingSlice[i].CurrentState == 0 || votingSlice[i].CurrentState == 1 {
-			fmt.Println(votingSlice[i].VotingName)
+			votingName = append(votingName, votingSlice[i].VotingName)
 		}
 	}
+	votingNameAsBytes, _ := json.Marshal(votingName)
 
-	return shim.Success(nil)
+	return shim.Success(votingNameAsBytes)
 }
 
 // TODO: 데이터 처리 부분 구현
 // 후보와 표 불러오기 (사용자 페이지, 관리자 페이지)
 func (v *VotingChaincode) queryCandidateWithPoll() pb.Response {
-	args := v.args // 마지막 투표 번호
+	args := v.args // 투표 번호
 	if len(args) != 1 {
 		return shim.Error("Incorrect number of arguments. Expecting 1")
 	}
 
-	var votingSlice []Voting
+	var votingCandidate map[string]int
 	voting := Voting{}
 	endKey, _ := strconv.Atoi(args[0])
 
-	for i := 1; i <= endKey; i++ {
-		votingAsBytes, _ := v.stub.GetState(strconv.Itoa(i))
-		json.Unmarshal(votingAsBytes, &voting)
-		votingSlice = append(votingSlice, voting)
-	}
+	votingAsBytes, _ := v.stub.GetState(args[0])
+	json.Unmarshal(votingAsBytes, &voting)
 
-	for i := 0; i < len(votingSlice); i++ {
-		fmt.Println(votingSlice[i].Candidate)
-	}
-	
-	return shim.Success(nil)
+	votingCandidate = voting.Candidate
+
+	votingCandidateAsBytes, _ := json.Marshal(votingCandidate)
+
+	return shim.Success(votingCandidateAsBytes)
 }
 
 // TODO: 데이터 처리 부분 구현
 // 후보 불러오기 (사용자 페이지)
 func (v *VotingChaincode) queryCandidate() pb.Response {
-	args := v.args // 마지막 투표 번호
+	args := v.args // 투표 번호
 	if len(args) != 1 {
 		return shim.Error("Incorrect number of arguments. Expecting 1")
 	}
 
-	var votingSlice []Voting
+	var votingCandidateName []string
 	voting := Voting{}
 	endKey, _ := strconv.Atoi(args[0])
 
-	for i := 1; i <= endKey; i++ {
-		votingAsBytes, _ := v.stub.GetState(strconv.Itoa(i))
-		json.Unmarshal(votingAsBytes, &voting)
-		votingSlice = append(votingSlice, voting)
+	votingAsBytes, _ := v.stub.GetState(args[0])
+	json.Unmarshal(votingAsBytes, &voting)
+
+	for key := range voting.Candidate {
+		votingCandidateName = append(votingCandidateName, key)
 	}
-
-
-	for i := 0; i < len(votingSlice); i++ {
-		for key := range votingSlice[i].Candidate {
-			fmt.Println(key)
-		}
-	}
-
 	
-	return shim.Success(nil)
+
+	votingCandidateNameAsBytes, _ := json.Marshal(votingCandidateName)
+
+	return shim.Success(votingCandidateNameAsBytes)
 }
 
 
