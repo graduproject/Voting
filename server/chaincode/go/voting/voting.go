@@ -102,7 +102,7 @@ func (v *VotingChaincode) createVoting() pb.Response {
 
 // 투표 startTime, endTime을 체크해 투표 가능 상태를 변화
 func (v *VotingChaincode) changeState() pb.Response {
-	args := t.args // 마지막 투표 번호
+	args := v.args // 마지막 투표 번호
 
 	if len(args) != 1 {
 		return shim.Error("Incorrect number of arguments. Expecting 1")
