@@ -3,6 +3,7 @@ package main
 import (
 	//"sort"
 	"fmt"
+	"strconv"
 	"encoding/json"
 	"time"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
@@ -67,7 +68,6 @@ func (v *VotingChaincode) createVote() pb.Response {
 	return shim.Success(nil)
 }
 
-// TODO: 어떻게 처리 할 것인지 / 처음부터 끝까지 모든 투표를 다 받아와서 조건 확인 후 상태 변화
 // 투표 startTime, endTime을 체크해 투표 가능 상태를 변화
 func (v *VotingChaincode) changeState() pb.Response {
 	args := v.args // 마지막 투표 번호
@@ -76,7 +76,31 @@ func (v *VotingChaincode) changeState() pb.Response {
 		return shim.Error("Incorrect number of arguments. Expecting 1")
 	}
 	
-	// voteAsBytes, _ := v.stub.GetState(args)
+	var votingSlice []Voting
+	voting := Voting{}
+	endKey, _ := strconv.Atoi(args[0])
+
+	for i := 1; i <= endKey; i++ {
+		votingAsBytes, _ := v.stub.GetState(strconv.Itoa(i))
+		json.Unmarshal(votingAsBytes, &voting)
+		votingSlice = append(votingSlice, voting)
+	}
+
+	for i := range votingSlice {
+		if votingSlice[i].CurrentState == 2 { // 투표가 끝난 상태면 더 이상 상태를 바꾸지 않음
+			continue
+		}
+		if votingSlice[i].StartTime < time.Now().Unix() && votingSlice[i].EndTime > time.Now().Unix() { // 투표 시작
+			votingSlice[i].CurrentState = 1
+		} else if votingSlice[i].EndTime < time.Now().Unix() { // 투표가 끝난 상태
+			votingSlice[i].CurrentState = 2
+		}
+	}
+
+	for i := 1; i <= endKey; i++ {
+		votingAsBytes, _ := json.Marshal(votingSlice[i-1])
+		v.stub.PutState(strconv.Itoa(i), votingAsBytes)
+	}
 
 	return shim.Success(nil)
 }
@@ -137,35 +161,55 @@ func (v *VotingChaincode) vote() pb.Response {
 }
 
 
-// TODO: 데이터 받아와서 처리하는 부분 구현
+// TODO: 데이터 처리 부분 구현
 // 존재하는 모든 투표 불러오기 (관리자페이지)
 func (v *VotingChaincode) queryAllVote() pb.Response {
 	args := v.args // 마지막 투표 번호
-
 	if len(args) != 1 {
 		return shim.Error("Incorrect number of arguments. Expecting 1")
 	}
 
-	startKey := "1"
-	endKey := args[0]
+	var votingSlice []Voting
+	voting := Voting{}
+	endKey, _ := strconv.Atoi(args[0])
 
-	results, err := v.stub.GetStateByRange(startKey, endKey)
-	if err != nil {
-		return shim.Error(err.Error())
-	}
-	defer results.Close()
-
-	for results.HasNext() {
-		
+	for i := 1; i <= endKey; i++ {
+		votingAsBytes, _ := v.stub.GetState(strconv.Itoa(i))
+		json.Unmarshal(votingAsBytes, &voting)
+		votingSlice = append(votingSlice, voting)
 	}
 
-
+	for i := 0; i < len(votingSlice); i++ {
+		fmt.Println(votingSlice[i].VotingName)
+	}
+	
 	return shim.Success(nil)
 }
 
-// TODO: 구현
+// TODO: 데이터 처리 부분 구현
 // 완료된 투표 불러오기 (유저페이지)
 func (v *VotingChaincode) queryCompleteVote() pb.Response {
+	args := v.args // 마지막 투표 번호
+	if len(args) != 1 {
+		return shim.Error("Incorrect number of arguments. Expecting 1")
+	}
+
+	var votingSlice []Voting
+	voting := Voting{}
+	endKey, _ := strconv.Atoi(args[0])
+
+	for i := 1; i <= endKey; i++ {
+		votingAsBytes, _ := v.stub.GetState(strconv.Itoa(i))
+		json.Unmarshal(votingAsBytes, &voting)
+		votingSlice = append(votingSlice, voting)
+	}
+
+	for i := 0; i < len(votingSlice); i++ {
+		if votingSlice[i].CurrentState == 2 {
+			fmt.Println(votingSlice[i].VotingName)
+		}
+	}
+	
 	return shim.Success(nil)
 }
 
@@ -209,21 +253,84 @@ func (v *VotingChaincode) deleteCandidate() pb.Response {
 	return shim.Success(nil)
 }
 
-// TODO: 구현
+// TODO: 데이터 처리 부분 구현
 // 완료되지 않은 투표 목록 불러오기 (사용자 페이지)
 func (v *VotingChaincode) queryNotCompleteVote() pb.Response {
+	args := v.args // 마지막 투표 번호
+	if len(args) != 1 {
+		return shim.Error("Incorrect number of arguments. Expecting 1")
+	}
+
+	var votingSlice []Voting
+	voting := Voting{}
+	endKey, _ := strconv.Atoi(args[0])
+
+	for i := 1; i <= endKey; i++ {
+		votingAsBytes, _ := v.stub.GetState(strconv.Itoa(i))
+		json.Unmarshal(votingAsBytes, &voting)
+		votingSlice = append(votingSlice, voting)
+	}
+
+	for i := 0; i < len(votingSlice); i++ {
+		if votingSlice[i].CurrentState == 0 || votingSlice[i].CurrentState == 1 {
+			fmt.Println(votingSlice[i].VotingName)
+		}
+	}
+
 	return shim.Success(nil)
 }
 
-// TODO: 구현
+// TODO: 데이터 처리 부분 구현
 // 후보와 표 불러오기 (사용자 페이지, 관리자 페이지)
 func (v *VotingChaincode) queryCandidateWithPoll() pb.Response {
+	args := v.args // 마지막 투표 번호
+	if len(args) != 1 {
+		return shim.Error("Incorrect number of arguments. Expecting 1")
+	}
+
+	var votingSlice []Voting
+	voting := Voting{}
+	endKey, _ := strconv.Atoi(args[0])
+
+	for i := 1; i <= endKey; i++ {
+		votingAsBytes, _ := v.stub.GetState(strconv.Itoa(i))
+		json.Unmarshal(votingAsBytes, &voting)
+		votingSlice = append(votingSlice, voting)
+	}
+
+	for i := 0; i < len(votingSlice); i++ {
+		fmt.Println(votingSlice[i].Candidate)
+	}
+	
 	return shim.Success(nil)
 }
 
-// TODO: 구현
+// TODO: 데이터 처리 부분 구현
 // 후보 불러오기 (사용자 페이지)
 func (v *VotingChaincode) queryCandidate() pb.Response {
+	args := v.args // 마지막 투표 번호
+	if len(args) != 1 {
+		return shim.Error("Incorrect number of arguments. Expecting 1")
+	}
+
+	var votingSlice []Voting
+	voting := Voting{}
+	endKey, _ := strconv.Atoi(args[0])
+
+	for i := 1; i <= endKey; i++ {
+		votingAsBytes, _ := v.stub.GetState(strconv.Itoa(i))
+		json.Unmarshal(votingAsBytes, &voting)
+		votingSlice = append(votingSlice, voting)
+	}
+
+
+	for i := 0; i < len(votingSlice); i++ {
+		for key, _ := range votingSlice[i].Candidate {
+			fmt.Println(key)
+		}
+	}
+
+	
 	return shim.Success(nil)
 }
 
