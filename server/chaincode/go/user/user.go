@@ -43,6 +43,7 @@ func (u *UserChaincode) Init(stub shim.ChaincodeStubInterface) pb.Response {
 	return shim.Success(nil)
 }
 
+// Invoke ...
 func (u *UserChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 	function, args := stub.GetFunctionAndParameters()
 
@@ -58,8 +59,8 @@ func (u *UserChaincode) call() pb.Response {
 	return shim.Error("")
 }
 
-// CreateUser creates User structure
-func (u *UserChaincode) createUser() pb.Response { // 유저 구조체 생성(회원가입)
+// signup creates User structure
+func (u *UserChaincode) signup() pb.Response { // 유저 구조체 생성(회원가입)
 	args := u.args // ID, PW, IDNumber(주민번호), PhoneNumber, Email
 	
 	if len(args) != 5 {
@@ -74,7 +75,7 @@ func (u *UserChaincode) createUser() pb.Response { // 유저 구조체 생성(�
 
 
 // ModifyUser modifies User data
-func (u *UserChaincode) ModifyUser() pb.Response { // 등록된 유저의 정보 수정
+func (u *UserChaincode) modifyUser() pb.Response { // 등록된 유저의 정보 수정
 	args := u.args // ID, PW, PhoneNumber, Email
 	
 	if len(args) != 4 {
@@ -95,18 +96,33 @@ func (u *UserChaincode) ModifyUser() pb.Response { // 등록된 유저의 정보
 	return shim.Success(nil)
 }
 
-func signUp() {
+// signin is ...
+func (u *UserChaincode) signin() pb.Response { // 로그인
+	args := u.args
 	
+	if len(args) != 2 {
+		return shim.Error("Incorrect number of arguments. Expecting 2")
+	}
+	id := args[0]
+	pw := args[1]
+	
+	user := User{}
+	userAsBytes, err := u.stub.GetState(id)
+	if err != nil {
+		return shim.Error(id + " is not registered.")
+	}
+	json.Unmarshal(userAsBytes, &user)
+
+	if user.PW != args[1] {
+		return shim.Error("Incorrect password.")
+	}
+
+	return shim.Success(nil)
 }
 
 // getUserInfo gets a User data
 func (u *User) getUserInfo() { // 유저 정보 조회
 	
-}
-
-// LogIn is ...
-func (u *User) LogIn() { // 로그인
-
 }
 
 // LogOut is ...
