@@ -3,17 +3,13 @@ package main
 import (
 	// "encoding/json"
 	"fmt"
-	"strconv"
 	"encoding/json"
-	"time"
-	"strings"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	pb "github.com/hyperledger/fabric/protos/peer"
 )
 
 // User is ...
 type User struct {
-	ID				string `json="id"`
 	PW  			string `json="pw"`
 	IDNumber        string `json="idnumber"`
 	PhoneNumber 	string `json="phonenumber"`
@@ -98,7 +94,7 @@ func (u *UserChaincode) modifyUser() pb.Response { // 등록된 유저의 정보
 
 // signin is ...
 func (u *UserChaincode) signin() pb.Response { // 로그인
-	args := u.args
+	args := u.args // ID, PW
 	
 	if len(args) != 2 {
 		return shim.Error("Incorrect number of arguments. Expecting 2")
@@ -113,7 +109,7 @@ func (u *UserChaincode) signin() pb.Response { // 로그인
 	}
 	json.Unmarshal(userAsBytes, &user)
 
-	if user.PW != args[1] {
+	if user.PW != pw {
 		return shim.Error("Incorrect password.")
 	}
 
@@ -121,18 +117,34 @@ func (u *UserChaincode) signin() pb.Response { // 로그인
 }
 
 // getUserInfo gets a User data
-func (u *User) getUserInfo() { // 유저 정보 조회
-	
-}
+func (u *UserChaincode) getUserInfo() pb.Response { // 유저 정보 조회 
+	args := u.args // ID
 
-// LogOut is ...
-func (u *User) LogOut() { // 로그아웃
+	if len(args) != 1 { 
+		return shim.Error("Incorrect number of arguments. Expecting 2")
+	}
 
+	id := args[0]
+	userAsBytes, _ := u.stub.GetState(id)
+
+	return shim.Success(userAsBytes)
 }
 
 // DeleteUser deletes User data
-func DeleteUser() { // 유저 데이터 삭제(회원탈퇴)
-	
+func (u *UserChaincode) DeleteUser() pb.Response { // 유저 데이터 삭제(회원탈퇴)
+	args := u.args // ID
+
+	if len(args) != 1 { 
+		return shim.Error("Incorrect number of arguments. Expecting 2")
+	}
+
+	id := args[0]
+	err := u.stub.DelState(id)
+	if err != nil {
+		return shim.Error(id + " is not registered.")
+	}
+
+	return shim.Success(nil)
 }
 
 func main() {
