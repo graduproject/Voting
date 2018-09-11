@@ -191,10 +191,8 @@ func (v *VotingChaincode) vote() pb.Response {
 	return shim.Success(nil)
 }
 
-
-// TODO: 데이터 처리 부분 구현
 // 존재하는 모든 투표 불러오기 (관리자페이지)
-func (v *VotingChaincode) queryAllVote(num string) pb.Response { // num은 마지막 번호
+func (v *VotingChaincode) queryAllVote() pb.Response { // num은 마지막 번호
 	args := v.args // 마지막 번호
 
 	if len(args) != 1 {
@@ -204,7 +202,7 @@ func (v *VotingChaincode) queryAllVote(num string) pb.Response { // num은 마�
 	var votingSlice []Voting
 	var votingName  []string
 	voting := Voting{}
-	endKey, _ := strconv.Atoi(num)
+	endKey, _ := strconv.Atoi(args[0])
 
 	for i := 1; i <= endKey; i++ {
 		votingAsBytes, _ := v.stub.GetState(strconv.Itoa(i))
@@ -221,13 +219,20 @@ func (v *VotingChaincode) queryAllVote(num string) pb.Response { // num은 마�
 	
 	return shim.Success(votingNameAsBytes)
 }
-// TODO: 데이터 처리 부분 구현
+
 // 완료된 투표 불러오기 (유저페이지)
-func (v *VotingChaincode) queryCompleteVote(num string) pb.Response {
+func (v *VotingChaincode) queryCompleteVote() pb.Response {
+	
+	args := v.args // 마지막 번호
+
+	if len(args) != 1 {
+		return shim.Error("Incorrect number of arguments. Expecting 1")
+	}
+
 	var votingSlice []Voting
 	var votingName  []string
 	voting := Voting{}
-	endKey, _ := strconv.Atoi(num)
+	endKey, _ := strconv.Atoi(args[0])
 
 	for i := 1; i <= endKey; i++ {
 		votingAsBytes, _ := v.stub.GetState(strconv.Itoa(i))
@@ -285,7 +290,6 @@ func (v *VotingChaincode) deleteCandidate() pb.Response {
 	return shim.Success(nil)
 }
 
-// TODO: 데이터 처리 부분 구현
 // 완료되지 않은 투표 목록 불러오기 (사용자 페이지)
 func (v *VotingChaincode) queryNotCompleteVote() pb.Response {
 	args := v.args // 마지막 투표 번호
@@ -314,7 +318,6 @@ func (v *VotingChaincode) queryNotCompleteVote() pb.Response {
 	return shim.Success(votingNameAsBytes)
 }
 
-// TODO: 데이터 처리 부분 구현
 // 후보와 표 불러오기 (사용자 페이지, 관리자 페이지)
 func (v *VotingChaincode) queryCandidateWithPoll() pb.Response {
 	args := v.args // 투표 번호
@@ -336,7 +339,6 @@ func (v *VotingChaincode) queryCandidateWithPoll() pb.Response {
 	return shim.Success(votingCandidateAsBytes)
 }
 
-// TODO: 데이터 처리 부분 구현
 // 후보 불러오기 (사용자 페이지)
 func (v *VotingChaincode) queryCandidate() pb.Response {
 	args := v.args // 투표 번호
