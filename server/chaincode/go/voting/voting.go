@@ -327,7 +327,6 @@ func (v *VotingChaincode) queryCandidateWithPoll() pb.Response {
 
 	var votingCandidate map[string]int
 	voting := Voting{}
-	endKey, _ := strconv.Atoi(args[0])
 
 	votingAsBytes, _ := v.stub.GetState(args[0])
 	json.Unmarshal(votingAsBytes, &voting)
@@ -348,7 +347,7 @@ func (v *VotingChaincode) queryCandidate() pb.Response {
 
 	var votingCandidateName []string
 	voting := Voting{}
-	endKey, _ := strconv.Atoi(args[0])
+
 
 	votingAsBytes, _ := v.stub.GetState(args[0])
 	json.Unmarshal(votingAsBytes, &voting)
