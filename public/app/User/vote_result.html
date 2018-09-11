@@ -1,0 +1,24 @@
+<!DOCTYPE>
+
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Voting Web</title
+	</head>
+	<body>
+	<h2>투표결과</h2>
+		<canvas id="draw" height="100" width="300"/>
+		<script type="text/javascript">
+			var canvas = document.getElementById('draw');
+			var ctx = canvas.getContext('2d');
+			ctx.fillStyle = '#FF000';
+			ctx.fillRect(10,80,20,100);
+			var ctx2 = canvas.getContext('2d');
+			ctx2.fillStyle='#FF0000';
+			ctx2.fillRect(40,50,20,100);
+			var ctx3 = canvas.getContext('2d');
+			ctx3.fillStyle='#FF00FF';
+			ctx3.fillRect(70,20,20,100);
+		</script>
+	</body>
+</html>
