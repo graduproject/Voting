@@ -167,5 +167,8 @@ func (u *UserChaincode) deleteUser() pb.Response { // 유저 데이터 삭제(�
 }
 
 func main() {
-
+	err := shim.Start(new(UserChaincode))
+	if err != nil {
+		fmt.Printf("Error starting User chaincode: %s", err)
+	}
 }

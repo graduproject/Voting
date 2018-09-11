@@ -386,3 +386,10 @@ func changeToUnixTime(str string) int64 { // string으로 받은 시간을 Unix 
 	tUTC := t.Unix() - 32400  // 받은 시간은 KST, Unix() 시간은 UTC기준이므로 비교를 위해 UTC시간으로 변경
 	return tUTC
 } // createVote에서 startTime과 endTime을 유닉스 시간으로 바꾸어 줄 때 사용
+
+func main() {
+	err := shim.Start(new(VotingChaincode))
+	if err != nil {
+		fmt.Printf("Error starting Voting chaincode: %s", err)
+	}
+}
