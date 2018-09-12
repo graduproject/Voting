@@ -1,0 +1,55 @@
+.content img{
+	width:150px;
+	height:150px;
+}
+
+fieldset{
+	width:200px;
+	height:160px;
+	background-color:rgba(15, 67, 131, .9);
+}
+
+table{
+	border-collapse:collapse;
+	margin:10px;
+	padding:0px;
+}
+
+.login_input{
+	height:20px;
+}
+
+body {
+	background-image:url('../img/login_background.jpg');
+	background-size:cover;
+}
+
+#login_button{
+	width:80px;
+	height:60px;
+	margin:0px;
+	border:0px;
+	border-radius:0px;
+	box-shadow:none;
+	background-color:#2464b2;
+	color:white;
+}
+
+#login_find{
+	color:white;
+	font-size:11px;
+	text-decoration:none;
+}
+
+#login_label{
+	font-family:"고딕";
+	color:white;
+}
+
+#login_find:hover{
+	text-decoration:underline;
+}
+
+#logo_img{
+	margin-top:200px;
+}
