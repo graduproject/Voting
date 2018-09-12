@@ -64,6 +64,29 @@ app.get('/enroll_vote', function (req, res) {
     });
 });
 
+
+adminPartyApp.post('?????', function(req, res) {
+    logger.info('JOIN CHANNEL');
+    var chaincodeName = req.params.channelName;
+    var peersId = req.body.peers || [];
+    var peers   = peersId.map(getPeerHostByCompositeID);
+    logger.debug('channelName : ' + chaincodeName);
+    logger.debug('peers : ' + peers);
+
+    if (!chaincodeName) {
+        res.error(getErrorMessage('\'channelName\''));
+        return;
+    }
+    if (!peers || peers.length === 0) {
+        res.error(getErrorMessage('\'peers\''));
+        return;
+    }
+
+    res.promise(
+        joinChannel.joinChannel(peers, chaincodeName, USERNAME, ORG)
+    );
+});
+
 app.listen(3000, function () {
     console.log(__dirname);
 });
