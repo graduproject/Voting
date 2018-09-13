@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"strconv"
 	"encoding/json"
-	"time"
 	"strings"
+	"time"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	pb "github.com/hyperledger/fabric/protos/peer"
 )
