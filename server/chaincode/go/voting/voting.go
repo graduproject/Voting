@@ -92,7 +92,7 @@ func (v *VotingChaincode) createVoting() pb.Response {
 	startTime := changeToUnixTime(args[2])
 	endTime := changeToUnixTime(args[3])
 
-	voting := Voting{VotingName: args[1], StartTime: startTime, EndTime: endTime, CurrentState: 0}
+	voting := Voting{VotingName: args[1], Candidate: make(map[string]int), StartTime: startTime, EndTime: endTime, CurrentState: 0}
 	votingAsBytes, _ := json.Marshal(voting)
 	v.stub.PutState(args[0], votingAsBytes)
 
@@ -144,13 +144,16 @@ func (v *VotingChaincode) registerCandidate() pb.Response {
 		return shim.Error("Incorrect number of arguments. Expecting 2")
 	}
 
+	var votingSlice []Voting
 	votingAsBytes, _ := v.stub.GetState(args[0])
 	voting := Voting{}
 
 	json.Unmarshal(votingAsBytes, &voting)
-	voting.Candidate[args[1]] = 0
+	votingSlice = append(votingSlice, voting)
+	votingSlice[0].Candidate[args[1]] = 0
 
-	votingAsBytes, _ = json.Marshal(voting)
+
+	votingAsBytes, _ = json.Marshal(votingSlice[0])
 	v.stub.PutState(args[0], votingAsBytes)
 
 	return shim.Success(nil)
@@ -210,7 +213,6 @@ func (v *VotingChaincode) queryAllVote() pb.Response { // num은 마지막 번�
 		votingSlice = append(votingSlice, voting)
 	}
 
-	var temp []string
 	for i := 0; i < len(votingSlice); i++ {
 		votingName = append(votingName, votingSlice[i].VotingName)
 	}
@@ -384,7 +386,7 @@ func (v *Voting) checkID(id string) bool { // 투표를 이미 한 ID인지 체�
 func changeToUnixTime(str string) int64 { // string으로 받은 시간을 Unix 시간으로 바꿔준다
 	layout := "01/02/2006 3:04:05 PM"
 	t, _ := time.Parse(layout, str)
-	tUTC := t.Unix() - 32400  // 받은 시간은 KST, Unix() 시간은 UTC기준이므로 비교를 위해 UTC시간으로 변경
+	tUTC := t.Unix()
 	return tUTC
 } // createVote에서 startTime과 endTime을 유닉스 시간으로 바꾸어 줄 때 사용
 
