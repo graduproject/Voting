@@ -3,22 +3,51 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Voting Web</title
-	</head>
-	<body>
-	<h2>투표결과</h2>
-		<canvas id="draw" height="100" width="300"/>
+		<title>Voting Web</title>
+		<link rel="stylesheet" type="text/css" href="../css/vote_result.css" >
+		<link rel="stylesheet" type="text/css" href="../css/visualize.css">
+		<link rel="stylesheet" type="text/css" href="../css/visualize-light.css">
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.0.js"></script>
+		<script type="text/javascript" src="../js/visualize.jQuery.js"></script>
 		<script type="text/javascript">
-			var canvas = document.getElementById('draw');
-			var ctx = canvas.getContext('2d');
-			ctx.fillStyle = '#FF000';
-			ctx.fillRect(10,80,20,100);
-			var ctx2 = canvas.getContext('2d');
-			ctx2.fillStyle='#FF0000';
-			ctx2.fillRect(40,50,20,100);
-			var ctx3 = canvas.getContext('2d');
-			ctx3.fillStyle='#FF00FF';
-			ctx3.fillRect(70,20,20,100);
+			$(function () {
+				$('#data').visualize({type : 'bar'});
+
+				});
 		</script>
+		
+	</head>
+	
+	<body>
+		<div class="bar_box">
+			<p><a href="" ><img src="../img/vote.png" alt="투표 이미지" id="logo_img"></a></p>
+			<ul id="main_menu">
+				<li><a href="" id="mypage"> 내 정보 수정</a></li>
+				<li><a href="" id="voted_list"> 완료된 투표 목록 </a>
+				<li><a href="" id="logout"> 로그아웃</a></li>
+
+			</ul>
+		</div>
+	<center>
+	<h2 id="result-rabel">부산대 총회 투표 결과</h2>
+	<table id="data" border="1" >		
+		<thead>
+			<tr>
+				<th>1번 후보</th>
+				<th>2번 후보</th>
+				<th>3번 후보</th>
+				<th>4번 후보</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>15</td>
+				<td>22</td>
+				<td>7</td>
+				<td>41</td>
+			</tr>
+		</tbody>
+	</table>
+	</center>
 	</body>
 </html>

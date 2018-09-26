@@ -4,13 +4,48 @@
 <html>
 	<head>
 		<title>Voting Web</title>
+		<link href="../css/mypage.css" rel="stylesheet" type="text/css">
 	</head>
 	
 	<body>
-		<p>비밀번호<input type="password"></p>
-		<p>비밀번호 재입력<input type="password"></p>
-		<p>E-mail<input type="text"></p>
-		<p><button type="button">수정</button></p>
-		<p><button type="button">회원 탈퇴</button></p>
+		<div class="bar_box">
+			<p><a href="" ><img src="../img/vote.png" alt="투표 이미지" id="logo_img"></a></p>
+			<ul id="main_menu">
+				<li><a href="#" id="mypage"> 내 정보 수정</a></li>
+				<li><a href="#" id="voted_list"> 완료된 투표 목록 </a>
+				<li><a href="#" id="logout"> 로그아웃</a></li>
+
+			</ul>
+		</div>
+		<center>
+		<div class="region_main">
+			<div class="find-wrap">
+			</div>
+				<h2 id="table_name">회원 정보 수정</h2>
+				<div class="content-wrap">
+				<table class="mypage-table">
+					<tr>
+						<td>비밀번호</td>
+						<td><input type="password" name="" value="" placeholder="비밀번호 입력" maxlength="16"></td>
+					</tr>
+					<tr>
+						<td>비밀번호 확인</td>
+						<td><input type="password" name="" value="" placeholder="비밀번호 재입력" maxlength="16"></td>
+					</tr>
+					<tr>
+						<td>E-mail</td>
+						<td><input type="text" name="" value=""></td>
+						<td>@ <input type="text" name="" value=""></td>
+					</tr>
+					<tr>
+						<td>휴대폰 번호</td>
+						<td><input type="text" name="" value=""><br></td>
+					</tr>
+				</table>
+				<a href=""><button type="button" id="modify">수정</button></a>
+				<a href=""><button type="button" id="withdraw">회원 탈퇴</button></a>
+				</div>
+		</div>
+		</center>
 	</body>
 </html>
