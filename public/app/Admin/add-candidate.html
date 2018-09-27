@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<meta charset="utf-8">
+
+<html>
+	<head>
+		<title>Voting Web</title>
+		<link href="../css/add-candidate.css" rel="stylesheet" type="text/css">
+		
+		<script language="javascript">
+			function addRow(tableID){
+				var table=document.getElementById(tableID);
+				var rowLen=table.rows.length;
+				var row=table.insertRow();
+				if(rowLen>6){
+					alert("후보는 6개까지 추가가능합니다.")
+					return 0;
+				}
+				row.insertCell(0).innerHTML=rowLen;
+				row.insertCell(1).innerHTML="<input tpye=text name=candidate-name>";
+			}
+			
+			function delRow(tableID){
+				var table=document.getElementById(tableID);
+				var rowLen=table.rows.length-1;
+				if(rowLen>0){
+					table.deleteRow(rowLen);
+				}
+			}
+		</script>
+	</head>
+	
+	<body>
+		<div class="bar_box">
+			<p><a href="" ><img src="../img/vote.png" alt="투표 이미지" id="logo_img"></a></p>
+			<ul id="main_menu">
+				<li><a href="" id="mypage"> 내 정보 수정</a></li>
+				<li><a href="" id="voted_list"> 완료된 투표 목록 </a>
+				<li><a href="" id="logout"> 로그아웃</a></li>
+
+			</ul>
+		</div>
+		
+		<div class="region_main">
+			<center>
+				<h2 id="table_name">후보 생성</h2>
+				<div class="content-wrap">
+					<table id="candidate-table"  border="1" align="center">
+						<thead>
+							<tr>
+								<th align="center">번호</th>
+								<th align="center">이름</th>
+							</tr>
+						</thead>						
+					</table>
+					<button type="button" class="candidate-button" onClick='addRow("candidate-table")'>후보 추가</button>
+					<button type="button" class="candidate-button" onClick='delRow("candidate-table")'>후보 삭제</button><br/>
+					<P><button type="submit" id="submit-button">완료</button></P>							
+				</div>
+			</center>
+		</div>
+	</body>
+</html>

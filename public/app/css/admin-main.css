@@ -1,3 +1,17 @@
+
+.main-button{
+	float:center;
+	width:150px;
+	height:60px;
+	margin:20px;
+	color:white;
+	background-color:rgba(15, 67, 131, .9);
+	font-size:20px;
+	font-family:"고딕";
+	margin:150px 20px;
+}
+
+
 .bar_box{
 	height:50px;
 	background-color:rgba(15, 67, 131, .9);
@@ -51,24 +65,11 @@
 	text-decoration:none;
 }
 
-
-
-table{
-	text-align:center;
-	margin:30px;
-	width:1100px;
-	clear:left;
-}
-
 #logo_img{
 	position:absolute;
 	width:50px;
 	height:50x;
 	left:30px;
-}
-
-#table_name{
-	magin:80px;
 }
 
 a{
