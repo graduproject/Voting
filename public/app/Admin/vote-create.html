@@ -9,12 +9,10 @@
 	
 	<body>
 		<div class="bar_box">
-			<p><a href="" ><img src="../img/vote.png" alt="투표 이미지" id="logo_img"></a></p>
+			<p><a href="./admin-main.html" ><img src="../img/vote.png" alt="투표 이미지" id="logo_img"></a></p>
 			<ul id="main_menu">
-				<li><a href="" id="mypage"> 내 정보 수정</a></li>
-				<li><a href="" id="voted_list"> 완료된 투표 목록 </a>
-				<li><a href="" id="logout"> 로그아웃</a></li>
-
+				<li><a href="./admin-mypage.html" id="mypage"> 내 정보 수정</a></li>
+				<li><a href="./admin-login.html" id="logout"> 로그아웃</a></li>
 			</ul>
 		</div>
 		
@@ -22,11 +20,14 @@
 			<center>
 				<h2 id="table_name">투표 생성</h2>
 				<div class="content-wrap">
+					<form action="./add-candidate.html">
 					<P class="label">제목</P>
 					<P><input type="text" class="form-control" id="title" placeholder="제목 입력(4-100)"
 						maxlength="100" required="required" pattern=".{4,100}"></P>
+					<!-- 삭제내용
 					<P class="label">내용</P>
 					<P><textarea class="form-control" rows="5" id="content" placeholder="내용 작성"></textarea></P>
+					-->
 					<P class="label">기간</P>
 					<p><select class="" name="year">
 						<option value="">2018</optin>
@@ -139,7 +140,8 @@
 						<option value="">30</option>
 						<option value="">31</option>
 					</select>일</p>
-					<P><button type="button" id="button">다음</button></P>			
+					<P><button type="submit" id="button">다음</button></P>
+					</form>
 				</div>
 			</center>
 		</div>

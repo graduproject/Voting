@@ -16,7 +16,7 @@
 					return 0;
 				}
 				row.insertCell(0).innerHTML=rowLen;
-				row.insertCell(1).innerHTML="<input tpye=text name=candidate-name>";
+				row.insertCell(1).innerHTML="<input type=text name=candidate-name>";
 			}
 			
 			function delRow(tableID){
@@ -26,17 +26,27 @@
 					table.deleteRow(rowLen);
 				}
 			}
+			
+			function completeButton(tableID){
+				var table=document.getElementById(tableID);
+				var rowLen=table.rows.length;
+				
+				if(rowLen>2){
+					location.href="./admin-main.html";
+				}
+				else{
+					alert("후보자는 2명이상 입력되야합니다.");
+				}
+			}
 		</script>
 	</head>
 	
 	<body>
 		<div class="bar_box">
-			<p><a href="" ><img src="../img/vote.png" alt="투표 이미지" id="logo_img"></a></p>
+			<p><a href="./admin-main.html" ><img src="../img/vote.png" alt="투표 이미지" id="logo_img"></a></p>
 			<ul id="main_menu">
-				<li><a href="" id="mypage"> 내 정보 수정</a></li>
-				<li><a href="" id="voted_list"> 완료된 투표 목록 </a>
-				<li><a href="" id="logout"> 로그아웃</a></li>
-
+				<li><a href="./admin-mypage.html" id="mypage"> 내 정보 수정</a></li>
+				<li><a href="./admin-login.html" id="logout"> 로그아웃</a></li>
 			</ul>
 		</div>
 		
@@ -54,7 +64,8 @@
 					</table>
 					<button type="button" class="candidate-button" onClick='addRow("candidate-table")'>후보 추가</button>
 					<button type="button" class="candidate-button" onClick='delRow("candidate-table")'>후보 삭제</button><br/>
-					<P><button type="submit" id="submit-button">완료</button></P>							
+					<P><button type="submit" id="submit-button" onclick='completeButton("candidate-table")'>완료</button></P>		
+					<!-- 2명이상의 후보를 추가해야만 넘어가게 설정하기-->
 				</div>
 			</center>
 		</div>
