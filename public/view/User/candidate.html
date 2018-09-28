@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<meta charset='utf-8'>
+
+<html>
+	<head>
+		<title>Voting Web</title>
+		<link href="../css/candidate.css" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<div class="bar_box">
+			<p><a href="" ><img src="../img/vote.png" alt="투표 이미지" id="logo_img"></a></p>
+			<ul id="main_menu">
+				<li><a href="#" id="mypage"> 내 정보 수정</a></li>
+				<li><a href="#" id="voted_list"> 완료된 투표 목록 </a>
+				<li><a href="#" id="logout"> 로그아웃</a></li>
+
+			</ul>
+		</div>
+		<center>
+		<div class="region_main">
+			<div class="find-wrap">
+			</div>
+				<div class="content-wrap">
+				
+				<fieldset>					
+					<h2> 후보 목록 </h2>
+					<!-- 아래 후보목록을 DB에서 받아서 유동적으로 생성 -->
+					<form id="candidate-form">
+						<input type="radio" name="candidate" value="">1번 후보
+						<input type="radio" name="candidate" value="">2번 후보
+						<input type="radio" name="candidate" value="">3번 후보
+						<input type="radio" name="candidate" value="">4번 후보
+					</form>					
+				</fieldset>
+				<p><a href=""><button type="button" name="vote-button"> 투표 </button></a></p>
+				
+				</div>
+		</div>
+		</center>
+	</body>
+</html>
