@@ -1,28 +1,8 @@
-var docking = "docker exec cli ";
-var invoke = "peer chaincode invoke -o orderer.example.com:7050 --tls true --cafile ";
-var pemPath = "/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem ";
-var etc = "-C mychannel -n mycc -c ";
-
-function parse(parameter){
-	var args = Array.from(arguments[0]);
-	var temp = "[";
-
-	for(var i = 0; i < args.length; i++){
-		temp += '\"' + args[i] + '\"';
-		if(i != args.length - 1){
-			temp += ',';
-		}
-	}
-	temp += "]";
-	temp = "\'{\"Args\":" + temp + "}\' ";
-	temp = docking + invoke + pemPath + etc + temp;
-
-	return temp;
-}
+var parser = require('../utils/parser.js');
 
 exports.createVoting = function(vnum, vname, vst_time, ved_time){
 	var args = Array.from(arguments);
-	var syscmd = parse(args);
+	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	
 	return syscmd;
@@ -30,7 +10,7 @@ exports.createVoting = function(vnum, vname, vst_time, ved_time){
 
 exports.changeState = function(last_vnum){
 	var args = Array.from(arguments);
-	var syscmd = parse(args);
+	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	
 	return syscmd;
@@ -38,7 +18,7 @@ exports.changeState = function(last_vnum){
 
 exports.registerCandidate = function(vnum,candidNum){
 	var args = Array.from(arguments);
-	var syscmd = parse(args);
+	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	
 	return syscmd;
@@ -46,7 +26,7 @@ exports.registerCandidate = function(vnum,candidNum){
 
 exports.vote = function(vnum, candidName, userID){
 	var args = Array.from(arguments);
-	var syscmd = parse(args);
+	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	
 	return syscmd;
@@ -54,7 +34,7 @@ exports.vote = function(vnum, candidName, userID){
 
 exports.queryAllVote = function(last_vnum){
 	var args = Array.from(arguments);
-	var syscmd = parse(args);
+	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	
 	return syscmd;
@@ -62,7 +42,7 @@ exports.queryAllVote = function(last_vnum){
 
 exports.queryCompleteVote = function(last_vnum){
 	var args = Array.from(arguments);
-	var syscmd = parse(args);
+	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	
 	return syscmd;
@@ -70,7 +50,7 @@ exports.queryCompleteVote = function(last_vnum){
 
 exports.earlyComplete = function(vnum){
 	var args = Array.from(arguments);
-	var syscmd = parse(args);
+	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	
 	return syscmd;
@@ -78,7 +58,7 @@ exports.earlyComplete = function(vnum){
 
 exports.deleteCandidate = function(vnum, candidName){
 	var args = Array.from(arguments);
-	var syscmd = parse(args);
+	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	
 	return syscmd;
@@ -86,7 +66,7 @@ exports.deleteCandidate = function(vnum, candidName){
 
 exports.queryNotCompleteVote = function(last_vnum){
 	var args = Array.from(arguments);
-	var syscmd = parse(args);
+	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	
 	return syscmd;
@@ -94,7 +74,7 @@ exports.queryNotCompleteVote = function(last_vnum){
 
 exports.queryCandidateWithPoll = function(last_vnum){
 	var args = Array.from(arguments);
-	var syscmd = parse(args);
+	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	
 	return syscmd;
@@ -102,8 +82,6 @@ exports.queryCandidateWithPoll = function(last_vnum){
 
 exports.queryCandidate = function(vnum){
 	var args = Array.from(arguments);
-	var syscmd = parse(args);
+	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
-	
-	return syscmd;
 }
