@@ -25,6 +25,31 @@ app.get('/findID', function(req, res){
     res.sendFile(path.join(__dirname, '../view/user/findID.html'));
 });
 
+app.get('/findpage', function(req, res){
+    res.sendFile(path.join(__dirname, '../view/user/findpage.html'));
+});
+
+app.get('/findPW', function(req, res){
+    res.sendFile(path.join(__dirname, '../view/user/findPW.html'));
+});
+
+app.get('/login', function(req, res){
+    res.sendFile(path.join(__dirname, '../view/user/login.html'));
+});
+
+app.get('/mypage', function(req, res){
+    res.sendFile(path.join(__dirname, '../view/user/mypage.html'));
+});
+
+app.get('/register', function(req, res){
+    res.sendFile(path.join(__dirname, '../view/user/register.html'));
+});
+
+app.get('/vote_result', function(req, res){
+    res.sendFile(path.join(__dirname, '../view/user/vote_result.html'));
+});
+
+
 app.listen(3000, function() {
     console.log("Go!");
 });
