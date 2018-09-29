@@ -7,7 +7,7 @@ var app = express();
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs'); 
 app.engine('html', require('ejs').renderFile);
-app.use('../css', express.static(path.join(__dirname,'main', 'bootstrap', 'dist', 'css')));
+app.use(express.static(path.join(__dirname, '../../public')));
 
 app.get('/', function(req, res){
     res.sendFile(path.join(__dirname, '../view/user/main.html'));
