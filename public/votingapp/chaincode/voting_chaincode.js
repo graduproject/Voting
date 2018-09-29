@@ -1,4 +1,8 @@
+var sys = require('sys');
+var exec = require('child_process').exec;
 var parser = require('../utils/parser.js');
+
+var child;
 
 exports.createVoting = function(vnum, vname, vst_time, ved_time){
 	var args = Array.from(arguments);
@@ -33,11 +37,16 @@ exports.vote = function(vnum, candidName, userID){
 }
 
 exports.queryAllVote = function(last_vnum){
+	var result = [];
 	var args = Array.from(arguments);
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	
-	return syscmd;
+	child = exec(syscmd, function(error, stdout, stderr){
+		var temp = stderr;
+		result = parser.read_parse(temp);
+	});
+	return result;
 }
 
 exports.queryCompleteVote = function(last_vnum){
@@ -46,7 +55,7 @@ exports.queryCompleteVote = function(last_vnum){
 	syscmd.toString();	
 	
 	return syscmd;
-}
+
 
 exports.earlyComplete = function(vnum){
 	var args = Array.from(arguments);
@@ -84,4 +93,8 @@ exports.queryCandidate = function(vnum){
 	var args = Array.from(arguments);
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
+	
+	return syscmd;
 }
+
+

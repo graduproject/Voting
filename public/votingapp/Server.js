@@ -1,12 +1,13 @@
-var express = require('express'),
-    bodyParser = require('body-parser'),
-    path = require('path');
-
+var express = require('express');
+var bodyParser = require('body-parser');
+var path = require('path');
 var app = express();
+var cmd = require('./chaincode/voting_chaincode');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs'); 
-app.engine('html', require('ejs').renderFile);
+app.set('views','../view');
+
 app.use(express.static(path.join(__dirname, '../../public')));
 
 app.get('/', function(req, res){
@@ -34,7 +35,9 @@ app.get('/findPW', function(req, res){
 });
 
 app.get('/home', function(req, res){
-    res.sendFile(path.join(__dirname, '../view/user/main.html'));
+    var ans = cmd.queryAllVote("queryAllVote","4");
+    console.log(ans);
+	res.render('User/main',{vote: ans});
 });
 
 app.get('/mypage', function(req, res){
