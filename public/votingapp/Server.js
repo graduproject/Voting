@@ -10,7 +10,7 @@ app.engine('html', require('ejs').renderFile);
 app.use(express.static(path.join(__dirname, '../../public')));
 
 app.get('/', function(req, res){
-    res.sendFile(path.join(__dirname, '../view/user/main.html'));
+    res.sendFile(path.join(__dirname, '../view/user/login.html'));
 });
 
 app.get('/candidate', function(req, res){
@@ -33,8 +33,8 @@ app.get('/findPW', function(req, res){
     res.sendFile(path.join(__dirname, '../view/user/findPW.html'));
 });
 
-app.get('/login', function(req, res){
-    res.sendFile(path.join(__dirname, '../view/user/login.html'));
+app.get('/home', function(req, res){
+    res.sendFile(path.join(__dirname, '../view/user/main.html'));
 });
 
 app.get('/mypage', function(req, res){
