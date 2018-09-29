@@ -37,7 +37,7 @@ exports.vote = function(vnum, candidName, userID){
 }
 
 exports.queryAllVote = function(last_vnum){
-	var result;
+	var result = [];
 	var args = Array.from(arguments);
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
@@ -55,7 +55,7 @@ exports.queryCompleteVote = function(last_vnum){
 	syscmd.toString();	
 	
 	return syscmd;
-}
+
 
 exports.earlyComplete = function(vnum){
 	var args = Array.from(arguments);
@@ -93,4 +93,8 @@ exports.queryCandidate = function(vnum){
 	var args = Array.from(arguments);
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
+	
+	return syscmd;
 }
+
+

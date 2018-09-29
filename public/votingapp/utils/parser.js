@@ -24,7 +24,6 @@ exports.cmd_parse = function(parameter){
 	temp += "]";
 	temp = "\'{\"Args\":" + temp + "}\' ";
 	temp = docking + invoke + pemPath + etc + temp;
-
 	return temp;
 }
 
@@ -41,5 +40,6 @@ exports.read_parse = function(parameter){
 		str_temp[i] = str_temp[i].replace(regex, "");
 	}
 	str_temp = str_temp.filter(isRest);
+	str_temp = str_temp.filter(isBlank);
 	return str_temp;
 }

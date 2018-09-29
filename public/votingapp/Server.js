@@ -36,8 +36,8 @@ app.get('/findPW', function(req, res){
 
 app.get('/home', function(req, res){
     var ans = cmd.queryAllVote("queryAllVote","4");
-    console.log(ans + '--------------');
-    res.render('User/main',{vote: ans});
+    console.log(ans);
+	res.render('User/main',{vote: ans});
 });
 
 app.get('/mypage', function(req, res){
