@@ -49,6 +49,33 @@ app.get('/vote_result', function(req, res){
     res.sendFile(path.join(__dirname, '../view/user/vote_result.html'));
 });
 
+app.get('/admin-login', function(req, res){
+    res.sendFile(path.join(__dirname, '../view/user/admin-login.html'));
+});
+
+app.get('/admin-main', function(req, res){
+    res.sendFile(path.join(__dirname, '../view/user/admin-main.html'));
+});
+
+app.get('/admin-mypage', function(req, res){
+    res.sendFile(path.join(__dirname, '../view/user/admin-mypage.html'));
+});
+
+app.get('/admin-vote_result', function(req, res){
+    res.sendFile(path.join(__dirname, '../view/user/admin-vote_result.html'));
+});
+
+app.get('/add-candidate', function(req, res){
+    res.sendFile(path.join(__dirname, '../view/user/add-candidate.html'));
+});
+
+app.get('/vote-create', function(req, res){
+    res.sendFile(path.join(__dirname, '../view/user/vote-create.html'));
+});
+
+app.get('/vote-manage', function(req, res){
+    res.sendFile(path.join(__dirname, '../view/user/vote-manage.html'));
+});
 
 app.listen(3000, function() {
     console.log("Go!");
