@@ -14,6 +14,12 @@ app.get('/', function(req, res){
     res.sendFile(path.join(__dirname, '../view/user/login.html'));
 });
 
+app.get('/home', function(req, res){
+    var ans = cmd.queryAllVote("4");
+    console.log(ans);
+	res.render('User/main',{vote: ans});
+});
+
 app.get('/candidate', function(req, res){
     res.sendFile(path.join(__dirname, '../view/user/candidate.html'));
 });
@@ -34,12 +40,6 @@ app.get('/findPW', function(req, res){
     res.sendFile(path.join(__dirname, '../view/user/findPW.html'));
 });
 
-app.get('/home', function(req, res){
-    var ans = cmd.queryAllVote("queryAllVote","4");
-    console.log(ans);
-	res.render('User/main',{vote: ans});
-});
-
 app.get('/mypage', function(req, res){
     res.sendFile(path.join(__dirname, '../view/user/mypage.html'));
 });
@@ -53,31 +53,31 @@ app.get('/vote_result', function(req, res){
 });
 
 app.get('/admin-login', function(req, res){
-    res.sendFile(path.join(__dirname, '../view/user/admin-login.html'));
+    res.sendFile(path.join(__dirname, '../view/Admin/admin-login.html'));
 });
 
 app.get('/admin-main', function(req, res){
-    res.sendFile(path.join(__dirname, '../view/user/admin-main.html'));
+    res.sendFile(path.join(__dirname, '../view/Admin/admin-main.html'));
 });
 
 app.get('/admin-mypage', function(req, res){
-    res.sendFile(path.join(__dirname, '../view/user/admin-mypage.html'));
+    res.sendFile(path.join(__dirname, '../view/Admin/admin-mypage.html'));
 });
 
 app.get('/admin-vote_result', function(req, res){
-    res.sendFile(path.join(__dirname, '../view/user/admin-vote_result.html'));
+    res.sendFile(path.join(__dirname, '../view/Admin/admin-vote_result.html'));
 });
 
 app.get('/add-candidate', function(req, res){
-    res.sendFile(path.join(__dirname, '../view/user/add-candidate.html'));
+    res.sendFile(path.join(__dirname, '../view/Admin/add-candidate.html'));
 });
 
 app.get('/vote-create', function(req, res){
-    res.sendFile(path.join(__dirname, '../view/user/vote-create.html'));
+    res.sendFile(path.join(__dirname, '../view/Admin/vote-create.html'));
 });
 
 app.get('/vote-manage', function(req, res){
-    res.sendFile(path.join(__dirname, '../view/user/vote-manage.html'));
+    res.sendFile(path.join(__dirname, '../view/Admin/vote-manage.html'));
 });
 
 app.listen(3000, function() {
