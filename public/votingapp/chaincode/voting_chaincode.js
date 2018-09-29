@@ -5,7 +5,8 @@ var parser = require('../utils/parser.js');
 var child;
 
 exports.createVoting = function(vnum, vname, vst_time, ved_time){
-	var args = Array.from(arguments);
+	var args = ['createVoting']
+	args = args.concat(Array.from(arguments));
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	
@@ -13,7 +14,8 @@ exports.createVoting = function(vnum, vname, vst_time, ved_time){
 }
 
 exports.changeState = function(last_vnum){
-	var args = Array.from(arguments);
+	var args = ['changeState']
+	args = args.concat(Array.from(arguments));
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	
@@ -21,7 +23,8 @@ exports.changeState = function(last_vnum){
 }
 
 exports.registerCandidate = function(vnum,candidNum){
-	var args = Array.from(arguments);
+	var args = ['registerCandidate']
+	args = args.concat(Array.from(arguments));
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	
@@ -29,7 +32,8 @@ exports.registerCandidate = function(vnum,candidNum){
 }
 
 exports.vote = function(vnum, candidName, userID){
-	var args = Array.from(arguments);
+	var args = ['vote']
+	args = args.concat(Array.from(arguments));
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	
@@ -38,7 +42,8 @@ exports.vote = function(vnum, candidName, userID){
 
 exports.queryAllVote = function(last_vnum){
 	var result = [];
-	var args = Array.from(arguments);
+	var args = ['queryAllVote']
+	args = args.concat(Array.from(arguments));
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	
@@ -46,19 +51,22 @@ exports.queryAllVote = function(last_vnum){
 		var temp = stderr;
 		result = parser.read_parse(temp);
 	});
+
 	return result;
 }
 
 exports.queryCompleteVote = function(last_vnum){
-	var args = Array.from(arguments);
+	var args = ['queryCompleteVote']
+	args = args.concat(Array.from(arguments));
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	
 	return syscmd;
-
+}
 
 exports.earlyComplete = function(vnum){
-	var args = Array.from(arguments);
+	var args = ['earlyComplete']
+	args = args.concat(Array.from(arguments));
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	
@@ -66,7 +74,8 @@ exports.earlyComplete = function(vnum){
 }
 
 exports.deleteCandidate = function(vnum, candidName){
-	var args = Array.from(arguments);
+	var args = ['deleteCandidate']
+	args = args.concat(Array.from(arguments));
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	
@@ -74,7 +83,8 @@ exports.deleteCandidate = function(vnum, candidName){
 }
 
 exports.queryNotCompleteVote = function(last_vnum){
-	var args = Array.from(arguments);
+	var args = ['queryNotCompleteVote']
+	args = args.concat(Array.from(arguments));
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	
@@ -82,7 +92,8 @@ exports.queryNotCompleteVote = function(last_vnum){
 }
 
 exports.queryCandidateWithPoll = function(last_vnum){
-	var args = Array.from(arguments);
+	var args = ['queryCandidateWithPoll']
+	args = args.concat(Array.from(arguments));
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	
@@ -90,7 +101,8 @@ exports.queryCandidateWithPoll = function(last_vnum){
 }
 
 exports.queryCandidate = function(vnum){
-	var args = Array.from(arguments);
+	var args = ['queryCandidate']
+	args = args.concat(Array.from(arguments));
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	
