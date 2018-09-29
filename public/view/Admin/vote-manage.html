@@ -5,17 +5,26 @@
 	<head>
 		<title>Voting Web</title>
 		<link href="../css/ended_vote.css" rel="stylesheet" type="text/css" />
+		<script language="javascript">
+			function confirmClose(){
+			if(confirm("정말 투표를 종료시키겠습니까?")){
+				alert("성공적으로 종료되었습니다.");
+				location.href="./vote-manage.html";
+			}
+			else{
+				alert("취소되었습니다.");
+				}
+			}
+		</script>
 	</head>
 	<body>
-	<div class="bar_box">
-			<p><a href="" ><img src="../img/vote.png" alt="투표 이미지" id="logo_img"></a></p>
+		<div class="bar_box">
+			<p><a href="./admin-main.html" ><img src="../img/vote.png" alt="투표 이미지" id="logo_img"></a></p>
 			<ul id="main_menu">
-				<li><a href="" id="mypage"> 내 정보 수정</a></li>
-				<li><a href="" id="voted_list"> 완료된 투표 목록 </a>
-				<li><a href="" id="logout"> 로그아웃</a></li>
-
+				<li><a href="./admin-mypage.html" id="mypage"> 내 정보 수정</a></li>
+				<li><a href="./admin-login.html" id="logout"> 로그아웃</a></li>
 			</ul>
-	</div>
+		</div>
 	<div class="region_main">
 			<div class="find-wrap">
 			</div>
@@ -38,22 +47,22 @@
 							<tr>
 								<td>1</td>
 								<td>
-									<a class="vote_name" href="">지방 선거</a>
+									<a class="vote_name" href="./admin-vote_result.html">지방 선거</a>
 								</td>								
 								<td>18.09.15</td>
 								<td>18.09.28</td>
 								<td>종료</td>
-								<td><a href=""><button type="button" class="closing-button">투표 종료</button></a></td>
+								<td><a href=""><button type="button" class="closing-button" onclick='confirmClose()'>투표 종료</button></a></td>
 							</tr>
 							<tr>
 								<td>2</td>
 								<td>
-									<a class="vote_name" href="">부산대 총회</a>
+									<a class="vote_name" href="./admin-vote_result.html">부산대 총회</a>
 								</td>
 								<td>18.09.15</td>
 								<td>18.09.28</td>
 								<td>종료</td>
-								<td><a href=""><button type="button" class="closing-button">투표 종료</button></a></td>
+								<td><a href=""><button type="button" class="closing-button" onclick='confirmClose()'>투표 종료</button></a></td>
 							</tr>
 						</tbody>
 					</table>
