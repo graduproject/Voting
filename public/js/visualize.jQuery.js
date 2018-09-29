@@ -1,13 +1,3 @@
-/**
- * --------------------------------------------------------------------
- * jQuery-Plugin "visualize"
- * by Scott Jehl, scott@filamentgroup.com
- * http://www.filamentgroup.com
- * Copyright (c) 2009 Filament Group 
- * Dual licensed under the MIT (filamentgroup.com/examples/mit-license.txt) and GPL (filamentgroup.com/examples/gpl-license.txt) licenses.
- * 	
- * --------------------------------------------------------------------
- */
 (function($) { 
 $.fn.visualize = function(options, container){
 	return $(this).each(function(){

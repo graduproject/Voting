@@ -9,7 +9,7 @@
 			function confirmResult(){
 			if(confirm("정말 탈퇴하시겠습니까?")){
 				alert("성공적으로 탈퇴되었습니다.");
-				location.href="./login.html";
+				location.href="./";
 			}
 			else{
 				alert("탈퇴가 취소되었습니다.");
@@ -20,11 +20,11 @@
 	
 	<body>
 		<div class="bar_box">
-			<p><a href="./main.html" ><img src="../img/vote.png" alt="투표 이미지" id="logo_img"></a></p>
+			<p><a href="/home" ><img src="../img/vote.png" alt="투표 이미지" id="logo_img"></a></p>
 			<ul id="main_menu">
-				<li><a href="./mypage.html" id="mypage"> 내 정보 수정</a></li>
-				<li><a href="./ended_vote.html" id="voted_list"> 완료된 투표 목록 </a>
-				<li><a href="./login.html" id="logout"> 로그아웃</a></li>
+				<li><a href="/mypage" id="mypage"> 내 정보 수정</a></li>
+				<li><a href="/ended_vote" id="voted_list"> 완료된 투표 목록 </a>
+				<li><a href="/" id="logout"> 로그아웃</a></li>
 			</ul>
 		</div>
 		<center>
@@ -52,7 +52,7 @@
 						<td><input type="text" name="" value=""><br></td>
 					</tr>
 				</table>
-				<a href="./main.html"><button type="submit" id="modify">수정</button></a>
+				<a href="/home"><button type="submit" id="modify">수정</button></a>
 				<button type="button" id="withdraw" onclick='confirmResult()'>회원 탈퇴</button>
 				
 				</div>

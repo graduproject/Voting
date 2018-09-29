@@ -8,11 +8,11 @@
 	</head>
 	<body>
 		<div class="bar_box">
-			<p><a href="./main.html" ><img src="../img/vote.png" alt="투표 이미지" id="logo_img"></a></p>
+			<p><a href="/home" ><img src="../img/vote.png" alt="투표 이미지" id="logo_img"></a></p>
 			<ul id="main_menu">
-				<li><a href="./mypage.html" id="mypage"> 내 정보 수정</a></li>
-				<li><a href="./ended_vote.html" id="voted_list"> 완료된 투표 목록 </a>
-				<li><a href="./login.html" id="logout"> 로그아웃</a></li>
+				<li><a href="/mypage" id="mypage"> 내 정보 수정</a></li>
+				<li><a href="/ended_vote" id="voted_list"> 완료된 투표 목록 </a>
+				<li><a href="/" id="logout"> 로그아웃</a></li>
 			</ul>
 		</div>
 		<center>
@@ -24,13 +24,14 @@
 				<fieldset>					
 					<h2> 후보 목록 </h2>
 					<!-- 아래 후보목록을 DB에서 받아서 유동적으로 생성 -->
-					<form id="candidate-form" action="./main.html">
+					<form id="candidate-form" action="/home">
 						<input type="radio" name="candidate" value="" required="required">1번 후보
 						<input type="radio" name="candidate" value="" required="required">2번 후보
 						<input type="radio" name="candidate" value="" required="required">3번 후보
 						<input type="radio" name="candidate" value="" required="required">4번 후보
-						<p><button type="submit" name="vote-button"> 투표 </button></p>
-					</form>					
+						<p><button type="submit" name="vote-button" id = "vote"> 투표 </button></p>
+					</form>
+					<script src = "../../votingapp/controller/client.js"></script>					
 				</fieldset>				
 			</div>
 		</div>
