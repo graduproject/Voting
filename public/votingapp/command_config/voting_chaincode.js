@@ -3,23 +3,6 @@ var invoke = "peer chaincode invoke -o orderer.example.com:7050 --tls true --caf
 var pemPath = "/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem ";
 var etc = "-C mychannel -n mycc -c ";
 
-function parse(parameter){
-	var args = Array.from(arguments[0]);
-	var temp = "[";
-
-	for(var i = 0; i < args.length; i++){
-		temp += '\"' + args[i] + '\"';
-		if(i != args.length - 1){
-			temp += ',';
-		}
-	}
-	temp += "]";
-	temp = "\'{\"Args\":" + temp + "}\' ";
-	temp = docking + invoke + pemPath + etc + temp;
-
-	return temp;
-}
-
 exports.createVoting = function(vnum, vname, vst_time, ved_time){
 	var args = Array.from(arguments);
 	var syscmd = parse(args);
