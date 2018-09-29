@@ -9,7 +9,7 @@
 			function confirmClose(){
 			if(confirm("정말 투표를 종료시키겠습니까?")){
 				alert("성공적으로 종료되었습니다.");
-				location.href="./vote-manage.html";
+				location.href="/vote-manage";
 			}
 			else{
 				alert("취소되었습니다.");
@@ -19,10 +19,10 @@
 	</head>
 	<body>
 		<div class="bar_box">
-			<p><a href="./admin-main.html" ><img src="../img/vote.png" alt="투표 이미지" id="logo_img"></a></p>
+			<p><a href="/admin-main" ><img src="../img/vote.png" alt="투표 이미지" id="logo_img"></a></p>
 			<ul id="main_menu">
-				<li><a href="./admin-mypage.html" id="mypage"> 내 정보 수정</a></li>
-				<li><a href="./admin-login.html" id="logout"> 로그아웃</a></li>
+				<li><a href="/admin-mypage" id="mypage"> 내 정보 수정</a></li>
+				<li><a href="/admin-login" id="logout"> 로그아웃</a></li>
 			</ul>
 		</div>
 	<div class="region_main">
@@ -47,7 +47,7 @@
 							<tr>
 								<td>1</td>
 								<td>
-									<a class="vote_name" href="./admin-vote_result.html">지방 선거</a>
+									<a class="vote_name" href="/admin-vote_result">지방 선거</a>
 								</td>								
 								<td>18.09.15</td>
 								<td>18.09.28</td>
@@ -57,7 +57,7 @@
 							<tr>
 								<td>2</td>
 								<td>
-									<a class="vote_name" href="./admin-vote_result.html">부산대 총회</a>
+									<a class="vote_name" href="/admin-vote_result">부산대 총회</a>
 								</td>
 								<td>18.09.15</td>
 								<td>18.09.28</td>
