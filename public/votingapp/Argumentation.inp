@@ -1,0 +1,4 @@
+2018-09-29 18:46:41.760 UTC [chaincodeCmd] checkChaincodeCmdParams -> INFO 001[0m Using default escc
+2018-09-29 18:46:41.761 UTC [chaincodeCmd] checkChaincodeCmdParams -> INFO 002[0m Using default vscc
+2018-09-29 18:46:41.779 UTC [chaincodeCmd] chaincodeInvokeOrQuery -> INFO 003[0m Chaincode invoke successful. result: status:200 payload:"[\"first-vote\",\"second-vote\",\"third-vote\",\"third-vote\"]" 
+2018-09-29 18:46:41.782 UTC [main] main -> INFO 004[0m Exiting.....

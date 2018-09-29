@@ -14,6 +14,13 @@ app.get('/', function(req, res){
     res.sendFile(path.join(__dirname, '../view/user/login.html'));
 });
 
+app.get('/home', function(req, res){
+    var ans = cmd.queryAllVote("4").slice();
+	console.log(ans);
+	res.render('User/main',{vote : ans});
+});
+
+
 app.get('/candidate', function(req, res){
     res.sendFile(path.join(__dirname, '../view/user/candidate.html'));
 });
@@ -32,12 +39,6 @@ app.get('/findpage', function(req, res){
 
 app.get('/findPW', function(req, res){
     res.sendFile(path.join(__dirname, '../view/user/findPW.html'));
-});
-
-app.get('/home', function(req, res){
-    var ans = cmd.queryAllVote("queryAllVote","4");
-    console.log(ans);
-	res.render('User/main',{vote: ans});
 });
 
 app.get('/mypage', function(req, res){
