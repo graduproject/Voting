@@ -41,5 +41,5 @@ exports.read_parse = function(parameter){
 		str_temp[i] = str_temp[i].replace(regex, "");
 	}
 	str_temp = str_temp.filter(isRest);
-	console.log(str_temp);
+	return str_temp;
 }
