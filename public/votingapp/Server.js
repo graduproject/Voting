@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var path = require('path');
 var app = express();
+var parser = require('./utils/parser');
 var cmd = require('./chaincode/voting_chaincode');
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -16,7 +17,10 @@ app.get('/', function(req, res){
 
 app.get('/home', function(req, res){
     var ans = cmd.queryAllVote("4").slice();
-	console.log(ans);
+	for(var i = 0; i < ans.length; i = i + 3){
+		ans[i + 1] = parser.POSIXtoDATE(ans[i + 1]);
+		ans[i + 2] = parser.POSIXtoDATE(ans[i + 2]);
+	}
 	res.render('User/main',{vote : ans});
 });
 

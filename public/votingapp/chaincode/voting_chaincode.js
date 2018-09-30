@@ -19,8 +19,6 @@ exports.changeState = function(last_vnum){
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	child = exec(syscmd, function(error, stdout, stderr){});
-	
-	return syscmd;
 }
 
 exports.registerCandidate = function(vnum,candidNum){
@@ -30,7 +28,7 @@ exports.registerCandidate = function(vnum,candidNum){
 	syscmd.toString();	
 	child = exec(syscmd, function(error, stdout, stderr){});
 	
-	return syscmd;
+	
 }
 
 exports.vote = function(vnum, candidName, userID){
@@ -40,7 +38,7 @@ exports.vote = function(vnum, candidName, userID){
 	syscmd.toString();	
 	child = exec(syscmd, function(error, stdout, stderr){});
 	
-	return syscmd;
+	
 }
 
 exports.queryAllVote = function(last_vnum){
@@ -53,9 +51,9 @@ exports.queryAllVote = function(last_vnum){
 	child = exec(syscmd, function(error, stdout, stderr){
 		console.log(syscmd);
 		console.log(stderr);
-		fs.writeFile('Argumentation.inp', stderr,'utf8');
+		fs.writeFile('./chaincode/Argumentation.inp', stderr,'utf8');
 	});
-	ststr = fs.readFileSync(path.join(__dirname, '/../Argumentation.inp'), 'utf8');
+	ststr = fs.readFileSync('Argumentation.inp', 'utf8');
 	return parser.read_parse(ststr);
 }
 
@@ -66,7 +64,7 @@ exports.queryCompleteVote = function(last_vnum){
 	syscmd.toString();	
 	child = exec(syscmd, function(error, stdout, stderr){});
 	
-	return syscmd;
+	
 }
 
 exports.earlyComplete = function(vnum){
@@ -76,7 +74,7 @@ exports.earlyComplete = function(vnum){
 	syscmd.toString();	
 	child = exec(syscmd, function(error, stdout, stderr){});
 	
-	return syscmd;
+	
 }
 
 exports.deleteCandidate = function(vnum, candidName){
@@ -86,7 +84,7 @@ exports.deleteCandidate = function(vnum, candidName){
 	syscmd.toString();	
 	child = exec(syscmd, function(error, stdout, stderr){});
 	
-	return syscmd;
+	
 }
 
 exports.queryNotCompleteVote = function(last_vnum){
@@ -96,7 +94,7 @@ exports.queryNotCompleteVote = function(last_vnum){
 	syscmd.toString();	
 	child = exec(syscmd, function(error, stdout, stderr){});
 	
-	return syscmd;
+	
 }
 
 exports.queryCandidateWithPoll = function(last_vnum){
@@ -106,7 +104,7 @@ exports.queryCandidateWithPoll = function(last_vnum){
 	syscmd.toString();	
 	child = exec(syscmd, function(error, stdout, stderr){});
 	
-	return syscmd;
+	
 }
 
 exports.queryCandidate = function(vnum){
@@ -116,7 +114,7 @@ exports.queryCandidate = function(vnum){
 	syscmd.toString();	
 	child = exec(syscmd, function(error, stdout, stderr){});
 	
-	return syscmd;
+	
 }
 
 
