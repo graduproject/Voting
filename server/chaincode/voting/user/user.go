@@ -57,7 +57,7 @@ func (u *UserChaincode) Init(stub shim.ChaincodeStubInterface) pb.Response {
 	key := "admin"
 	user := User{PW: "admin", IDNumber: "00000000000000", PhoneNumber: "00000000000", Email: "0000", IsAdmin: true}
 	userAsBytes, _ := json.Marshal(user)
-	u.stub.PutState(key, userAsBytes)
+	stub.PutState(key, userAsBytes)
 	return shim.Success(nil)
 }
 
