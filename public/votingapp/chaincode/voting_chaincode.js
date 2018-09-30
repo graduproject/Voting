@@ -49,7 +49,7 @@ exports.queryAllVote = function(last_vnum){
 		console.log(stderr);
 		fs.writeFile('./chaincode/Argumentation.inp', stderr,'utf8');
 	});
-	ststr = fs.readFileSync('Argumentation.inp', 'utf8');
+	ststr = fs.readFileSync(__dirname + '/Argumentation.inp', 'utf8');
 	return parser.read_parse(ststr);
 }
 
