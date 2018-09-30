@@ -77,7 +77,11 @@ app.get('/add-candidate', function(req, res){
 });
 
 app.get('/vote-create', function(req, res){
-    res.sendFile(path.join(__dirname, '../view/Admin/vote-create.html'));
+    res.render('Admin/vote-create');
+});
+
+app.post('/vote-create', function(req, res){
+    console.log(req.body);
 });
 
 app.get('/vote-manage', function(req, res){

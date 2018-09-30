@@ -27,8 +27,6 @@ exports.registerCandidate = function(vnum,candidNum){
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	child = exec(syscmd, function(error, stdout, stderr){});
-	
-	
 }
 
 exports.vote = function(vnum, candidName, userID){
@@ -37,8 +35,6 @@ exports.vote = function(vnum, candidName, userID){
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	child = exec(syscmd, function(error, stdout, stderr){});
-	
-	
 }
 
 exports.queryAllVote = function(last_vnum){
@@ -63,8 +59,6 @@ exports.queryCompleteVote = function(last_vnum){
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	child = exec(syscmd, function(error, stdout, stderr){});
-	
-	
 }
 
 exports.earlyComplete = function(vnum){
@@ -73,8 +67,6 @@ exports.earlyComplete = function(vnum){
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	child = exec(syscmd, function(error, stdout, stderr){});
-	
-	
 }
 
 exports.deleteCandidate = function(vnum, candidName){
@@ -83,8 +75,6 @@ exports.deleteCandidate = function(vnum, candidName){
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	child = exec(syscmd, function(error, stdout, stderr){});
-	
-	
 }
 
 exports.queryNotCompleteVote = function(last_vnum){
@@ -93,8 +83,6 @@ exports.queryNotCompleteVote = function(last_vnum){
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	child = exec(syscmd, function(error, stdout, stderr){});
-	
-	
 }
 
 exports.queryCandidateWithPoll = function(last_vnum){
@@ -103,8 +91,6 @@ exports.queryCandidateWithPoll = function(last_vnum){
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	child = exec(syscmd, function(error, stdout, stderr){});
-	
-	
 }
 
 exports.queryCandidate = function(vnum){
@@ -113,8 +99,6 @@ exports.queryCandidate = function(vnum){
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	child = exec(syscmd, function(error, stdout, stderr){});
-	
-	
 }
 
 
