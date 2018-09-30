@@ -72,13 +72,13 @@ func (u *UserChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 	return u.call()
 }
 
-func (u *UserChaincode) isAdmin(stub shim.ChaincodeStubInterface) pb.Response {
+func (u *UserChaincode) isAdmin() pb.Response {
 	args := u.args // ID
 	
 	if len(args) != 1 {
 		return shim.Error("Incorrect number of arguments. Expecting 1")
 	}
-
+    asdfsadf
 	admin := false
 	id := args[0]
 	user := User{}
