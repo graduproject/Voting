@@ -49,6 +49,8 @@ exports.queryAllVote = function(last_vnum){
 	var ststr;
 
 	child = exec(syscmd, function(error, stdout, stderr){
+		console.log(syscmd);
+		console.log(stderr);
 		fs.writeFile('Argumentation.inp', stderr,'utf8');
 	});
 	ststr = fs.readFileSync(path.join(__dirname, '/../Argumentation.inp'), 'utf8');
