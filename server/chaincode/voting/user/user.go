@@ -32,6 +32,7 @@ func (u *UserChaincode) call() pb.Response {
 	callMap := map[string]func() pb.Response {
 		"signup":               u.signup,
 		"signin":               u.signin,
+		"isAdmin":              u.isAdmin,
 		"modifyUser":           u.modifyUser,
 		"getUserInfo":          u.getUserInfo,
 		"deleteUser":           u.deleteUser,
@@ -54,13 +55,9 @@ func (u *UserChaincode) call() pb.Response {
 func (u *UserChaincode) Init(stub shim.ChaincodeStubInterface) pb.Response {
 	fmt.Println("User Init")
 
-	/*
-	_, args := stub.GetFunctionAndParameters()
-
-	if len(args) != 0 {
-		return shim.Error("Incorrect number of arguments. Expecting 0")
-	}*/
-
+	user := User{PW: "admin", IDNumber: "00000000000000", PhoneNumber: "00000000000", Email: "0000", IsAdmin: true}
+	userAsBytes, _ := json.Marshal(user)
+	u.stub.PutState("admin", userAsBytes)
 	return shim.Success(nil)
 }
 
@@ -73,6 +70,26 @@ func (u *UserChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 	u.stub = stub
 
 	return u.call()
+}
+
+func (u *UserChaincode) isAdmin() pb.Response {
+	args := u.args // ID
+	
+	if len(args) != 1 {
+		return shim.Error("Incorrect number of arguments. Expecting 1")
+	}
+
+	admin := false
+	id := args[0]
+	user := User{}
+	userAsBytes, _ := u.stub.GetState(id)
+	json.Unmarshal(userAsBytes, &user)
+	if user.IsAdmin == true {
+		admin = true
+	}
+	adminAsBytes, _ := json.Marshal(admin)
+
+	return shim.Success(adminAsBytes)
 }
 
 // signup creates User structure
