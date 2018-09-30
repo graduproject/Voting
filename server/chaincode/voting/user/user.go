@@ -78,7 +78,7 @@ func (u *UserChaincode) isAdmin() pb.Response {
 	if len(args) != 1 {
 		return shim.Error("Incorrect number of arguments. Expecting 1")
 	}
-    asdfsadf
+    
 	admin := false
 	id := args[0]
 	user := User{}
