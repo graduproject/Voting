@@ -72,7 +72,7 @@ func (u *UserChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 	return u.call()
 }
 
-func (u *UserChaincode) isAdmin() pb.Response {
+func (u *UserChaincode) isAdmin(stub shim.ChaincodeStubInterface) pb.Response {
 	args := u.args // ID
 	
 	if len(args) != 1 {
