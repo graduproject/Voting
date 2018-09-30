@@ -10,8 +10,7 @@ exports.createVoting = function(vnum, vname, vst_time, ved_time){
 	args = args.concat(Array.from(arguments));
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
-	
-	return syscmd;
+	child = exec(syscmd, function(error, stdout, stderr){});
 }
 
 exports.changeState = function(last_vnum){
@@ -19,6 +18,7 @@ exports.changeState = function(last_vnum){
 	args = args.concat(Array.from(arguments));
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
+	child = exec(syscmd, function(error, stdout, stderr){});
 	
 	return syscmd;
 }
@@ -28,6 +28,7 @@ exports.registerCandidate = function(vnum,candidNum){
 	args = args.concat(Array.from(arguments));
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
+	child = exec(syscmd, function(error, stdout, stderr){});
 	
 	return syscmd;
 }
@@ -37,6 +38,7 @@ exports.vote = function(vnum, candidName, userID){
 	args = args.concat(Array.from(arguments));
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
+	child = exec(syscmd, function(error, stdout, stderr){});
 	
 	return syscmd;
 }
@@ -62,6 +64,7 @@ exports.queryCompleteVote = function(last_vnum){
 	args = args.concat(Array.from(arguments));
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
+	child = exec(syscmd, function(error, stdout, stderr){});
 	
 	return syscmd;
 }
@@ -71,6 +74,7 @@ exports.earlyComplete = function(vnum){
 	args = args.concat(Array.from(arguments));
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
+	child = exec(syscmd, function(error, stdout, stderr){});
 	
 	return syscmd;
 }
@@ -80,6 +84,7 @@ exports.deleteCandidate = function(vnum, candidName){
 	args = args.concat(Array.from(arguments));
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
+	child = exec(syscmd, function(error, stdout, stderr){});
 	
 	return syscmd;
 }
@@ -89,6 +94,7 @@ exports.queryNotCompleteVote = function(last_vnum){
 	args = args.concat(Array.from(arguments));
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
+	child = exec(syscmd, function(error, stdout, stderr){});
 	
 	return syscmd;
 }
@@ -98,6 +104,7 @@ exports.queryCandidateWithPoll = function(last_vnum){
 	args = args.concat(Array.from(arguments));
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
+	child = exec(syscmd, function(error, stdout, stderr){});
 	
 	return syscmd;
 }
@@ -107,6 +114,7 @@ exports.queryCandidate = function(vnum){
 	args = args.concat(Array.from(arguments));
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
+	child = exec(syscmd, function(error, stdout, stderr){});
 	
 	return syscmd;
 }
