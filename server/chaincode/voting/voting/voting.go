@@ -203,7 +203,8 @@ func (v *VotingChaincode) queryAllVote() pb.Response { // num은 마지막 번�
 	}
 
 	var votingSlice []Voting
-	var votingName  []string
+	var votingNameWithTime  []string
+	var temp string
 	voting := Voting{}
 	endKey, _ := strconv.Atoi(args[0])
 
@@ -214,10 +215,14 @@ func (v *VotingChaincode) queryAllVote() pb.Response { // num은 마지막 번�
 	}
 
 	for i := 0; i < len(votingSlice); i++ {
-		votingName = append(votingName, votingSlice[i].VotingName)
+		votingNameWithTime = append(votingNameWithTime, votingSlice[i].VotingName)
+		temp = strconv.FormatInt(votingSlice[i].StartTime, 10)
+		votingNameWithTime = append(votingNameWithTime, temp)
+		temp = strconv.FormatInt(votingSlice[i].EndTime, 10)
+		votingNameWithTime = append(votingNameWithTime, temp)
 	}
 	
-	votingNameAsBytes, _ := json.Marshal(votingName)
+	votingNameAsBytes, _ := json.Marshal(votingNameWithTime)
 	
 	return shim.Success(votingNameAsBytes)
 }
