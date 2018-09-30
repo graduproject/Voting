@@ -61,7 +61,7 @@ app.get('/admin-login', function(req, res){
 });
 
 app.get('/admin-main', function(req, res){
-    res.sendFile(path.join(__dirname, '../view/Admin/admin-main.html'));
+    res.render('Admin/admin-main')
 });
 
 app.get('/admin-mypage', function(req, res){
@@ -73,7 +73,7 @@ app.get('/admin-vote_result', function(req, res){
 });
 
 app.get('/add-candidate', function(req, res){
-    res.sendFile(path.join(__dirname, '../view/Admin/add-candidate.html'));
+    res.render('Admin/add-candidate')
 });
 
 app.get('/vote-create', function(req, res){
@@ -81,7 +81,20 @@ app.get('/vote-create', function(req, res){
 });
 
 app.post('/vote-create', function(req, res){
-    console.log(req.body);
+    var title = req.body['title'].slice();
+    var yy = req.body['year'].slice();
+    var mm = req.body['month'].slice();
+    var dd = req.body['day'].slice();
+    var len = title.length;
+    var candid_name;
+    console.log(len);
+    if(len > 4) {
+        res.render('Admin/add-candidate');
+        app.post('/add-candidate', function(req, res){
+            candid_name = req.body['candidate-name'];
+            console.log(candid_name);
+        });
+    }
 });
 
 app.get('/vote-manage', function(req, res){
