@@ -1,4 +1,4 @@
-2018-09-30 13:32:24.162 UTC [chaincodeCmd] checkChaincodeCmdParams -> INFO 001[0m Using default escc
-2018-09-30 13:32:24.162 UTC [chaincodeCmd] checkChaincodeCmdParams -> INFO 002[0m Using default vscc
-2018-09-30 13:32:24.289 UTC [chaincodeCmd] chaincodeInvokeOrQuery -> INFO 003[0m Chaincode invoke successful. result: status:200 payload:"[\"first-vote\",\"1537370400\",\"1537388400\",\"first-vote\",\"1537370400\",\"1537388400\",\"first-vote\",\"1537370400\",\"1537388400\",\"first-vote\",\"1537370400\",\"1537388400\"]" 
-2018-09-30 13:32:24.290 UTC [main] main -> INFO 004[0m Exiting.....
+2018-09-30 13:54:52.974 UTC [chaincodeCmd] checkChaincodeCmdParams -> INFO 001[0m Using default escc
+2018-09-30 13:54:52.975 UTC [chaincodeCmd] checkChaincodeCmdParams -> INFO 002[0m Using default vscc
+2018-09-30 13:54:53.170 UTC [chaincodeCmd] chaincodeInvokeOrQuery -> INFO 003[0m Chaincode invoke successful. result: status:200 payload:"[\"first-vote\",\"1537370400\",\"1537388400\",\"first-vote\",\"1537370400\",\"1537388400\",\"first-vote\",\"1537370400\",\"1537388400\",\"first-vote\",\"1537370400\",\"1537388400\"]" 
+2018-09-30 13:54:53.170 UTC [main] main -> INFO 004[0m Exiting.....

@@ -74,6 +74,12 @@ app.get('/admin-vote_result', function(req, res){
 
 app.get('/add-candidate', function(req, res){
     res.render('Admin/add-candidate')
+	console.log("HELLO" + res.body);
+});
+
+app.post('/add-candidate', function(req,res){
+	var candName = req.body['candidate-name'];
+	
 });
 
 app.get('/vote-create', function(req, res){
@@ -85,16 +91,7 @@ app.post('/vote-create', function(req, res){
     var yy = req.body['year'].slice();
     var mm = req.body['month'].slice();
     var dd = req.body['day'].slice();
-    var len = title.length;
-    var candid_name;
-    console.log(len);
-    if(len > 4) {
-        res.render('Admin/add-candidate');
-        app.post('/add-candidate', function(req, res){
-            candid_name = req.body['candidate-name'];
-            console.log(candid_name);
-        });
-    }
+	res.redirect('/add-candidate');
 });
 
 app.get('/vote-manage', function(req, res){
