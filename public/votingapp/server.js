@@ -4,6 +4,7 @@ var path = require('path');
 var app = express();
 var parser = require('./utils/parser');
 var cmd = require('./chaincode/voting_chaincode');
+var vc_ctrl = require('./controller/vote_create.js');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs'); 
@@ -74,12 +75,16 @@ app.get('/admin-vote_result', function(req, res){
 
 app.get('/add-candidate', function(req, res){
     res.render('Admin/add-candidate')
-	console.log("HELLO" + res.body);
+	if(vc_ctrl.iscandidTaken() == 1) {
+	
+	}
+	else console.log("FUCK");
 });
 
 app.post('/add-candidate', function(req,res){
-	var candName = req.body['candidate-name'];
-	
+	var cand = req.body['candidate-name'].slice();	
+	vc_ctrl.getCandid(cand);
+	res.redirect('/add-candidate');
 });
 
 app.get('/vote-create', function(req, res){
