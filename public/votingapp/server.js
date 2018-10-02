@@ -9,6 +9,8 @@ var fs = require('fs');
 var v_idx = fs.readFileSync('./controller/index.inp');
 var th = require('./utils/time_handler');
 
+var endSet = new Set();
+
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs'); 
 app.set('views','../view');
@@ -115,7 +117,22 @@ app.post('/vote-create', function(req, res){
 });
 
 app.get('/vote-manage', function(req, res){
-    res.sendFile(path.join(__dirname, '../view/Admin/vote-manage.html'));
+    var ans = cmd.queryAllVote(v_idx.toString()).slice();
+	var st = [];
+	for(var i = 0; i < ans.length; i = i + 3){
+		ans[i + 1] = parser.POSIXtoDATE(ans[i + 1]);
+		ans[i + 2] = parser.POSIXtoDATE(ans[i + 2]);
+		st.push(th.puttimeState(ans[i+2]));
+	}
+	for(var i = 0; i < st.length; i++)
+		if(endSet.has((i + 1).toString())) st[i] = "DONE";
+    	
+	res.render('Admin/vote-manage',{vote : ans, st : st});
+});
+
+app.post('/vote-manage', function(req, res){
+	endSet.add(req.body['idx']);
+	res.redirect('/vote-manage');
 });
 
 app.listen(3000, function() {
