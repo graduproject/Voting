@@ -4,6 +4,7 @@ var path = require('path');
 var app = express();
 var parser = require('./utils/parser');
 var cmd = require('./chaincode/voting_chaincode');
+var ucmd = require('./chaincode/user_chaincode');
 var vc_ctrl = require('./controller/vote_create.js');
 var fs = require('fs');
 var v_idx = fs.readFileSync('./controller/index.inp');
@@ -19,6 +20,10 @@ app.use(express.static(path.join(__dirname, '../../public')));
 
 app.get('/', function(req, res){
     res.render('User/login');
+});
+
+app.post('/', function(req, res){
+	console.log(req.body);
 });
 
 app.get('/home', function(req, res){
