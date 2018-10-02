@@ -24,6 +24,8 @@ app.get('/', function(req, res){
 
 app.post('/', function(req, res){
 	console.log(req.body);
+	var isAdmin = ucmd.isAdmin(req.body['id']);
+	console.log(isAdmin);
 });
 
 app.get('/home', function(req, res){

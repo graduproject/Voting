@@ -1,0 +1,23 @@
+2018-10-02 15:23:33.564 UTC [chaincodeCmd] checkChaincodeCmdParams -> INFO 001[0m Using default escc
+2018-10-02 15:23:33.564 UTC [chaincodeCmd] checkChaincodeCmdParams -> INFO 002[0m Using default vscc
+Error: Error endorsing invoke: rpc error: code = Unknown desc = chaincode error (status: 500, message: Invalid invoke function name. Expecting "queryNotCompleteVote", "queryCandidateWithPoll", "createVoting", "registerCandidate", "queryAllVote", "queryCompleteVote", "earlyComplete", "changeState", "vote", "deleteCandidate", "queryCandidate") - <nil>
+Usage:
+  peer chaincode invoke [flags]
+
+Flags:
+  -C, --channelID string   The channel on which this command should be executed
+  -c, --ctor string        Constructor message for the chaincode in JSON format (default "{}")
+  -n, --name string        Name of the chaincode
+
+Global Flags:
+      --cafile string                       Path to file containing PEM-encoded trusted certificate(s) for the ordering endpoint
+      --certfile string                     Path to file containing PEM-encoded X509 public key to use for mutual TLS communication with the orderer endpoint
+      --clientauth                          Use mutual TLS when communicating with the orderer endpoint
+      --keyfile string                      Path to file containing PEM-encoded private key to use for mutual TLS communication with the orderer endpoint
+      --logging-level string                Default logging level and overrides, see core.yaml for full syntax
+  -o, --orderer string                      Ordering service endpoint
+      --ordererTLSHostnameOverride string   The hostname override to use when validating the TLS connection to the orderer.
+      --tls                                 Use TLS when communicating with the orderer endpoint
+      --transient string                    Transient map of arguments in JSON encoding
+  -v, --version                             Display current version of fabric peer server
+

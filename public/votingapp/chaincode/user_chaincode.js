@@ -51,7 +51,7 @@ exports.deleteUser = function(ID){
 }
 
 exports.isAdmin = function(ID){
-	var args = ['deleteUser'];
+	var args = ['isAdmin'];
 	args = args.concat(Array.from(arguments));
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
