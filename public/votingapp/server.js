@@ -5,6 +5,8 @@ var app = express();
 var parser = require('./utils/parser');
 var cmd = require('./chaincode/voting_chaincode');
 var vc_ctrl = require('./controller/vote_create.js');
+var fs = require('fs');
+var v_idx = fs.readFileSync('./controller/index.inp');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs'); 
@@ -17,7 +19,7 @@ app.get('/', function(req, res){
 });
 
 app.get('/home', function(req, res){
-    var ans = cmd.queryAllVote("4").slice();
+    var ans = cmd.queryAllVote(v_idx.toString()).slice();
 	for(var i = 0; i < ans.length; i = i + 3){
 		ans[i + 1] = parser.POSIXtoDATE(ans[i + 1]);
 		ans[i + 2] = parser.POSIXtoDATE(ans[i + 2]);
@@ -76,13 +78,14 @@ app.get('/admin-vote_result', function(req, res){
 app.get('/add-candidate', function(req, res){
     res.render('Admin/add-candidate')
 	if(vc_ctrl.iscandidTaken() == 1) {
-	
+			
 	}
-	else console.log("FUCK");
+	else ;
 });
 
 app.post('/add-candidate', function(req,res){
 	var cand = req.body['candidate-name'].slice();	
+	console.log(cand);
 	vc_ctrl.getCandid(cand);
 	res.redirect('/add-candidate');
 });
@@ -96,6 +99,7 @@ app.post('/vote-create', function(req, res){
     var yy = req.body['year'].slice();
     var mm = req.body['month'].slice();
     var dd = req.body['day'].slice();
+	console.log(title + yy + mm +dd);
 	res.redirect('/add-candidate');
 });
 

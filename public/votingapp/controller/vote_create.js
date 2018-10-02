@@ -1,14 +1,16 @@
-var candid;
-var candidTaken = 0;
+var info = new Object();
 
 exports.getCandid = function(parameter){
-	candid = parameter;
+	info.candid = parameter;
 	console.log("candid " + candid);
 	candidTaken = 1;
 }
 
 exports.getVoteinfo = function(title,yy,mm,dd){
-	
+	info.title = title;
+	info.yy = yy;
+	info.mm = mm;
+	info.dd = dd;
 }
 
 exports.iscandidTaken = function(){
