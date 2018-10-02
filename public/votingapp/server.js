@@ -18,7 +18,7 @@ app.set('views','../view');
 app.use(express.static(path.join(__dirname, '../../public')));
 
 app.get('/', function(req, res){
-    res.sendFile(path.join(__dirname, '../view/user/login.html'));
+    res.render('User/login');
 });
 
 app.get('/home', function(req, res){
@@ -117,7 +117,7 @@ app.post('/vote-create', function(req, res){
 });
 
 app.get('/vote-manage', function(req, res){
-    var ans = cmd.queryAllVote(v_idx.toString()).slice();
+    var ans = cmd.queryNotCompleteVote(v_idx.toString()).slice();
 	var st = [];
 	for(var i = 0; i < ans.length; i = i + 3){
 		ans[i + 1] = parser.POSIXtoDATE(ans[i + 1]);
@@ -125,13 +125,24 @@ app.get('/vote-manage', function(req, res){
 		st.push(th.puttimeState(ans[i+2]));
 	}
 	for(var i = 0; i < st.length; i++)
-		if(endSet.has((i + 1).toString())) st[i] = "DONE";
+		st[i] = "ON";
+    
+	var ans2 = cmd.queryNotCompleteVote(v_idx.toString()).slice();
+	var st2 = [];
+	for(var i = 0; i < ans.length; i = i + 3){
+		ans2[i + 1] = parser.POSIXtoDATE(ans2[i + 1]);
+		ans2[i + 2] = parser.POSIXtoDATE(ans2[i + 2]);
+		st2.push(th.puttimeState(ans2[i+2]));
+	}
+	for(var i = 0; i < st2.length; i++)
+		st2[i] = "DONE";
     	
-	res.render('Admin/vote-manage',{vote : ans, st : st});
+	res.render('Admin/vote-manage',{ans : ans, st : st, ans2 : ans2, st2 : st2});
 });
 
 app.post('/vote-manage', function(req, res){
-	endSet.add(req.body['idx']);
+	var eid = req.body['idx'];
+	cmd.earlyComplete(eid);
 	res.redirect('/vote-manage');
 });
 

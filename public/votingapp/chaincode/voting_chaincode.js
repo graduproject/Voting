@@ -57,7 +57,13 @@ exports.queryCompleteVote = function(last_vnum){
 	args = args.concat(Array.from(arguments));
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
-	child = exec(syscmd, function(error, stdout, stderr){});
+	var ststr;
+	
+	child = exec(syscmd, function(error, stdout, stderr){
+		fs.writeFile('./chaincode/Argumentation_C.inp', stderr,'utf8');
+	});
+	ststr = fs.readFileSync(__dirname + '/Argumentation_C.inp', 'utf8');
+	return parser.read_parse(ststr);
 }
 
 exports.earlyComplete = function(vnum){
@@ -81,7 +87,13 @@ exports.queryNotCompleteVote = function(last_vnum){
 	args = args.concat(Array.from(arguments));
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
-	child = exec(syscmd, function(error, stdout, stderr){});
+	var ststr;
+	
+	child = exec(syscmd, function(error, stdout, stderr){
+		fs.writeFile('./chaincode/Argumentation_N.inp', stderr,'utf8');
+	});
+	ststr = fs.readFileSync(__dirname + '/Argumentation_N.inp', 'utf8');
+	return parser.read_parse(ststr);
 }
 
 exports.queryCandidateWithPoll = function(last_vnum){
