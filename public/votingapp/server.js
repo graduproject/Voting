@@ -77,17 +77,24 @@ app.get('/admin-vote_result', function(req, res){
 
 app.get('/add-candidate', function(req, res){
     res.render('Admin/add-candidate')
-	if(vc_ctrl.iscandidTaken() == 1) {
-			
-	}
-	else ;
 });
 
 app.post('/add-candidate', function(req,res){
-	var cand = req.body['candidate-name'].slice();	
-	console.log(cand);
+	var cand = req.body['candidate-name'];	
 	vc_ctrl.getCandid(cand);
-	res.redirect('/add-candidate');
+    if(vc_ctrl.iscandidTaken() >= 2) {
+		var cand_info = vc_ctrl.putCandid();
+		var vote_date = vc_ctrl.putDate();
+		var vote_title = vc_ctrl.putTitle();
+		console.log(cand_info[1]);
+		for(var i = 0; i < cand_info.length; i++)
+			cmd.registerCandidate(v_idx, cand_info[i]);
+		cmd.createVoting(v_idx, vote_title, vote_date[0], vote_date[1]);
+		fs.writeFileSync('./controller/index.inp', ++v_idx, 'utf8');
+		//res.redirect('/admin-main');
+	}		
+	
+	res.redirect('/admin-main');
 });
 
 app.get('/vote-create', function(req, res){
@@ -99,7 +106,8 @@ app.post('/vote-create', function(req, res){
     var yy = req.body['year'].slice();
     var mm = req.body['month'].slice();
     var dd = req.body['day'].slice();
-	console.log(title + yy + mm +dd);
+	var tt = req.body['time'].slice();
+	vc_ctrl.getVoteinfo(title,yy,mm,dd,tt);
 	res.redirect('/add-candidate');
 });
 

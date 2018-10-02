@@ -10,6 +10,8 @@ exports.createVoting = function(vnum, vname, vst_time, ved_time){
 	args = args.concat(Array.from(arguments));
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
+	
+	console.log(syscmd);
 	child = exec(syscmd, function(error, stdout, stderr){});
 }
 
@@ -25,7 +27,8 @@ exports.registerCandidate = function(vnum,candidNum){
 	var args = ['registerCandidate'];
 	args = args.concat(Array.from(arguments));
 	var syscmd = parser.cmd_parse(args);
-	syscmd.toString();	
+	syscmd.toString();
+	console.log(syscmd);
 	child = exec(syscmd, function(error, stdout, stderr){});
 }
 
