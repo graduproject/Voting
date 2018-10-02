@@ -7,6 +7,7 @@ var cmd = require('./chaincode/voting_chaincode');
 var vc_ctrl = require('./controller/vote_create.js');
 var fs = require('fs');
 var v_idx = fs.readFileSync('./controller/index.inp');
+var th = require('./utils/time_handler');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs'); 
@@ -20,11 +21,13 @@ app.get('/', function(req, res){
 
 app.get('/home', function(req, res){
     var ans = cmd.queryAllVote(v_idx.toString()).slice();
+	var st = [];
 	for(var i = 0; i < ans.length; i = i + 3){
 		ans[i + 1] = parser.POSIXtoDATE(ans[i + 1]);
 		ans[i + 2] = parser.POSIXtoDATE(ans[i + 2]);
+		st.push(th.puttimeState(ans[i+2]));
 	}
-	res.render('User/main',{vote : ans});
+	res.render('User/main',{vote : ans, st : st});
 });
 
 app.get('/candidate', function(req, res){

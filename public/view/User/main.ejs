@@ -39,11 +39,11 @@
 							<tr>
 								<td><%= j%></td>
 								<td>
-								<a class="vote_name" href="/candidate">지방 선거</a>
+								<a class="vote_name" href="/candidate"><%=vote[i]%></a>
 								</td>
-								  <td><%=vote[i] %></td>
 								  <td><%=vote[i + 1] %></td>
 								  <td><%=vote[i + 2] %></td>
+								  <td><%=st[j - 1] %></td>
 							</tr>    
 							<% } %>						
 						</tbody>
