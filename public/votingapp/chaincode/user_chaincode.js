@@ -1,41 +1,67 @@
+var sys = require('sys');
+var exec = require('child_process').exec;
 var parser = require('../utils/parser.js');
+var fs = require('fs');
+var path = require('path');
+var child;
 
 exports.signup= function(ID, PW, IDNumber, PhoneNumber, Email){
-	var args = Array.from(arguments);
+	var args = ['signup'];
+	args = args.concat(Array.from(arguments));
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	
-	return syscmd;
+	child = exec(syscmd, function(error, stdout, stderr){});
 }
 
 exports.signin = function(ID, PW){
-	var args = Array.from(arguments);
+	var args = ['signin'];
+	args = args.concat(Array.from(arguments));
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	
-	return syscmd;
+	child = exec(syscmd, function(error, stdout, stderr){});
 }
 
 exports.modifyUser = function(ID,PW,PhoneNumber,Email){
-	var args = Array.from(arguments);
+	var args = ['modifyUser'];
+	args = args.concat(Array.from(arguments));
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	
-	return syscmd;
+	child = exec(syscmd, function(error, stdout, stderr){});
 }
 
 exports.getUserInfo = function(ID){
-	var args = Array.from(arguments);
+	var args = ['getUserInfo'];
+	args = args.concat(Array.from(arguments));
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	
-	return syscmd;
+	child = exec(syscmd, function(error, stdout, stderr){});
 }
 
 exports.deleteUser = function(ID){
-	var args = Array.from(arguments);
+	var args = ['deleteUser'];
+	args = args.concat(Array.from(arguments));
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
 	
-	return syscmd;
+	child = exec(syscmd, function(error, stdout, stderr){});
 }
+
+exports.isAdmin = function(ID){
+	var args = ['deleteUser'];
+	args = args.concat(Array.from(arguments));
+	var syscmd = parser.cmd_parse(args);
+	syscmd.toString();	
+
+	var ststr;
+
+	child = exec(syscmd, function(error, stdout, stderr){
+		fs.writeFile('./chaincode/Argumentation_B.inp', stderr,'utf8');
+	});
+	ststr = fs.readFileSync(__dirname + '/Argumentation_B.inp', 'utf8');
+	return parser.read_parse(ststr);
+}
+
