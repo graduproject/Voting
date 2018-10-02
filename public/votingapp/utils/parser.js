@@ -41,7 +41,8 @@ exports.cmd_query = function(parameter){
 	}
 	temp += "]";
 	temp = "\'{\"Args\":" + temp + "}\' ";
-	temp = docking + invoke + etc2 + temp;
+	temp = docking + query + etc2 + temp;
+	console.log(temp);
 	return temp;
 }
 
@@ -60,6 +61,14 @@ exports.read_parse = function(parameter){
 	}
 	str_temp = str_temp.filter(isRest);
 	str_temp = str_temp.filter(isBlank);
+	return str_temp;
+}
+
+exports.query_parse = function(parameter){
+	var str = parameter.toString();
+	var token = ':';
+	var token_index = str.indexOf(token);
+	var str_temp = str.slice(token_index + 2, str.length - 1);
 	return str_temp;
 }
 

@@ -25,7 +25,8 @@ app.get('/', function(req, res){
 app.post('/', function(req, res){
 	console.log(req.body);
 	var isAdmin = ucmd.isAdmin(req.body['id']);
-	console.log(isAdmin);
+	if(isAdmin == 'true') res.redirect('/admin-main');
+	else res.redirect('/home');
 });
 
 app.get('/home', function(req, res){
@@ -39,8 +40,12 @@ app.get('/home', function(req, res){
 	res.render('User/main',{vote : ans, st : st});
 });
 
+app.post('/home', function(req, res){
+	console.log(req.body);	
+});
+
 app.get('/candidate', function(req, res){
-    res.sendFile(path.join(__dirname, '../view/user/candidate.html'));
+    res.render('User/candidate');
 });
 
 app.get('/ended_vote', function(req, res){

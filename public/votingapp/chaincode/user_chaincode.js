@@ -58,10 +58,16 @@ exports.isAdmin = function(ID){
 
 	var ststr;
 
-	child = exec(syscmd, function(error, stdout, stderr){
-		fs.writeFile('./chaincode/Argumentation_B.inp', stderr,'utf8');
-	});
+	cmd(syscmd);
 	ststr = fs.readFileSync(__dirname + '/Argumentation_B.inp', 'utf8');
-	return parser.read_parse(ststr);
+	console.log(2);
+	return parser.query_parse(ststr);
 }
 
+function cmd(command){
+	child = exec(command, function(error, stdout, stderr){
+		fs.writeFileSync('./chaincode/Argumentation_B.inp', stdout,'utf8');
+		console.log(1);
+	});
+	child.kill();
+}

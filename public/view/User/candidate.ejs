@@ -20,15 +20,13 @@
 			<div class="find-wrap">
 			</div>
 				<div class="content-wrap">
-				
 				<fieldset>					
 					<h2> 후보 목록 </h2>
 					<!-- 아래 후보목록을 DB에서 받아서 유동적으로 생성 -->
 					<form id="candidate-form" action="/home">
-						<input type="radio" name="candidate" value="" required="required">1번 후보
-						<input type="radio" name="candidate" value="" required="required">2번 후보
-						<input type="radio" name="candidate" value="" required="required">3번 후보
-						<input type="radio" name="candidate" value="" required="required">4번 후보
+						<% for (var i = 0; i < candid.length; i++) { %>
+							<input type="radio" name="candidate" value=<%=i%> required="required"><%=i%>번 후보    
+						<% } %>	
 						<p><button type="submit" name="vote-button" id = "vote"> 투표 </button></p>
 					</form>
 					<script src = "../../votingapp/controller/client.js"></script>					
