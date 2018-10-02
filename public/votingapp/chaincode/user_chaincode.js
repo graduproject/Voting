@@ -17,7 +17,7 @@ exports.signup= function(ID, PW, IDNumber, PhoneNumber, Email){
 exports.signin = function(ID, PW){
 	var args = ['signin'];
 	args = args.concat(Array.from(arguments));
-	var syscmd = parser.cmd_parse(args);
+	var syscmd = parser.cmd_query(args);
 	syscmd.toString();	
 	
 	child = exec(syscmd, function(error, stdout, stderr){});
@@ -35,7 +35,7 @@ exports.modifyUser = function(ID,PW,PhoneNumber,Email){
 exports.getUserInfo = function(ID){
 	var args = ['getUserInfo'];
 	args = args.concat(Array.from(arguments));
-	var syscmd = parser.cmd_parse(args);
+	var syscmd = parser.cmd_query(args);
 	syscmd.toString();	
 	
 	child = exec(syscmd, function(error, stdout, stderr){});
@@ -53,7 +53,7 @@ exports.deleteUser = function(ID){
 exports.isAdmin = function(ID){
 	var args = ['isAdmin'];
 	args = args.concat(Array.from(arguments));
-	var syscmd = parser.cmd_parse(args);
+	var syscmd = parser.cmd_query(args);
 	syscmd.toString();	
 
 	var ststr;

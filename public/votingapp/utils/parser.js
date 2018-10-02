@@ -1,7 +1,9 @@
 var docking = "docker exec cli ";
 var invoke = "peer chaincode invoke -o orderer.example.com:7050 --tls true --cafile ";
+var query = "peer chaincode query "
 var pemPath = "/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem ";
 var etc = "-C mychannel -n mycc -c ";
+var etc2 = "-C mychannel -n mycc1 -c "; 
 
 function isBlank(value){
 	return value != '';
@@ -24,6 +26,22 @@ exports.cmd_parse = function(parameter){
 	temp += "]";
 	temp = "\'{\"Args\":" + temp + "}\' ";
 	temp = docking + invoke + pemPath + etc + temp;
+	return temp;
+}
+
+exports.cmd_query = function(parameter){
+	var args = Array.from(arguments[0]);
+	var temp = "[";
+
+	for(var i = 0; i < args.length; i++){
+		temp += '\"' + args[i] + '\"';
+		if(i != args.length - 1){
+			temp += ',';
+		}
+	}
+	temp += "]";
+	temp = "\'{\"Args\":" + temp + "}\' ";
+	temp = docking + invoke + etc2 + temp;
 	return temp;
 }
 
