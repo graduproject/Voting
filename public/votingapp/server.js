@@ -10,6 +10,7 @@ var fs = require('fs');
 var v_idx = fs.readFileSync('./controller/index.inp');
 var th = require('./utils/time_handler');
 
+var canIdx;
 var endSet = new Set();
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -41,11 +42,14 @@ app.get('/home', function(req, res){
 });
 
 app.post('/home', function(req, res){
-	console.log(req.body);	
+	canIdx = req.body['vote_idx'];
+	res.redirect('/candidate');
 });
 
 app.get('/candidate', function(req, res){
-    res.render('User/candidate');
+	console.log(canIdx + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+	var candid = cmd.queryCandidate(canIdx);
+    res.render('User/candidate', {candid : candid});
 });
 
 app.get('/ended_vote', function(req, res){

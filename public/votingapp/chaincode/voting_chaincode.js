@@ -109,7 +109,15 @@ exports.queryCandidate = function(vnum){
 	args = args.concat(Array.from(arguments));
 	var syscmd = parser.cmd_parse(args);
 	syscmd.toString();	
-	child = exec(syscmd, function(error, stdout, stderr){});
+	var ststr;
+	
+	child = exec(syscmd, function(error, stdout, stderr){
+		fs.writeFile('./chaincode/Argumentation_CV.inp', stderr,'utf8');
+		console.log(stderr);
+		console.log(stdout);
+	});
+	ststr = fs.readFileSync(__dirname + '/Argumentation_CV.inp', 'utf8');
+	return parser.read_parse(ststr);
 }
 
 

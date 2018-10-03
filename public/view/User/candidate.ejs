@@ -23,7 +23,7 @@
 				<fieldset>					
 					<h2> 후보 목록 </h2>
 					<!-- 아래 후보목록을 DB에서 받아서 유동적으로 생성 -->
-					<form id="candidate-form" action="/home">
+					<form id="candidate-form" action="/candidate">
 						<% for (var i = 0; i < candid.length; i++) { %>
 							<input type="radio" name="candidate" value=<%=i%> required="required"><%=i%>번 후보    
 						<% } %>	

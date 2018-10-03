@@ -5,6 +5,11 @@
 	<head>
 		<title>Voting Web</title>
 		<link href="../css/main.css" rel="stylesheet" type="text/css">
+		<script>
+		function putIdx(index){
+			document.getElementById("vote_idx").value = index;
+		}
+		</script>
 	</head>
 	
 	<body>
@@ -23,7 +28,7 @@
 			<center>
 				<h2 id="table_name">투표 목록</h2>
 				<div class="content-wrap">
-					<form action = "/home" method = "post">
+					<form action = "/home" method = "post" name = "myForm">
 					<table border="2">
 						<thead>
 							<tr>
@@ -40,14 +45,15 @@
 							<tr>
 								<td><%= j%></td>
 								<td>
-								<button id = "linkN" class="vote_name" type = "submit" href = "/home" name = "idx" value = <%=j%> style = "background:none"><%=vote[i]%></a>
+								<a id = "linkN" type = "button"class="vote_name" href="javascript:document.forms['myForm'].submit()" onClick = "putIdx(<%=j%>)" ><%=vote[i]%></a>
 								</td>
 								  <td><%=vote[i + 1] %></td>
 								  <td><%=vote[i + 2] %></td>
 								  <td><%=st[j - 1] %></td>
 							</tr>
 
-							<% } %>						
+							<% } %>
+							<input type = "hidden" id = "vote_idx" name = "vote_idx" value = "">
 						</tbody>
 						</form>
 					</div>
