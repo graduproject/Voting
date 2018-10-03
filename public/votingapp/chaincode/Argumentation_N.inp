@@ -1,4 +1,4 @@
-2018-10-03 04:45:39.110 UTC [chaincodeCmd] checkChaincodeCmdParams -> INFO 001[0m Using default escc
-2018-10-03 04:45:39.110 UTC [chaincodeCmd] checkChaincodeCmdParams -> INFO 002[0m Using default vscc
-2018-10-03 04:45:39.194 UTC [chaincodeCmd] chaincodeInvokeOrQuery -> INFO 003[0m Chaincode invoke successful. result: status:200 payload:"[\"aaaaaaaaaaaa\",\"1514764800\",\"1514764800\",\"aaaaaaaaaaaa\",\"1514764800\",\"1514764800\",\"aaaaaaaaaaaaaa\",\"1514764800\",\"1514764800\",\"aaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"1514764800\",\"1514764800\",\"qwerqwerqwer\",\"1514764800\",\"1514764800\",\"aaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"1514764800\",\"1514764800\",\"asdfasdf\",\"1514764800\",\"1514764800\",\"qqqqqqqqq\",\"1514764800\",\"1514764800\"]" 
-2018-10-03 04:45:39.194 UTC [main] main -> INFO 004[0m Exiting.....
+2018-10-03 07:35:06.498 UTC [chaincodeCmd] checkChaincodeCmdParams -> INFO 001[0m Using default escc
+2018-10-03 07:35:06.500 UTC [chaincodeCmd] checkChaincodeCmdParams -> INFO 002[0m Using default vscc
+2018-10-03 07:35:28.497 UTC [chaincodeCmd] chaincodeInvokeOrQuery -> INFO 003[0m Chaincode invoke successful. result: status:200 payload:"null" 
+2018-10-03 07:35:28.498 UTC [main] main -> INFO 004[0m Exiting.....

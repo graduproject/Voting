@@ -1,4 +1,4 @@
-2018-10-03 05:32:59.585 UTC [chaincodeCmd] checkChaincodeCmdParams -> INFO 001[0m Using default escc
-2018-10-03 05:32:59.585 UTC [chaincodeCmd] checkChaincodeCmdParams -> INFO 002[0m Using default vscc
-2018-10-03 05:32:59.606 UTC [chaincodeCmd] chaincodeInvokeOrQuery -> INFO 003[0m Chaincode invoke successful. result: status:200 payload:"null" 
-2018-10-03 05:32:59.606 UTC [main] main -> INFO 004[0m Exiting.....
+2018-10-03 07:38:47.587 UTC [chaincodeCmd] checkChaincodeCmdParams -> INFO 001[0m Using default escc
+2018-10-03 07:38:47.587 UTC [chaincodeCmd] checkChaincodeCmdParams -> INFO 002[0m Using default vscc
+2018-10-03 07:38:47.612 UTC [chaincodeCmd] chaincodeInvokeOrQuery -> INFO 003[0m Chaincode invoke successful. result: status:200 payload:"null" 
+2018-10-03 07:38:47.614 UTC [main] main -> INFO 004[0m Exiting.....

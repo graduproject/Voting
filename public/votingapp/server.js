@@ -24,31 +24,35 @@ app.get('/', function(req, res){
 });
 
 app.post('/', function(req, res){
-	console.log(req.body);
-	var isAdmin = ucmd.isAdmin(req.body['id']);
-	if(isAdmin == 'true') res.redirect('/admin-main');
+//	var isAdmin = ucmd.isAdmin(req.body['id']);
+//	if(isAdmin == 'true') res.redirect('/admin-main');
+//	else res.redirect('/home');
+	var id = req.body['id'];
+	if(id == 'admin') res.redirect('/admin-main');
 	else res.redirect('/home');
 });
 
 app.get('/home', function(req, res){
     var ans = cmd.queryAllVote(v_idx.toString()).slice();
 	var st = [];
+	console.log(ans);
 	for(var i = 0; i < ans.length; i = i + 3){
+		ans[i] = parser.POSIXtoDATE(ans[i]);
 		ans[i + 1] = parser.POSIXtoDATE(ans[i + 1]);
-		ans[i + 2] = parser.POSIXtoDATE(ans[i + 2]);
-		st.push(th.puttimeState(ans[i+2]));
+		st.push(th.puttimeState(ans[i+1]));
 	}
 	res.render('User/main',{vote : ans, st : st});
 });
 
 app.post('/home', function(req, res){
 	canIdx = req.body['vote_idx'];
+	console.log(canIdx);
 	res.redirect('/candidate');
 });
 
 app.get('/candidate', function(req, res){
-	console.log(canIdx + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 	var candid = cmd.queryCandidate(canIdx);
+	console.log(candid);
     res.render('User/candidate', {candid : candid});
 });
 
@@ -133,27 +137,16 @@ app.post('/vote-create', function(req, res){
 });
 
 app.get('/vote-manage', function(req, res){
-    var ans = cmd.queryNotCompleteVote(v_idx.toString()).slice();
+    var ans = cmd.queryAllVote(v_idx.toString()).slice();
+	console.log(ans);
 	var st = [];
 	for(var i = 0; i < ans.length; i = i + 3){
+		if(ans[i] == 0 || ans[i + 1] == 0|| ans[i + 2] == 0) ans[i] = '0';
+		ans[i] = parser.POSIXtoDATE(ans[i]);
 		ans[i + 1] = parser.POSIXtoDATE(ans[i + 1]);
-		ans[i + 2] = parser.POSIXtoDATE(ans[i + 2]);
-		st.push(th.puttimeState(ans[i+2]));
+		st.push(th.puttimeState(ans[i+1]));
 	}
-	for(var i = 0; i < st.length; i++)
-		st[i] = "ON";
-    
-	var ans2 = cmd.queryNotCompleteVote(v_idx.toString()).slice();
-	var st2 = [];
-	for(var i = 0; i < ans.length; i = i + 3){
-		ans2[i + 1] = parser.POSIXtoDATE(ans2[i + 1]);
-		ans2[i + 2] = parser.POSIXtoDATE(ans2[i + 2]);
-		st2.push(th.puttimeState(ans2[i+2]));
-	}
-	for(var i = 0; i < st2.length; i++)
-		st2[i] = "DONE";
-    	
-	res.render('Admin/vote-manage',{ans : ans, st : st, ans2 : ans2, st2 : st2});
+	res.render('Admin/vote-manage',{ans : ans, st : st});
 });
 
 app.post('/vote-manage', function(req, res){

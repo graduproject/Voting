@@ -22,7 +22,7 @@
 			<p><a href="/admin-main" ><img src="../img/vote.png" alt="투표 이미지" id="logo_img"></a></p>
 			<ul id="main_menu">
 				<li><a href="/admin-mypage" id="mypage"> 내 정보 수정</a></li>
-				<li><a href="/admin-login" id="logout"> 로그아웃</a></li>
+				<li><a href="/" id="logout"> 로그아웃</a></li>
 			</ul>
 		</div>
 	<div class="region_main">
@@ -44,33 +44,18 @@
 							</tr>
 						</thead>
 						<tbody>
-						<!-- DB연동 -->
-						<%= idxx = 1%>
 							<% for (var i = 0, j = 1; i < ans.length; i = i + 3, j = j + 1) { %>
 								<tr>
-								<td><%= idxx++ %></td>
+								<td><%= j %></td>
 								<td>
-								<a class="vote_name" href="/candidate"><%=ans[i]%></a>
+								<a class="vote_name" href="/candidate"><%=ans[i + 2]%></a>
 								</td>
+								  <td><%=ans[i] %></td>
 								  <td><%=ans[i + 1] %></td>
-								  <td><%=ans[i + 2] %></td>
 								  <td><%=st[j - 1] %></td> 
 								<td><a href=""><button type="submit"name = "idx" value = <%= j%> class="closing-button" onclick='confirmClose()'>투표 종료</button></a></td>
-								</tr>							
+								</tr>	
 							<% } %>	
-					<!-- DB연동 -->
-					<% for (var i = 0, j = 1; i < ans2.length; i = i + 3, j = j + 1) { %>
-						<tr>
-						<td><%= idxx++%></td>
-						<td>
-						<a class="vote_name" href="/candidate"><%=ans[i]%></a>
-						</td>
-						  <td><%=ans2[i + 1] %></td>
-						  <td><%=ans2[i + 2] %></td>
-						  <td><%=st2[j - 1] %></td> 
-						<td><a href=""><button type="submit"name = "idx" value = <%= j%> class="closing-button" onclick='confirmClose()'>투표 종료</button></a></td>
-						</tr>							
-					<% } %>	
 						</tbody>
 					</table>
 					</form>

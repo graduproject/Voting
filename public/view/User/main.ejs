@@ -45,10 +45,10 @@
 							<tr>
 								<td><%= j%></td>
 								<td>
-								<a id = "linkN" type = "button"class="vote_name" href="javascript:document.forms['myForm'].submit()" onClick = "putIdx(<%=j%>)" ><%=vote[i]%></a>
+								<a id = "linkN" type = "button"class="vote_name" href="javascript:document.forms['myForm'].submit()" onClick = "putIdx(<%=j%>)" ><%=vote[i + 2]%></a>
 								</td>
+								  <td><%=vote[i] %></td>
 								  <td><%=vote[i + 1] %></td>
-								  <td><%=vote[i + 2] %></td>
 								  <td><%=st[j - 1] %></td>
 							</tr>
 
