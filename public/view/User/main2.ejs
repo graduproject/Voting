@@ -41,16 +41,18 @@
 						</thead>
 						<tbody>
 							<!-- DB연동 -->
+							<% for (var i = 0, j = 1; i < vote.length; i = i + 3, j = j + 1) { %>
 							<tr>
-								<td>1</td>
+								<td><%= j%></td>
 								<td>
-								<a id = "linkN" type = "button"class="vote_name" href= "/candidate" >Voting Test</a>
+								<a id = "linkN" type = "button"class="vote_name" href="javascript:document.forms['myForm'].submit()" onClick = "putIdx(<%=j%>)" ><%=vote[i + 2]%></a>
 								</td>
-								  <td>2018-10-01 12:00 AM</td>
-								  <td>2018-12-01 12:00 AM</td>
-								  <td>ON</td>
+								  <td><%=vote[i] %></td>
+								  <td><%=vote[i + 1] %></td>
+								  <td><%=st[j - 1] %></td>
 							</tr>
 
+							<% } %>
 							<input type = "hidden" id = "vote_idx" name = "vote_idx" value = "">
 						</tbody>
 						</form>

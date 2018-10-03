@@ -87,7 +87,7 @@ app.get('/mypage', function(req, res){
 });
 
 app.get('/register', function(req, res){
-    res.sendFile(path.join(__dirname, '../view/user/register.html'));
+    res.render('User/register');
 });
 
 app.get('/vote_result', function(req, res){

@@ -8,7 +8,6 @@
 		<script language="javascript">
 			function confirmClose(){
 			if(confirm("정말 투표를 종료시키겠습니까?")){
-				document.getElementById("status").innerHTML = "DONE"; 
 				alert("성공적으로 종료되었습니다.");
 				location.href="/vote-manage";
 			}
@@ -45,16 +44,18 @@
 							</tr>
 						</thead>
 						<tbody>
+							<% for (var i = 0, j = 1; i < ans.length; i = i + 3, j = j + 1) { %>
 								<tr>
-								<td>1</td>
+								<td><%= j %></td>
 								<td>
-								<a class="vote_name" href="/candidate">Voting Test</a>
+								<a class="vote_name" href="/candidate"><%=ans[i + 2]%></a>
 								</td>
-								  <td>2018-10-01 12:00 AM</td>
-								  <td>2018-12-01 12:00 AM</td>
-								  <td id = "status">ON</td> 
-								<td><a href=""><button onclick='confirmClose()'>투표 종료</button></a></td>
+								  <td><%=ans[i] %></td>
+								  <td><%=ans[i + 1] %></td>
+								  <td><%=st[j - 1] %></td> 
+								<td><a href=""><button type="submit"name = "idx" value = <%= j%> class="closing-button" onclick='confirmClose()'>투표 종료</button></a></td>
 								</tr>	
+							<% } %>	
 						</tbody>
 					</table>
 					</form>
