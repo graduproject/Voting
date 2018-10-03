@@ -1,4 +1,4 @@
-2018-10-03 07:38:46.353 UTC [chaincodeCmd] checkChaincodeCmdParams -> INFO 001[0m Using default escc
-2018-10-03 07:38:46.354 UTC [chaincodeCmd] checkChaincodeCmdParams -> INFO 002[0m Using default vscc
-2018-10-03 07:38:46.388 UTC [chaincodeCmd] chaincodeInvokeOrQuery -> INFO 003[0m Chaincode invoke successful. result: status:200 payload:"[\"\",\"0\",\"0\",\"Voting Test\",\"1538352000\",\"1541030400\",\"Voting Test\",\"1538352000\",\"1541030400\",\"\",\"0\",\"0\",\"\",\"0\",\"0\",\"\",\"0\",\"0\"]" 
-2018-10-03 07:38:46.388 UTC [main] main -> INFO 004[0m Exiting.....
+2018-10-03 08:16:12.750 UTC [chaincodeCmd] checkChaincodeCmdParams -> INFO 001[0m Using default escc
+2018-10-03 08:16:12.751 UTC [chaincodeCmd] checkChaincodeCmdParams -> INFO 002[0m Using default vscc
+2018-10-03 08:16:12.771 UTC [chaincodeCmd] chaincodeInvokeOrQuery -> INFO 003[0m Chaincode invoke successful. result: status:200 payload:"[\"\",\"0\",\"0\",\"Voting Test\",\"1538352000\",\"1541030400\",\"Voting Test\",\"1538352000\",\"1541030400\",\"\",\"0\",\"0\",\"\",\"0\",\"0\",\"\",\"0\",\"0\",\"\",\"0\",\"0\",\"\",\"0\",\"0\"]" 
+2018-10-03 08:16:12.772 UTC [main] main -> INFO 004[0m Exiting.....

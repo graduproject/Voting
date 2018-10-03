@@ -23,10 +23,11 @@
 				<fieldset>					
 					<h2> 후보 목록 </h2>
 					<!-- 아래 후보목록을 DB에서 받아서 유동적으로 생성 -->
-					<form id="candidate-form" action="/candidate">
-						<% for (var i = 0; i < candid.length; i++) { %>
-							<input type="radio" name="candidate" value=<%=i%> required="required"><%=i%>번 후보    
-						<% } %>	
+					<form id="candidate-form" action="/candidate" method = "post">
+						<input type="radio" name="candidate" value= "1" required="required">A    
+						<input type="radio" name="candidate" value= "2" required="required">B   
+						<input type="radio" name="candidate" value= "3" required="required">C
+						<input type="radio" name="candidate" value= "4" required="required">D   
 						<p><button type="submit" name="vote-button" id = "vote"> 투표 </button></p>
 					</form>
 					<script src = "../../votingapp/controller/client.js"></script>					

@@ -12,6 +12,8 @@ var th = require('./utils/time_handler');
 
 var canIdx;
 var endSet = new Set();
+var choiced_num;
+var A = 0, B = 0, C = 0, D = 0;
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs'); 
@@ -52,12 +54,20 @@ app.post('/home', function(req, res){
 
 app.get('/candidate', function(req, res){
 	var candid = cmd.queryCandidate(canIdx);
-	console.log(candid);
-    res.render('User/candidate', {candid : candid});
+	res.render('User/candidate');
+});
+
+app.post('/candidate', function(req, res){
+	choiced_num = req.body['candidate'];
+    if(choiced_num == 1) A++;
+    else if(choiced_num == 2) B++;
+    else if(choiced_num == 3) C++;
+    else if(choiced_num == 4) D++;
+	res.redirect('/vote_result');
 });
 
 app.get('/ended_vote', function(req, res){
-    res.sendFile(path.join(__dirname, '../view/user/ended_vote.html'));
+    res.render("User/ended_vote");
 });
 
 app.get('/findID', function(req, res){
@@ -81,7 +91,7 @@ app.get('/register', function(req, res){
 });
 
 app.get('/vote_result', function(req, res){
-    res.sendFile(path.join(__dirname, '../view/user/vote_result.html'));
+	res.render('User/vote_result', { A : A, B : B, C : C, D :D});
 });
 
 app.get('/admin-login', function(req, res){
@@ -111,7 +121,7 @@ app.post('/add-candidate', function(req,res){
 		var cand_info = vc_ctrl.putCandid();
 		var vote_date = vc_ctrl.putDate();
 		var vote_title = vc_ctrl.putTitle();
-		console.log(cand_info[1]);
+		console.log(cand_info);
 		for(var i = 0; i < cand_info.length; i++)
 			cmd.registerCandidate(v_idx, cand_info[i]);
 		cmd.createVoting(v_idx, vote_title, vote_date[0], vote_date[1]);
